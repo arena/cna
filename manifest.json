@@ -1,0 +1,24 @@
+{
+ "name": "CNA Skills",
+ "short_name": "CNA Skills",
+ "description": "Practice app for CNA skills competency test",
+ "start_url": "https://www.arenareed.com/cna/test/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#3b82f6",
+ "orientation": "portrait",
+ "icons": [
+   {
+     "src": "https://www.arenareed.com/cna/test/icon-192.png",
+     "sizes": "192x192",
+     "type": "image/png",
+     "purpose": "any maskable"
+   },
+   {
+     "src": "https://www.arenareed.com/cna/test/icon-512.png",
+     "sizes": "512x512",
+     "type": "image/png",
+     "purpose": "any maskable"
+   }
+ ]
+}
