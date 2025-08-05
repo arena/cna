@@ -1,0 +1,1717 @@
+{
+  "testInfo": {
+    "totalTimeLimit": 1800,
+    "skillsPerTest": 5,
+    "description": "CNA Skills Competency Test - Student is assigned 5 skills, always starting with Hand Hygiene"
+  },
+  "skills": [
+    {
+      "id": "hand_hygiene",
+      "title": "Hand Hygiene (Hand Washing)",
+      "category": "Required First Skill",
+      "isWaterSkill": false,
+      "isAlwaysFirst": true,
+      "timeLimit": null,
+      "description": "Hand washing skill - always administered first in any test",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Addresses client by name and introduces self to client by name",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Turns on water at sink",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Wets hands and wrists thoroughly",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Applies soap to hands (2 pumps of liquid soap)",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Lathers all surfaces of wrists, hands, and fingers producing friction for at least 20 (twenty) seconds, keeping hands lower than the elbows and the fingertips down",
+          "critical": true
+        },
+        {
+          "id": "step_6",
+          "description": "Cleans fingernails of both hands by rubbing fingertips against the palm of the opposite hand",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Rinse all surfaces of wrists, hands, and fingers, keeping hands lower than the elbows and the fingertips down",
+          "critical": true
+        },
+        {
+          "id": "step_8",
+          "description": "Uses clean, dry paper towels to dry all surfaces of fingers, hands, and wrists starting at the fingertips then disposes of paper towels into waste container",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Uses clean, dry paper towel to turn off the faucet then disposes of paper towel in the waste container or uses knee/foot control to turn off faucet",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Does not touch inside of sink at any time",
+          "critical": false
+        }
+      ],
+      "corrections": [
+        {
+          "text": "If at any point I touched the sink or counter, I wouldn't have",
+          "relatedStep": "step_10"
+        },
+        {
+          "text": "If at any point my hands were above my elbows, they wouldn't have been",
+          "relatedStep": "step_5"
+        },
+        {
+          "text": "If I didn't wash my hands for a full 20 seconds, I would have",
+          "relatedStep": "step_5"
+        }
+      ]
+    },
+    {
+      "id": "knee_high_elastic_stocking",
+      "title": "Applies One Knee-High Elastic Stocking",
+      "category": "Personal Care",
+      "isWaterSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Application of knee-high elastic stocking",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face to face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Client is in supine position (lying down in bed) while stocking is applied",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Turns stocking inside out, at least to the heel",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places foot of stocking over toes, foot, and heel",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Pulls top of stocking over foot, heel, and leg",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Moves foot and leg gently and naturally, avoiding force and over-extension of limb and joints",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Finishes procedure with no twists or wrinkles and heel of stocking (if present) is over the heel and the opening for the toe area (if present) is either over of under the toe area. Candidate states that \"stocking is wrinkle free and has no twists\"",
+          "critical": true
+        },
+        {
+          "id": "step_9",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "ambulate_transfer_belt",
+      "title": "Assists to Ambulate Using Transfer Belt",
+      "category": "Mobility",
+      "isWaterSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Assisting client to walk using a transfer belt",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before assisting to stand, checks and verbalizes that client is wearing non-skid footwear",
+          "critical": true
+        },
+        {
+          "id": "step_4",
+          "description": "Before assisting to stand, assures that bed is at a safe (lowest) level",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Before assisting to stand, checks and/or locks the bed wheels",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Before assisting to stand, client is assisted to sitting position with feet flat on floor",
+          "critical": true
+        },
+        {
+          "id": "step_7",
+          "description": "Before assisting to stand, applies transfer belt securely at the waist over clothing/gown",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Before assisting to stand, provides instructions to enable client to assist in standing including prearranged signal to alert client to begin standing",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Stands facing client, positioning self to ensure safety of candidate and client during transfer. Counts to three (or says other prearranged signal) to alert client to begin standing",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "On signal, gradually assists client to stand by grasping transfer belt on both sides with an upward grasp, and maintaining stability of client's legs by standing toe-to-toe or knee-to-knee with client",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Walks slightly behind and to one side of client for a distance of ten (10) feet, while holding onto the belt",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Assists client to bed and removes transfer belt",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "assists_bedpan",
+      "title": "Assists with Use of Bedpan",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Assisting client with bedpan use",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before placing bedpan, lowers head of bed",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Puts on clean gloves before placing bedpan under client",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places bedpan correctly under client's buttocks",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "After positioning client on bedpan and removing gloves, raises head of bed",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Places toilet tissue within reach",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Places hand wipes within reach and instructs client to clean hands with hand wipe when finished",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Signaling device is within reach and client is asked to signal when finished",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Before removing bedpan, puts on clean gloves",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Before removing bedpan, lowers head of bed",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Ensures client is covered except when placing and removing bedpan",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Empties and rinses bedpan and pours rinse into toilet",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Places bedpan in designated dirty supply area",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_17",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        },
+        {
+          "id": "step_18",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "cleans_denture",
+      "title": "Cleans Upper or Lower Denture",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Cleaning dentures at sink/bench",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Puts on clean gloves before handling denture",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Bottom of sink is lined and/or sink is partially filled with water before denture is held over sink",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Rinses denture in moderate temperature running water before brushing them",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Applies denture paste to toothbrush",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Brushes all surfaces of denture",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Rinses all surfaces of denture under moderate temperature running water",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Rinses denture cup and lid",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Places denture in denture cup with moderate temperature water/solution and places lid on cup",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Rinses toothbrush and places it in designated toothbrush basin/container",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Maintains clean technique with placement of toothbrush and denture",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Sink liner is removed and disposed of appropriately and sink is drained",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "counts_radial_pulse",
+      "title": "Counts and Records Radial Pulse",
+      "category": "Vital Signs",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Counting and recording radial pulse rate",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Places fingertips on thumb side of client's inner wrist to locate radial pulse",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Counts beats for one full minute. (Says \"start\" and then \"stop\" to communicate timing to evaluator)",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Before recording, washes hands. Records pulse rate with units (bpm)",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Records pulse rate within plus or minus 4 beats of evaluator's reading",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "counts_respirations",
+      "title": "Counts and Records Respirations",
+      "category": "Vital Signs",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Counting and recording respiration rate",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Counts respirations for one full minute",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Before recording, washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Records respiration rate within plus or minus 2 breaths of evaluator's reading",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "donning_removing_ppe",
+      "title": "Donning and Removing PPE (Gown and Gloves)",
+      "category": "Infection Control",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Proper technique for putting on and removing personal protective equipment",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Picks up gown and unfolds",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Facing the back opening of the gown places arms through each sleeve",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Fastens the neck opening",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Secures gown at waist making sure the back of clothing is covered by gown (as much as possible)",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Puts on gloves",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Cuffs of gloves overlap cuffs of gown",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Before removing gown, with one gloved hand, grasps the other glove at the palm, removes glove",
+          "critical": true
+        },
+        {
+          "id": "step_8",
+          "description": "Slips fingers from ungloved hand underneath cuff of remaining glove at wrist and removes glove, turning it inside out as it is removed",
+          "critical": true
+        },
+        {
+          "id": "step_9",
+          "description": "Disposes of gloves into designated waste container without contaminating self",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "After removing gloves, unfastens gown at waist and neck",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "After removing gloves, removes gown without touching outside of gown",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "While removing gown, holds gown away from body without touching the floor, turns gown inward and keeps it inside out. (Rolls gown into ball that will fit in designated container)",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Disposes of gown in designated container without contaminating self",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Makes corrections as needed",
+          "critical": false
+        }
+      ],
+      "corrections": [
+        {
+          "text": "If at any point, my gown touched the ground, it wouldn't have",
+          "relatedStep": "step_12"
+        },
+        {
+          "text": "If at any point, I contaminated my hands with my gloves, I wouldn't have",
+          "relatedStep": "step_7"
+        },
+        {
+          "text": "If at any point, I touched the contaminated side of my gown, I would not have",
+          "relatedStep": "step_11"
+        }
+      ]
+    },
+    {
+      "id": "dresses_client_weak_arm",
+      "title": "Dresses Client with Affected (Weak) Right Arm",
+      "category": "Personal Care",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Dressing client who has weakness on right side",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Asks which shirt client would like to wear and dresses them in the shirt of their choice",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_4",
+          "description": "Avoids overexposure of client by ensuring client's chest is covered",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Removes gown from the unaffected (left) side first, then removes gown from the affected (right) side",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Before dressing client, disposes of gown into soiled linen container",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Assists to put the affected/weak (right) arm through the right sleeve of the shirt before placing garment on the unaffected (left) arm",
+          "critical": true
+        },
+        {
+          "id": "step_8",
+          "description": "While putting on shirt, moves body gently and naturally, avoiding force and over-extension of limbs and joints",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Finishes with clothing in place",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "feeds_client",
+      "title": "Feeds Client Who Cannot Feed Self",
+      "category": "Personal Care",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Feeding a client who cannot feed themselves",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure to client, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Before feeding, looks at name card on tray and asks client to state name",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_3",
+          "description": "Before feeding client, client is in an upright sitting position (75-90 degrees)",
+          "critical": true
+        },
+        {
+          "id": "step_4",
+          "description": "Places tray where the food can easily be seen by client",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Candidate cleans client's hands before beginning feeding",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Candidate sits in a chair facing client during feeding",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Tells client what foods and beverage are on tray",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Asks client what they would like to eat first",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Using spoon, offers client one bit of each type of food on tray, telling client the content of each spoonful",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Offers beverage at least once during meal",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Candidate asks client if they are ready for the next bit of food or sip of beverage",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "At the end of meal, candidate cleans client's mouth and hands",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Removes food tray",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Leaves client in upright sitting position (75-90 degrees) with signaling device within client's reach",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "modified_bed_bath",
+      "title": "Gives Modified Bed Bath (face and one arm, hand, and underarm)",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Providing partial bed bath including face and one arm",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Removes gown and places directly in soiled linen container while ensuring client's chest and lower body is covered",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Before washing, checks water temperature for safety and comfort and asks client to verify comfort of water",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_5",
+          "description": "Puts on clean gloves before washing client",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Beginning with eyes, washes eyes with wet washcloth (no soap), using a different area of the washcloth for each stroke, washing inner aspect to outer aspect the proceeds to wash face",
+          "critical": true
+        },
+        {
+          "id": "step_7",
+          "description": "Dries face with dry cloth towel or washcloth (pat dry)",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Exposes one arm and places cloth towel underneath arm",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Applies soap to wet washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Washes fingers (including fingernails), hand, arm, and underarm while keeping the rest of the body covered",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Rinses and dries fingers, hand, arm, and underarm",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Moves body gently and naturally, avoiding force and over-extension of limbs and joints",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Puts clean gown on client",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Empties, rinses, and dries basin",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Places basin in designated dirty supply area",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Disposes of linen into soiled linen container",
+          "critical": false
+        },
+        {
+          "id": "step_17",
+          "description": "Avoids contact between candidate clothing and used linens",
+          "critical": false
+        },
+        {
+          "id": "step_18",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_19",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        },
+        {
+          "id": "step_20",
+          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "measures_urinary_output",
+      "title": "Measures and Records Urinary Output",
+      "category": "Vital Signs",
+      "isWaterSkill": true,
+      "isBenchSkill": true,
+      "isMeasurementSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Measuring and recording urinary output",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Puts on clean gloves before handling bedpan",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Pours the contents of the bedpan into measuring container without spilling or splashing urine outside of container (over toilet)",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Rinses bedpan and pours rinse into toilet",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Measures the amount of urine at eye level with container on flat surface (if between measurement lines, rounds up to nearest 25 ml/cc)",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "After measuring urine, empties contents of measuring container into toilet",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Rinses measuring container and pours rinse into toilet",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Before recording output, removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Records contents of container within plus or minus 25ml/cc of evaluator's reading",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "measures_weight",
+      "title": "Measures and Records Weight of Ambulatory Client",
+      "category": "Vital Signs",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Measuring and recording client weight",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Client has non-skid footwear on before walking to scale",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_3",
+          "description": "Before client steps on scale, candidate sets scale to zero",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Asks client to step on center of scale and obtains client's weight",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Asks client to step off scale",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Before recording, washes hands",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_7",
+          "description": "Records weight based on indicator on scale. Weight is within plus or minus 2 lbs of evaluator's reading (If weight recorded in kg, weight is within 0.9kg)",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "prom_knee_ankle",
+      "title": "Performs Modified Passive Range of Motion (PROM) for One Knee and One Ankle",
+      "category": "Mobility",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Passive range of motion exercises for knee and ankle",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Ensures the client is supine in bed and says \"please let me know if you experience any pain during this exercise\" (instructs client to inform candidate if pain is experienced)",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_4",
+          "description": "Knee: While supporting the leg at the knee and ankle, bends the knee and then returns the leg to client's normal position (flexion/extension) at least three (3) times. Moves joints gently, slowly, and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.",
+          "critical": true
+        },
+        {
+          "id": "step_5",
+          "description": "Ankle: While supporting the foot and ankle close to the bed, pushes/pulls foot toward head (dorsiflexion), and pushes/pulls foot down, toes point down (plantar flexion) at least three (3) times. Moves joint gently, slowly, and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.",
+          "critical": true
+        },
+        {
+          "id": "step_6",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "prom_shoulder",
+      "title": "Performs Modified Passive Range of Motion (PROM) for One Shoulder",
+      "category": "Mobility",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Passive range of motion exercises for shoulder",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Ensures patient is supine in bed and instructs client to inform candidate if pain is experienced during exercise",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_4",
+          "description": "Shoulder Flexion/Extension: While supporting arm at the elbow and at the wrist, raises client's straightened arm from side position upward toward head to ear level and returns arm down to side of body (flexion/extension) at least three (3) times. Moves joint gently, slowly, and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.",
+          "critical": true
+        },
+        {
+          "id": "step_5",
+          "description": "Shoulder Abduction/Adduction: While supporting arm at the elbow and at the wrist, moves client's straightened arm away from the side of their body to their shoulder level and then returns arm to side of their body, at least three (3) times. Moves joint gently, slowly, and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.",
+          "critical": true
+        },
+        {
+          "id": "step_6",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "positions_on_side",
+      "title": "Positions on Side",
+      "category": "Mobility",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Positioning client on their side",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before turning, lowers head of bed",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Raises side rail on one side to which body will be turned",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Candidate assists client to slowly roll onto side toward raised side rail",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Places or adjust pillow under head for support",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Candidate repositions arm and shoulder so that client is not lying on arm",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Supports top arm with supportive device",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Places supportive device behind client's back",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Places supportive device between legs with top knee flexed; knee and ankle supported",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "catheter_care_female",
+      "title": "Provides Catheter Care for Female",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Catheter care for female client",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before washing, checks water temperature for safety and comfort and asks client to verify comfort of water",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Puts on clean gloves before washing",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places linen protector under perineal area including buttocks before washing",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Exposes area surrounding catheter (only exposing client between hip and knee)",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Applies soap to wet washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "While holding catheter at meatus without tugging, CLEANS at least four inches of catheter from meatus, moving in only one direction, away from meatus, using a clean area of the washcloth for each stroke.",
+          "critical": true
+        },
+        {
+          "id": "step_9",
+          "description": "While holding catheter at meatus without tugging, RINSES at least four inches of catheter from meatus, moving in only one direction, away from meatus, using a clean area of the washcloth for each stroke.",
+          "critical": true
+        },
+        {
+          "id": "step_10",
+          "description": "While holding catheter at meatus without tugging, DRIES at least four inches of catheter from meatus, moving in only one direction, away from meatus, using a clean area of the washcloth for each stroke",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Empties, rinses, and dries basin",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Places basin in the designated dirty supply area",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Disposes of used linen into soiled linen container and disposes of linen protector appropriately",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Avoids contact between candidate clothing and used linen",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "foot_care",
+      "title": "Provides Foot Care on One Foot",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Foot care for one foot",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before washing, checks water temperature for safety and comfort and asks client to verify comfort of water",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Basin is in a comfortable position and on a protective barrier",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Puts on clean gloves",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Client's bare foot is placed into the water",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Applies soap to wet washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Lifts foot from water and washes foot (including between the toes)",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Foot is rinsed (including between the toes)",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Dries foot (including between the toes) with dry cloth towel/washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Applies lotion to top and bottom of foot (excluding between the toes) removing excess with a towel/washcloth",
+          "critical": false,
+          "important": true
+        },
+        {
+          "id": "step_12",
+          "description": "Supports foot and ankle during procedure",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Empties, rinses, and dries basin",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Places basin in designated dirty supply area",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Disposes of used linen into soiled linen container",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_17",
+          "description": "Signaling device is within reach",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "mouth_care",
+      "title": "Provides Mouth Care",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Mouth care for client",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before providing mouth care, client is in upright position (75-90 degrees)",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Puts on clean gloves before cleaning mouth",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places cloth towel across chest before providing mouth care",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Secures cup of water and moistens toothbrush",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Before cleaning mouth, applies toothpaste to moistened toothbrush",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Cleans mouth, including tongue and all surfaces of teeth, using gentle motions",
+          "critical": true
+        },
+        {
+          "id": "step_9",
+          "description": "Maintains clean technique with placement of toothbrush",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Candidate holds emesis basin to chin while client rinses mouth",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Candidate wipes mouth and removes clothing protector",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Disposes of used linen into soiled linen container",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Rinses toothbrush and empties, rinses, and dries basin",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "perineal_care_female",
+      "title": "Provides Perineal Care (Peri-Care) for Female",
+      "category": "Personal Care",
+      "isWaterSkill": true,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Perineal care for female client",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before washing, checks water temperature for safety and comfort and asks client to verify comfort of water",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Puts on clean gloves before washing perineal area",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places pad/linen protector under perineal area including buttocks before washing",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Exposes perineal area (only exposing between hips and knees)",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Applies soap to washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Washes genital area, moving from front to back, while using a clean area of the washcloth for each stroke",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Using clean washcloth, rinses soap from genital area, moving from front to back, while using a clean area of the washcloth for each stroke",
+          "critical": true
+        },
+        {
+          "id": "step_10",
+          "description": "Dries genital area moving from front to back with dry cloth towel/washcloth",
+          "critical": true
+        },
+        {
+          "id": "step_11",
+          "description": "After washing genital area, turns to side then washes rectal area moving from front to back using a clean area of washcloth for each stroke",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Using clean washcloth, rinses soap from rectal area, moving from front to back while using a clean area of the washcloth for each stroke",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "Dries rectal area moving from front to back with dry cloth towel/washcloth",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Candidate rolls pad and removes, then repositions client",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Empties, rinses, and dries basin",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Places basin in designated dirty supply area",
+          "critical": false
+        },
+        {
+          "id": "step_17",
+          "description": "Disposes of used linen into soiled linen container and disposes of linen protector appropriately",
+          "critical": false
+        },
+        {
+          "id": "step_18",
+          "description": "Avoids contact between candidate clothing and used linen",
+          "critical": false
+        },
+        {
+          "id": "step_19",
+          "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_20",
+          "description": "Signaling device is within reach and bed is in low position",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "transfers_bed_to_wheelchair",
+      "title": "Transfers from Bed to Wheelchair Using Transfer Belt",
+      "category": "Mobility",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": false,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Transferring client from bed to wheelchair using transfer belt",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Privacy is provided with a curtain, screen, or door",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Before assisting to stand, wheelchair is positioned alongside of bed (at head of bed facing foot of bed OR at foot of bed facing head of bed)",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Before assisting to stand, footrests are folded up or removed",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Before assisting to stand, locks wheels on wheelchair",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Before assisting to stand, bed is at safe level",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Before assisting to stand, checks and/or locks bed wheels",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Before assisting to stand, client is assisted to a sitting position with feet flat on the floor",
+          "critical": true
+        },
+        {
+          "id": "step_9",
+          "description": "Before assisting to stand, verifies that client is wearing non-skid shoes",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Before assisting to stand, applies transfer belt securely at the waist over clothing or gown",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Before assisting to stand, provides instructions to enable client to assist in transfer including prearranged signal to alert when to begin standing (e.g. \"on the count of three\")",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "Stands facing client positioning self to ensure safety of candidate and client during transfer. Counts to three (or says other prearranged signal) to alert client to begin standing",
+          "critical": false
+        },
+        {
+          "id": "step_13",
+          "description": "On signal, gradually assists client to stand by grasping transfer belt on both sides with an upward grasp (candidate hands are in upward position) and maintaining stability of client's legs by standing knee to knee or toe to toe with client",
+          "critical": false
+        },
+        {
+          "id": "step_14",
+          "description": "Assists client to turn to stand in front of wheelchair with back of client's legs against wheelchair",
+          "critical": false
+        },
+        {
+          "id": "step_15",
+          "description": "Lowers client into wheelchair",
+          "critical": false
+        },
+        {
+          "id": "step_16",
+          "description": "Positions client with hips touching back of wheelchair and transfer belt is removed",
+          "critical": false
+        },
+        {
+          "id": "step_17",
+          "description": "Positions feet on footrests",
+          "critical": false
+        },
+        {
+          "id": "step_18",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_19",
+          "description": "After completing skill, washes hands",
+          "critical": false
+        }
+      ]
+    },
+    {
+      "id": "measures_blood_pressure",
+      "title": "Measures and Records Manual Blood Pressure",
+      "category": "Vital Signs",
+      "isWaterSkill": false,
+      "isBenchSkill": false,
+      "isMeasurementSkill": true,
+      "isAlwaysFirst": false,
+      "timeLimit": null,
+      "description": "Measuring and recording manual blood pressure",
+      "steps": [
+        {
+          "id": "step_1",
+          "description": "Explains procedure, speaking clearly, slowly, and directly, maintaining face-to-face contact whenever possible",
+          "critical": false
+        },
+        {
+          "id": "step_2",
+          "description": "Before using stethoscope, wipes bell/diaphragm and earpieces of stethoscope with alcohol",
+          "critical": false
+        },
+        {
+          "id": "step_3",
+          "description": "Client's arm is positioned with palm up and upper arm is exposed",
+          "critical": false
+        },
+        {
+          "id": "step_4",
+          "description": "Feels for brachial artery on inner aspect of arm at bend of elbow",
+          "critical": false
+        },
+        {
+          "id": "step_5",
+          "description": "Places blood pressure cuff snugly on client's upper arm, with sensor/arrow over brachial artery site",
+          "critical": false
+        },
+        {
+          "id": "step_6",
+          "description": "Earpieces of stethoscope are in the ears and bell/diaphragm is over brachial artery site",
+          "critical": false
+        },
+        {
+          "id": "step_7",
+          "description": "Candidate inflates cuff between 160mmHg to 180 mmHg. (If beat heard immediately upon cuff deflation, completely deflate cuff. Re-inflate cuff to no more than 200 mmHg)",
+          "critical": false
+        },
+        {
+          "id": "step_8",
+          "description": "Deflates cuff slowly and notes the first sound (systolic reading), and last sound (diastolic reading). If rounding is needed, measurements are rounded UP to the nearest 2mmHg)",
+          "critical": false
+        },
+        {
+          "id": "step_9",
+          "description": "Removes cuff",
+          "critical": false
+        },
+        {
+          "id": "step_10",
+          "description": "Signaling device is within reach",
+          "critical": false
+        },
+        {
+          "id": "step_11",
+          "description": "Before recording, washes hands",
+          "critical": false
+        },
+        {
+          "id": "step_12",
+          "description": "After obtaining reading using BP cuff and stethoscope, records both systolic and diastolic pressures each within plus or minus 8mmHg of evaluator's reading",
+          "critical": true
+        }
+      ]
+    }
+  ]
+}
