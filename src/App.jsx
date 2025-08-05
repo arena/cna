@@ -427,10 +427,10 @@ const CNASkillsApp = () => {
                                                                 <p className={`text-sm ${
                                                                     step.critical 
                                                                         ? evaluation === 'good'
-                                                                            ? 'text-green-900'
+                                                                            ? 'text-green-900 font-bold'
                                                                             : evaluation === 'wrong'
-                                                                                ? 'text-red-900'
-                                                                                : 'text-gray-800'
+                                                                                ? 'text-red-900 font-bold'
+                                                                                : 'text-gray-800 font-bold'
                                                                         : 'text-gray-800'
                                                                 } leading-relaxed`}>
                                                                     {step.description}
