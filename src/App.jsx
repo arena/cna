@@ -92,6 +92,16 @@ const AwardIcon = () => (
     </svg>
 );
 
+const ShareIcon = () => (
+    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+    </svg>
+);
+
 // Main App Component
 const CNASkillsApp = () => {
     const [currentSkills, setCurrentSkills] = React.useState([]);
@@ -108,18 +118,21 @@ const CNASkillsApp = () => {
         setCurrentSkills(generateSkillSet(skillsData.skills));
     }, []);
 
+    // Check if all skills are completed
+    const allSkillsCompleted = currentSkills.length > 0 && currentSkills.every(skill => skillCompletionTimes[skill.id] !== undefined);
+
     // Timer effect
     React.useEffect(() => {
         let interval = null;
-        if (isTimerRunning && timeRemaining > 0) {
+        if (isTimerRunning && timeRemaining > 0 && !allSkillsCompleted) {
             interval = setInterval(() => {
                 setTimeRemaining(timeRemaining => timeRemaining - 1);
             }, 1000);
-        } else if (timeRemaining === 0) {
+        } else if (timeRemaining === 0 || allSkillsCompleted) {
             setIsTimerRunning(false);
         }
         return () => clearInterval(interval);
-    }, [isTimerRunning, timeRemaining]);
+    }, [isTimerRunning, timeRemaining, allSkillsCompleted]);
 
     // Function to generate new skill set according to CNA rules
     const generateSkillSet = (allSkills) => {
@@ -285,6 +298,14 @@ const CNASkillsApp = () => {
         return stepEvaluations[stepKey] || null;
     };
 
+    const hasSkillCriticalFailures = (skill) => {
+        return skill.steps.some((step, stepIndex) => {
+            if (!step.critical) return false;
+            const evaluation = getStepEvaluation(skill.id, stepIndex);
+            return evaluation === 'skipped' || evaluation === 'wrong';
+        });
+    };
+
     const getSkillTypeIcon = (skill) => {
         if (skill.isWaterSkill) return <DropletsIcon />;
         if (skill.isMeasurementSkill) return <AwardIcon />;
@@ -296,6 +317,73 @@ const CNASkillsApp = () => {
         if (skill.isWaterSkill) types.push("Water");
         if (skill.isMeasurementSkill) types.push("Measurement");
         return types.join(" • ");
+    };
+
+    const shareResults = async () => {
+        const totalTime = formatDuration(30 * 60 - timeRemaining);
+        const passedCount = currentSkills.filter(skill => !hasSkillCriticalFailures(skill)).length;
+        const failedCount = currentSkills.filter(skill => hasSkillCriticalFailures(skill)).length;
+        const overallStatus = failedCount > 0 ? 'PRACTICE TEST NOT PASSED - Review Critical Steps' : 'PRACTICE TEST PASSED - Great Job!';
+        
+        const skillDetails = currentSkills.map((skill, index) => {
+            const completionTime = skillCompletionTimes[skill.id];
+            const hasFailed = hasSkillCriticalFailures(skill);
+            return `${index + 1}. ${skill.title}: ${formatDuration(completionTime)} ${hasFailed ? '(NEEDS REVIEW)' : '(PASSED)'}`;
+        }).join('\n');
+
+        const shareText = `🏥 CNA Skills Practice Test Results
+
+📊 Overall: ${overallStatus}
+⏱️ Total Time: ${totalTime} / 30:00
+✅ Skills Passed: ${passedCount}
+📝 Skills to Review: ${failedCount}
+
+📋 Individual Results:
+${skillDetails}
+
+Practice at: ${window.location.href}`;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'CNA Skills Practice Results',
+                    text: shareText
+                });
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    fallbackShare(shareText);
+                }
+            }
+        } else {
+            fallbackShare(shareText);
+        }
+    };
+
+    const fallbackShare = (text) => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Results copied to clipboard!');
+            }).catch(() => {
+                promptShare(text);
+            });
+        } else {
+            promptShare(text);
+        }
+    };
+
+    const promptShare = (text) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            alert('Results copied to clipboard!');
+        } catch (err) {
+            prompt('Copy your results:', text);
+        } finally {
+            document.body.removeChild(textarea);
+        }
     };
 
     return (
@@ -349,6 +437,7 @@ const CNASkillsApp = () => {
                     {currentSkills.map((skill, index) => {
                         const isCompleted = skillCompletionTimes[skill.id] !== undefined;
                         const completionTime = skillCompletionTimes[skill.id];
+                        const hasCriticalFailures = isCompleted && hasSkillCriticalFailures(skill);
                         
                         return (
                             <div key={skill.id} data-skill-id={skill.id} className={`border border-gray-200 rounded-lg overflow-hidden ${
@@ -365,9 +454,18 @@ const CNASkillsApp = () => {
                                 >
                                     <div className="flex items-center gap-3 min-w-0 flex-1">
                                         <div className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0 ${
-                                            isCompleted ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                            isCompleted 
+                                                ? hasCriticalFailures 
+                                                    ? 'bg-red-100 text-red-800' 
+                                                    : 'bg-green-100 text-green-800'
+                                                : 'bg-blue-100 text-blue-800'
                                         }`}>
-                                            {isCompleted ? <CheckCircleIcon /> : index + 1}
+                                            {isCompleted 
+                                                ? hasCriticalFailures 
+                                                    ? <XIcon /> 
+                                                    : <CheckCircleIcon />
+                                                : index + 1
+                                            }
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{skill.title}</h3>
@@ -378,7 +476,11 @@ const CNASkillsApp = () => {
                                                     {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
                                                 </div>
                                                 {isCompleted && (
-                                                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">
+                                                    <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                                        hasCriticalFailures 
+                                                            ? 'bg-red-100 text-red-700' 
+                                                            : 'bg-green-100 text-green-700'
+                                                    }`}>
                                                         Completed in {formatDuration(completionTime)}
                                                     </span>
                                                 )}
@@ -501,20 +603,127 @@ const CNASkillsApp = () => {
                     })}
                 </div>
 
-                {/* Info Box */}
-                <div className="mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-blue-800 mb-2">
-                        <ClockIcon />
-                        <span className="font-semibold text-sm sm:text-base">Test Information</span>
+                {/* Results Summary - Show when all skills completed */}
+                {allSkillsCompleted && (
+                    <div className="mt-6 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
+                        <div className="flex items-center gap-2 text-green-800 mb-4">
+                            <AwardIcon />
+                            <span className="font-bold text-lg sm:text-xl">Test Completed!</span>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div className="bg-white p-3 rounded-lg border border-gray-200">
+                                <div className="flex items-center gap-2 text-gray-700 mb-1">
+                                    <ClockIcon />
+                                    <span className="font-semibold">Total Time Used</span>
+                                </div>
+                                <span className="text-2xl font-bold text-gray-800">
+                                    {formatDuration(30 * 60 - timeRemaining)}
+                                </span>
+                                <span className="text-sm text-gray-600 ml-2">/ 30:00</span>
+                            </div>
+                            
+                            <div className="bg-white p-3 rounded-lg border border-gray-200">
+                                <div className="flex items-center gap-2 text-gray-700 mb-1">
+                                    <AwardIcon />
+                                    <span className="font-semibold">Skills Status</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-1">
+                                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                        <span className="text-sm font-medium">
+                                            {currentSkills.filter(skill => !hasSkillCriticalFailures(skill)).length} Passed
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                        <span className="text-sm font-medium">
+                                            {currentSkills.filter(skill => hasSkillCriticalFailures(skill)).length} To Review
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="bg-white p-3 rounded-lg border border-gray-200">
+                            <h4 className="font-semibold text-gray-800 mb-2">Individual Skill Times</h4>
+                            <div className="space-y-2">
+                                {currentSkills.map((skill, index) => {
+                                    const completionTime = skillCompletionTimes[skill.id];
+                                    const hasFailed = hasSkillCriticalFailures(skill);
+                                    
+                                    return (
+                                        <div key={skill.id} className="flex items-center justify-between text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-500">{index + 1}.</span>
+                                                <span className="font-medium text-gray-800">{skill.title}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                {hasFailed ? (
+                                                    <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">NEEDS REVIEW</span>
+                                                ) : (
+                                                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">PASSED</span>
+                                                )}
+                                                <span className={`font-mono font-medium ${hasFailed ? 'text-yellow-600' : 'text-gray-700'}`}>
+                                                    {formatDuration(completionTime)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        
+                        <div className="mt-4 text-center">
+                            <div className={`inline-block px-4 py-2 rounded-lg font-bold text-lg mb-4 ${
+                                currentSkills.some(skill => hasSkillCriticalFailures(skill))
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : 'bg-green-100 text-green-800'
+                            }`}>
+                                {currentSkills.some(skill => hasSkillCriticalFailures(skill))
+                                    ? 'PRACTICE TEST NOT PASSED - Review Critical Steps'
+                                    : 'PRACTICE TEST PASSED - Great Job!'
+                                }
+                            </div>
+                            
+                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                <button
+                                    onClick={handleNewSkillSet}
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
+                                    title="Try another practice test"
+                                >
+                                    <ShuffleIcon />
+                                    Try Again
+                                </button>
+                                <button
+                                    onClick={shareResults}
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+                                    title="Share your test results"
+                                >
+                                    <ShareIcon />
+                                    Share Results
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <ul className="text-xs sm:text-sm text-blue-700 space-y-1">
-                        <li>• Total time limit: 30 minutes for all 5 skills</li>
-                        <li>• Hand Hygiene is always performed first</li>
-                        <li>• Critical steps must be performed correctly</li>
-                        <li>• Tap any skill above to view detailed steps</li>
-                        <li>• Use buttons to mark each step: ✓ Good, - Skipped, ✗ Wrong</li>
-                    </ul>
-                </div>
+                )}
+
+                {/* Info Box - Hide when test is completed */}
+                {!allSkillsCompleted && (
+                    <div className="mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div className="flex items-center gap-2 text-blue-800 mb-2">
+                            <ClockIcon />
+                            <span className="font-semibold text-sm sm:text-base">Test Information</span>
+                        </div>
+                        <ul className="text-xs sm:text-sm text-blue-700 space-y-1">
+                            <li>• Total time limit: 30 minutes for all 5 skills</li>
+                            <li>• Hand Hygiene is always performed first</li>
+                            <li>• Critical steps must be performed correctly</li>
+                            <li>• Tap any skill above to view detailed steps</li>
+                            <li>• Use buttons to mark each step: ✓ Good, - Skipped, ✗ Wrong</li>
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );
