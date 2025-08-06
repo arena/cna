@@ -314,24 +314,19 @@ const CNASkillsApp = () => {
         return null;
     };
 
-    // Helper function for blue icon styling
-    const blueIconStyle = {
-        filter: 'brightness(0) saturate(100%) invert(37%) sepia(99%) saturate(1798%) hue-rotate(213deg) brightness(97%) contrast(101%)'
-    };
-
     const getSkillCategoryIcon = (skill) => {
         // Hand Hygiene
         if (skill.isAlwaysFirst) {
-            return <img src="/icon-handwashing.svg" alt="Hand washing" className="w-6 h-6" style={blueIconStyle} />;
+            return <img src="/icon-handwashing.svg" alt="Hand washing" className="w-6 h-6 text-blue-600" />;
         }
         // Measurement skills
         if (skill.isMeasurementSkill) {
             // Urinary output
             if (skill.id === 'measures_urinary_output') {
-                return <img src="/icon-output.svg" alt="Urinary output" className="w-6 h-6" style={blueIconStyle} />;
+                return <img src="/icon-output.svg" alt="Urinary output" className="w-6 h-6 text-blue-600" />;
             }
             // All other vital signs (pulse, respirations, weight, BP)
-            return <img src="/icon-vitals.svg" alt="Vital signs" className="w-6 h-6" style={blueIconStyle} />;
+            return <img src="/icon-vitals.svg" alt="Vital signs" className="w-6 h-6 text-blue-600" />;
         }
         
         // Water skills
