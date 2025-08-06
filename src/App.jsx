@@ -666,12 +666,7 @@ Practice at: ${window.location.href}`;
                                         {/* Supplies Needed Section */}
                                         {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
                                             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
-                                                    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                                        <line x1="8" y1="21" x2="16" y2="21"/>
-                                                        <line x1="12" y1="17" x2="12" y2="21"/>
-                                                    </svg>
+                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">
                                                     Supplies Needed:
                                                 </h4>
                                                 <ul className="text-sm text-blue-700 space-y-1">
@@ -999,12 +994,7 @@ Practice at: ${window.location.href}`;
                                         {/* Supplies Needed Section */}
                                         {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
                                             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
-                                                    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                                        <line x1="8" y1="21" x2="16" y2="21"/>
-                                                        <line x1="12" y1="17" x2="12" y2="21"/>
-                                                    </svg>
+                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">
                                                     Supplies Needed:
                                                 </h4>
                                                 <ul className="text-sm text-blue-700 space-y-1">
@@ -1114,12 +1104,7 @@ Practice at: ${window.location.href}`;
                                                                 {/* Supplies Needed Section */}
                                                                 {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
                                                                     <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                                                        <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
-                                                                            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                                                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                                                                <line x1="12" y1="17" x2="12" y2="21"/>
-                                                                            </svg>
+                                                                        <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">
                                                                             Supplies Needed:
                                                                         </h4>
                                                                         <ul className="text-sm text-blue-700 space-y-1">
