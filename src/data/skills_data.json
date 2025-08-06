@@ -12,7 +12,13 @@
       "isWaterSkill": false,
       "isAlwaysFirst": true,
       "timeLimit": null,
+      "estimatedTime": 150,
       "description": "Hand washing skill - always administered first in any test",
+      "suppliesNeeded": [
+        "Soap",
+        "Sink",
+        "Paper towels"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -87,7 +93,11 @@
       "isWaterSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 160,
       "description": "Application of knee-high elastic stocking",
+      "suppliesNeeded": [
+        "Elastic stocking"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -148,7 +158,13 @@
       "isWaterSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 300,
       "description": "Assisting client to walk using a transfer belt",
+      "suppliesNeeded": [
+        "Transferbelt",
+        "Non-skid shoes",
+        "Gown"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -229,7 +245,14 @@
       "isWaterSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 300,
       "description": "Assisting client with bedpan use",
+      "suppliesNeeded": [
+        "Bedpan",
+        "Toilet tissue",
+        "Handwipes",
+        "2 pairs gloves"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -331,7 +354,16 @@
       "isBenchSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 160,
       "description": "Cleaning dentures at sink/bench",
+      "suppliesNeeded": [
+        "Dentures",
+        "Denture brush",
+        "Denture toothpaste",
+        "Emesis basin",
+        "Paper towel",
+        "Gloves"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -409,7 +441,13 @@
       "isMeasurementSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 135,
       "description": "Counting and recording radial pulse rate",
+      "suppliesNeeded": [
+        "Recording form",
+        "Pen",
+        "Second hand watch"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -452,7 +490,12 @@
       "isMeasurementSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 170,
       "description": "Counting and recording respiration rate",
+      "suppliesNeeded": [
+        "Recording form and pen",
+        "Second hand watch"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -490,7 +533,13 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 190,
       "description": "Proper technique for putting on and removing personal protective equipment",
+      "suppliesNeeded": [
+        "Gown",
+        "Gloves",
+        "Designated trash"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -592,7 +641,12 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 280,
       "description": "Dressing client who has weakness on right side",
+      "suppliesNeeded": [
+        "Two shirts",
+        "Gown"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -666,7 +720,16 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 210,
       "description": "Feeding a client who cannot feed themselves",
+      "suppliesNeeded": [
+        "Tray w/ diet card",
+        "Plate w/ 2 food options",
+        "Spoon",
+        "Water/ straw",
+        "Clothing protector (optional)",
+        "Handwipes"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -760,7 +823,16 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 460,
       "description": "Providing partial bed bath including face and one arm",
+      "suppliesNeeded": [
+        "Water basin/ soap",
+        "Gloves",
+        "4 washcloths",
+        "1 towel",
+        "Gown",
+        "Hamper"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -874,7 +946,13 @@
       "isMeasurementSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 120,
       "description": "Measuring and recording urinary output",
+      "suppliesNeeded": [
+        "Recording form/ pen/ gloves",
+        "Bed side Commode & graduate",
+        "Bedpan w/ urine"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -927,7 +1005,12 @@
       "isMeasurementSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 130,
       "description": "Measuring and recording client weight",
+      "suppliesNeeded": [
+        "Recording form/ pen",
+        "Non-skid shoes"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -977,7 +1060,11 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 160,
       "description": "Passive range of motion exercises for knee and ankle",
+      "suppliesNeeded": [
+        "None"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1026,7 +1113,11 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 140,
       "description": "Passive range of motion exercises for shoulder",
+      "suppliesNeeded": [
+        "None"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1075,7 +1166,11 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 170,
       "description": "Positioning client on their side",
+      "suppliesNeeded": [
+        "3 Pillows"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1148,7 +1243,16 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 370,
       "description": "Catheter care for female client",
+      "suppliesNeeded": [
+        "Basin",
+        "Soap",
+        "3 washcloths",
+        "Bed protector",
+        "Gloves",
+        "Hamper"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1241,7 +1345,17 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 340,
       "description": "Foot care for one foot",
+      "suppliesNeeded": [
+        "Basin",
+        "Soap and lotion",
+        "Floor protector",
+        "2 washcloths",
+        "1 Towel",
+        "Gloves",
+        "Hamper"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1340,7 +1454,15 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 300,
       "description": "Mouth care for client",
+      "suppliesNeeded": [
+        "Toothbrush/ toothpaste",
+        "Cup of water",
+        "Emesis basin/ clothing protector",
+        "Gloves",
+        "Cup of water"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1428,7 +1550,15 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 440,
       "description": "Perineal care for female client",
+      "suppliesNeeded": [
+        "Basin/ Soap",
+        "Bed protector",
+        "6 washcloths",
+        "Gloves",
+        "Hamper"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1541,7 +1671,14 @@
       "isMeasurementSkill": false,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 300,
       "description": "Transferring client from bed to wheelchair using transfer belt",
+      "suppliesNeeded": [
+        "Wheelchair",
+        "Transferbelt",
+        "Non-skid shoes",
+        "Gown"
+      ],
       "steps": [
         {
           "id": "step_1",
@@ -1649,7 +1786,15 @@
       "isMeasurementSkill": true,
       "isAlwaysFirst": false,
       "timeLimit": null,
+      "estimatedTime": 220,
       "description": "Measuring and recording manual blood pressure",
+      "suppliesNeeded": [
+        "BP cuff",
+        "Stethoscope",
+        "Recording form/pen",
+        "Alcohol prep pad",
+        "Pillow"
+      ],
       "steps": [
         {
           "id": "step_1",

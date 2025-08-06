@@ -104,6 +104,8 @@ const ShareIcon = () => (
 
 // Main App Component
 const CNASkillsApp = () => {
+    const [currentView, setCurrentView] = React.useState('practice'); // 'practice' or 'browser'
+    const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number' or 'type'
     const [currentSkills, setCurrentSkills] = React.useState([]);
     const [expandedSkill, setExpandedSkill] = React.useState(null);
     const [timeRemaining, setTimeRemaining] = React.useState(30 * 60);
@@ -312,11 +314,144 @@ const CNASkillsApp = () => {
         return null;
     };
 
+    // Helper function for blue icon styling
+    const blueIconStyle = {
+        filter: 'brightness(0) saturate(100%) invert(37%) sepia(99%) saturate(1798%) hue-rotate(213deg) brightness(97%) contrast(101%)'
+    };
+
+    const getSkillCategoryIcon = (skill) => {
+        // Hand Hygiene
+        if (skill.isAlwaysFirst) {
+            return <img src="/icon-handwashing.svg" alt="Hand washing" className="w-6 h-6" style={blueIconStyle} />;
+        }
+        // Measurement skills
+        if (skill.isMeasurementSkill) {
+            // Urinary output
+            if (skill.id === 'measures_urinary_output') {
+                return <img src="/icon-output.svg" alt="Urinary output" className="w-6 h-6" style={blueIconStyle} />;
+            }
+            // All other vital signs (pulse, respirations, weight, BP)
+            return <img src="/icon-vitals.svg" alt="Vital signs" className="w-6 h-6" style={blueIconStyle} />;
+        }
+        
+        // Water skills
+        if (skill.isWaterSkill) return <DropletsIcon />;
+        
+        // Mobility skills
+        if (skill.category === "Mobility") {
+            return (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                    <path d="m9 21-3-6 1.5-3.5L9 7l3 3.5L13.5 15l-3 6z"/>
+                </svg>
+            );
+        }
+        
+        // Infection Control (PPE)
+        if (skill.category === "Infection Control") {
+            return (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M21 12a9 9 0 1 1-18 0"/>
+                    <path d="M8 21l8-11"/>
+                </svg>
+            );
+        }
+        
+        // Personal Care
+        if (skill.category === "Personal Care") {
+            return (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            );
+        }
+        
+        // Default icon
+        return (
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+        );
+    };
+
     const getSkillTypeLabel = (skill) => {
         const types = [];
         if (skill.isWaterSkill) types.push("Water");
         if (skill.isMeasurementSkill) types.push("Measurement");
         return types.join(" • ");
+    };
+
+    const organizeSkillsByType = (skills) => {
+        const organized = [];
+        
+        // 1. Hand Hygiene (always first)
+        const handHygiene = skills.filter(skill => skill.isAlwaysFirst);
+        if (handHygiene.length > 0) {
+            organized.push({
+                category: "Hand Hygiene",
+                description: "Always performed first in any test",
+                skills: handHygiene
+            });
+        }
+        
+        // 2. Measurement Skills (second skill in tests)
+        const measurementSkills = skills.filter(skill => skill.isMeasurementSkill && !skill.isAlwaysFirst);
+        if (measurementSkills.length > 0) {
+            organized.push({
+                category: "Measurement Skills",
+                description: "One of these will be the second skill in practice tests",
+                skills: measurementSkills
+            });
+        }
+        
+        // 3. Water Skills (excluding measurement skills)
+        const waterSkills = skills.filter(skill => skill.isWaterSkill && !skill.isMeasurementSkill && !skill.isAlwaysFirst);
+        if (waterSkills.length > 0) {
+            organized.push({
+                category: "Water Skills",
+                description: "Personal care skills involving water",
+                skills: waterSkills
+            });
+        }
+        
+        // 4. Mobility Skills
+        const mobilitySkills = skills.filter(skill => skill.category === "Mobility");
+        if (mobilitySkills.length > 0) {
+            organized.push({
+                category: "Mobility Skills",
+                description: "Movement, positioning, and transfer skills",
+                skills: mobilitySkills
+            });
+        }
+        
+        // 5. Infection Control
+        const infectionControlSkills = skills.filter(skill => skill.category === "Infection Control");
+        if (infectionControlSkills.length > 0) {
+            organized.push({
+                category: "Infection Control",
+                description: "PPE and safety procedures",
+                skills: infectionControlSkills
+            });
+        }
+        
+        // 6. Other Personal Care (non-water)
+        const otherPersonalCare = skills.filter(skill => 
+            skill.category === "Personal Care" && 
+            !skill.isWaterSkill && 
+            !skill.isMeasurementSkill &&
+            !skill.isAlwaysFirst
+        );
+        if (otherPersonalCare.length > 0) {
+            organized.push({
+                category: "Personal Care",
+                description: "Non-water personal care skills",
+                skills: otherPersonalCare
+            });
+        }
+        
+        return organized;
     };
 
     const shareResults = async () => {
@@ -393,46 +528,77 @@ Practice at: ${window.location.href}`;
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                     <div>
                         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">CNA Skills Practice</h1>
-                        <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">Practice set of 5 skills • 30 minute time limit</p>
+                        <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">
+                            {currentView === 'practice' ? 'Practice set of 5 skills • 30 minute time limit' : 'All twenty-two CNA skills'}
+                        </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                        {/* Timer */}
-                        <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
-                            <div className="flex items-center gap-2">
-                                <ClockIcon />
-                                <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 ? 'text-red-600' : 'text-gray-800'}`}>
-                                    {formatTime(timeRemaining)}
-                                </span>
+                    {currentView === 'practice' && (
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                            {/* Timer */}
+                            <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
+                                <div className="flex items-center gap-2">
+                                    <ClockIcon />
+                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 ? 'text-red-600' : 'text-gray-800'}`}>
+                                        {formatTime(timeRemaining)}
+                                    </span>
+                                </div>
+                                <div className="flex gap-1">
+                                    <button
+                                        onClick={toggleTimer}
+                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        title={isTimerRunning ? "Pause Timer" : "Start Timer"}
+                                    >
+                                        {isTimerRunning ? <PauseIcon /> : <PlayIcon />}
+                                    </button>
+                                    <button
+                                        onClick={resetTimer}
+                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        title="Reset Timer"
+                                    >
+                                        <RotateIcon />
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex gap-1">
-                                <button
-                                    onClick={toggleTimer}
-                                    className="p-2 rounded hover:bg-gray-200 transition-colors"
-                                    title={isTimerRunning ? "Pause Timer" : "Start Timer"}
-                                >
-                                    {isTimerRunning ? <PauseIcon /> : <PlayIcon />}
-                                </button>
-                                <button
-                                    onClick={resetTimer}
-                                    className="p-2 rounded hover:bg-gray-200 transition-colors"
-                                    title="Reset Timer"
-                                >
-                                    <RotateIcon />
-                                </button>
-                            </div>
+                            {/* New Skill Set Button */}
+                            <button
+                                onClick={handleNewSkillSet}
+                                className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors order-1 sm:order-2"
+                            >
+                                <ShuffleIcon />
+                                <span className="text-sm sm:text-base">New Skill Set</span>
+                            </button>
                         </div>
-                        {/* New Skill Set Button */}
-                        <button
-                            onClick={handleNewSkillSet}
-                            className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors order-1 sm:order-2"
-                        >
-                            <ShuffleIcon />
-                            <span className="text-sm sm:text-base">New Skill Set</span>
-                        </button>
-                    </div>
+                    )}
                 </div>
 
-                {/* Skills List */}
+                {/* Navigation Tabs */}
+                <div className="flex border-b border-gray-200 mb-6">
+                    <button
+                        onClick={() => setCurrentView('practice')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                            currentView === 'practice'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        }`}
+                    >
+                        Practice Test
+                    </button>
+                    <button
+                        onClick={() => setCurrentView('browser')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                            currentView === 'browser'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        }`}
+                    >
+                        All Skills
+                    </button>
+                </div>
+
+                {/* Practice Test View */}
+                {currentView === 'practice' && (
+                    <>
+                        {/* Skills List */}
                 <div className="space-y-3 sm:space-y-4">
                     {currentSkills.map((skill, index) => {
                         const isCompleted = skillCompletionTimes[skill.id] !== undefined;
@@ -495,6 +661,27 @@ Practice at: ${window.location.href}`;
                                 {/* Expanded Steps */}
                                 {expandedSkill === skill.id && (
                                     <div className="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
+                                        {/* Supplies Needed Section */}
+                                        {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
+                                            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
+                                                    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                                    </svg>
+                                                    Supplies Needed:
+                                                </h4>
+                                                <ul className="text-sm text-blue-700 space-y-1">
+                                                    {skill.suppliesNeeded.map((supply, index) => (
+                                                        <li key={index} className="flex items-start gap-2">
+                                                            <span className="text-blue-500 font-bold">•</span>
+                                                            <span>{supply}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
                                         <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
                                         <div className="space-y-2">
                                             {skill.steps.map((step, stepIndex) => {
@@ -660,7 +847,7 @@ Practice at: ${window.location.href}`;
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 {hasFailed ? (
-                                                    <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">NEEDS REVIEW</span>
+                                                    <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">MISSED</span>
                                                 ) : (
                                                     <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">PASSED</span>
                                                 )}
@@ -675,15 +862,26 @@ Practice at: ${window.location.href}`;
                         </div>
                         
                         <div className="mt-4 text-center">
-                            <div className={`inline-block px-4 py-2 rounded-lg font-bold text-lg mb-4 ${
+                            <div className={`inline-block px-4 py-2 rounded-lg font-bold text-lg mb-4 text-center ${
                                 currentSkills.some(skill => hasSkillCriticalFailures(skill))
                                     ? 'bg-yellow-100 text-yellow-800'
                                     : 'bg-green-100 text-green-800'
                             }`}>
-                                {currentSkills.some(skill => hasSkillCriticalFailures(skill))
-                                    ? 'PRACTICE TEST NOT PASSED - Review Critical Steps'
-                                    : 'PRACTICE TEST PASSED - Great Job!'
-                                }
+                                {currentSkills.some(skill => hasSkillCriticalFailures(skill)) ? (
+                                    <>
+                                        PRACTICE TEST NOT PASSED
+                                        <br className="sm:hidden" />
+                                        <span className="hidden sm:inline"> - </span>
+                                        Review Critical Steps
+                                    </>
+                                ) : (
+                                    <>
+                                        PRACTICE TEST PASSED
+                                        <br className="sm:hidden" />
+                                        <span className="hidden sm:inline"> - </span>
+                                        Great Job!
+                                    </>
+                                )}
                             </div>
                             
                             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -723,6 +921,263 @@ Practice at: ${window.location.href}`;
                             <li>• Use buttons to mark each step: ✓ Good, - Skipped, ✗ Wrong</li>
                         </ul>
                     </div>
+                )}
+                    </>
+                )}
+
+                {/* Skills Browser View */}
+                {currentView === 'browser' && (
+                    <>
+                        {/* Organization Controls */}
+                        <div className="flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
+                            <span className="text-sm font-medium text-gray-700">Organize by:</span>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setSkillsOrganization('number')}
+                                    className={`px-3 py-1 text-sm rounded transition-colors ${
+                                        skillsOrganization === 'number'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    Skill Number
+                                </button>
+                                <button
+                                    onClick={() => setSkillsOrganization('type')}
+                                    className={`px-3 py-1 text-sm rounded transition-colors ${
+                                        skillsOrganization === 'type'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white text-gray-600 hover:bg-gray-100'
+                                    }`}
+                                >
+                                    Skill Type
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Skills organized by number */}
+                        {skillsOrganization === 'number' && (
+                            <div className="space-y-3 sm:space-y-4">
+                                {skillsData.skills
+                                    .map((skill, index) => (
+                            <div key={skill.id} data-skill-id={skill.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                                {/* Skill Header */}
+                                <button
+                                    onClick={() => setExpandedSkill(expandedSkill === skill.id ? null : skill.id)}
+                                    className="w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between"
+                                >
+                                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                                        <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0 bg-gray-100 text-gray-800">
+                                            {index + 1}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{skill.title}</h3>
+                                            <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600 mt-1">
+                                                <span className="bg-gray-100 px-2 py-1 rounded text-xs">{skill.category}</span>
+                                                <div className="flex items-center gap-1 text-blue-500">
+                                                    {getSkillTypeIcon(skill)}
+                                                    {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
+                                                </div>
+                                                {skill.estimatedTime && (
+                                                    <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-700 font-medium">
+                                                        Est: {formatDuration(skill.estimatedTime)}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                                        {expandedSkill === skill.id ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                                    </div>
+                                </button>
+
+                                {/* Expanded Content */}
+                                {expandedSkill === skill.id && (
+                                    <div className="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
+                                        {/* Supplies Needed Section */}
+                                        {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
+                                            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                                <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
+                                                    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                                    </svg>
+                                                    Supplies Needed:
+                                                </h4>
+                                                <ul className="text-sm text-blue-700 space-y-1">
+                                                    {skill.suppliesNeeded.map((supply, index) => (
+                                                        <li key={index} className="flex items-start gap-2">
+                                                            <span className="text-blue-500 font-bold">•</span>
+                                                            <span>{supply}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                        <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
+                                        <div className="space-y-2">
+                                            {skill.steps.map((step, stepIndex) => (
+                                                <div
+                                                    key={stepIndex}
+                                                    className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                        step.critical 
+                                                            ? 'critical-step-default'
+                                                            : 'bg-white border-gray-200'
+                                                    }`}
+                                                >
+                                                    <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                        step.critical 
+                                                            ? 'critical-step-number-default'
+                                                            : 'bg-gray-100 text-gray-700'
+                                                    }`}>
+                                                        {stepIndex + 1}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className={`text-sm ${
+                                                            step.critical 
+                                                                ? 'text-gray-800 font-bold'
+                                                                : 'text-gray-800'
+                                                        } leading-relaxed`}>
+                                                            {step.description}
+                                                        </p>
+                                                        {step.critical && (
+                                                            <div className="flex items-center gap-1 mt-2">
+                                                                <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                    CRITICAL STEP
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                            </div>
+                        )}
+
+                        {/* Skills organized by type */}
+                        {skillsOrganization === 'type' && (
+                            <div className="space-y-6">
+                                {organizeSkillsByType(skillsData.skills).map((group, groupIndex) => (
+                                    <div key={groupIndex}>
+                                        {/* Category Header */}
+                                        <div className="mb-3">
+                                            <h3 className="text-lg font-semibold text-gray-800">{group.category}</h3>
+                                            <p className="text-sm text-gray-600">{group.description}</p>
+                                        </div>
+                                        
+                                        {/* Skills in this category */}
+                                        <div className="space-y-3">
+                                            {group.skills.map((skill) => {
+                                                const skillIndex = skillsData.skills.findIndex(s => s.id === skill.id);
+                                                return (
+                                                    <div key={skill.id} data-skill-id={skill.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                                                        {/* Skill Header */}
+                                                        <button
+                                                            onClick={() => setExpandedSkill(expandedSkill === skill.id ? null : skill.id)}
+                                                            className="w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between"
+                                                        >
+                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full flex-shrink-0 bg-blue-50 text-blue-600">
+                                                                    {getSkillCategoryIcon(skill)}
+                                                                </div>
+                                                                <div className="min-w-0 flex-1">
+                                                                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{skill.title}</h3>
+                                                                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600 mt-1">
+                                                                        <span className="bg-gray-100 px-2 py-1 rounded text-xs">{skill.category}</span>
+                                                                        <div className="flex items-center gap-1 text-blue-500">
+                                                                            {getSkillTypeIcon(skill)}
+                                                                            {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
+                                                                        </div>
+                                                                        {skill.estimatedTime && (
+                                                                            <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-700 font-medium">
+                                                                                Est: {formatDuration(skill.estimatedTime)}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                                                                {expandedSkill === skill.id ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                                                            </div>
+                                                        </button>
+
+                                                        {/* Expanded Content */}
+                                                        {expandedSkill === skill.id && (
+                                                            <div className="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
+                                                                {/* Supplies Needed Section */}
+                                                                {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
+                                                                    <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                                                        <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base flex items-center gap-2">
+                                                                            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                                                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                                                                <line x1="12" y1="17" x2="12" y2="21"/>
+                                                                            </svg>
+                                                                            Supplies Needed:
+                                                                        </h4>
+                                                                        <ul className="text-sm text-blue-700 space-y-1">
+                                                                            {skill.suppliesNeeded.map((supply, index) => (
+                                                                                <li key={index} className="flex items-start gap-2">
+                                                                                    <span className="text-blue-500 font-bold">•</span>
+                                                                                    <span>{supply}</span>
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                                <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
+                                                                <div className="space-y-2">
+                                                                    {skill.steps.map((step, stepIndex) => (
+                                                                        <div
+                                                                            key={stepIndex}
+                                                                            className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                                                step.critical 
+                                                                                    ? 'critical-step-default'
+                                                                                    : 'bg-white border-gray-200'
+                                                                            }`}
+                                                                        >
+                                                                            <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                                step.critical 
+                                                                                    ? 'critical-step-number-default'
+                                                                                    : 'bg-gray-100 text-gray-700'
+                                                                            }`}>
+                                                                                {stepIndex + 1}
+                                                                            </div>
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <p className={`text-sm ${
+                                                                                    step.critical 
+                                                                                        ? 'text-gray-800 font-bold'
+                                                                                        : 'text-gray-800'
+                                                                                } leading-relaxed`}>
+                                                                                    {step.description}
+                                                                                </p>
+                                                                                {step.critical && (
+                                                                                    <div className="flex items-center gap-1 mt-2">
+                                                                                        <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                                            CRITICAL STEP
+                                                                                        </span>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>
