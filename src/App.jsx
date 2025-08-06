@@ -324,16 +324,16 @@ const CNASkillsApp = () => {
 
         // Hand Hygiene
         if (skill.isAlwaysFirst) {
-            return <img src="/icon-handwashing.svg" alt="Hand washing" style={iconStyle} />;
+            return <img src="./icon-handwashing.svg" alt="Hand washing" style={iconStyle} />;
         }
         // Measurement skills
         if (skill.isMeasurementSkill) {
             // Urinary output
             if (skill.id === 'measures_urinary_output') {
-                return <img src="/icon-output.svg" alt="Urinary output" style={iconStyle} />;
+                return <img src="./icon-output.svg" alt="Urinary output" style={iconStyle} />;
             }
             // All other vital signs (pulse, respirations, weight, BP)
-            return <img src="/icon-vitals.svg" alt="Vital signs" style={iconStyle} />;
+            return <img src="./icon-vitals.svg" alt="Vital signs" style={iconStyle} />;
         }
         
         // Water skills
