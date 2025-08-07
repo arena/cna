@@ -317,16 +317,15 @@ const CNASkillsApp = () => {
     // Process transcript for AI evaluation
     React.useEffect(() => {
         if (transcript && aiEvalSkill) {
-            const lowercaseTranscript = transcript.toLowerCase();
             const newMatches = [];
             
             // Check each step for matches
             aiEvalSkill.steps.forEach((step, index) => {
                 const stepKey = `${aiEvalSkill.id}-${index}`;
-                const match = matchesStep(transcript, step.description || step.text);
+                const stepText = step.description || step.text;
+                const match = matchesStep(transcript, stepText);
                 
                 if (match.matched && !aiStepEvaluations[stepKey]) {
-                    // Auto-check this step
                     setAiStepEvaluations(prev => ({
                         ...prev,
                         [stepKey]: 'satisfactory'
@@ -334,7 +333,7 @@ const CNASkillsApp = () => {
                     
                     newMatches.push({
                         stepIndex: index,
-                        stepText: step.description || step.text,
+                        stepText: stepText,
                         confidence: match.ratio,
                         matchedWords: match.words
                     });
@@ -346,14 +345,13 @@ const CNASkillsApp = () => {
             }
             
             // Check for "skill complete" phrase
+            const lowercaseTranscript = transcript.toLowerCase();
             if (lowercaseTranscript.includes('skill complete') || 
                 lowercaseTranscript.includes('skill completed')) {
-                console.log('Skill completion detected!');
                 setDetectedMatches(prev => [...prev, { 
                     type: 'completion', 
                     message: 'Skill completion detected!' 
                 }]);
-                // Could add completion logic here
             }
         }
     }, [transcript, aiEvalSkill, aiStepEvaluations]);
@@ -1982,76 +1980,52 @@ Practice at: ${window.location.href}`;
 
                 {/* AI Eval View */}
                 {currentView === 'ai-eval' && (
-                    <div className="max-w-4xl mx-auto space-y-6">
+                    <div className="max-w-5xl mx-auto space-y-6">
+                        {/* Header */}
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
-                            <h2 className="text-xl font-bold text-gray-800 mb-4">AI Evaluator (Experimental)</h2>
-                            <p className="text-gray-600 mb-6">Practice skills with voice recognition that listens for step completion and the phrase "skill complete"</p>
+                            <h2 className="text-xl font-bold text-gray-800 mb-2">AI Evaluator</h2>
+                            <p className="text-gray-600 mb-4">Practice skills with voice recognition that automatically checks steps as you speak</p>
                             
-                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                                <p className="text-yellow-800 text-sm">
-                                    🧪 <strong>Experimental Feature:</strong> This uses your browser's speech recognition. 
-                                    Make sure to allow microphone access when prompted.
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <p className="text-blue-800 text-sm">
+                                    🎤 <strong>How it works:</strong> Select a skill, start listening, and speak what you're doing. 
+                                    Steps will automatically check when detected. Say "skill complete" when finished.
                                 </p>
                             </div>
+                        </div>
 
-                            {/* Speech Recognition Status */}
-                            <div className="mb-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-lg font-semibold">Voice Recognition</h3>
-                                    <div className="flex items-center gap-3">
-                                        {speechRecognition ? (
-                                            <span className="text-green-600 text-sm">✓ Available</span>
-                                        ) : (
-                                            <span className="text-red-600 text-sm">✗ Not supported in this browser</span>
-                                        )}
-                                        {speechRecognition && (
-                                            <button
-                                                onClick={isListening ? stopListening : startListening}
-                                                className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
-                                                    isListening
-                                                        ? 'bg-red-600 text-white hover:bg-red-700'
-                                                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                                                }`}
-                                            >
-                                                {isListening ? '🔴 Stop Listening' : '🎤 Start Listening'}
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Live Transcript */}
-                                <div className="bg-gray-50 rounded-lg p-4">
-                                    <h4 className="text-sm font-medium text-gray-700 mb-2">Live Transcript:</h4>
-                                    <div className="min-h-[100px] text-sm text-gray-600">
-                                        {transcript || (isListening ? 'Listening...' : 'Click "Start Listening" to begin')}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Skill Selection */}
-                            <div className="mb-6">
-                                <h3 className="text-lg font-semibold mb-4">Select Skill to Practice (Solo-Friendly Skills)</h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                    {skillsData.skills.filter(skill => 
-                                        skill.id === 'hand_hygiene' ||
-                                        skill.id === 'catheter_care_female' ||
-                                        skill.id === 'perineal_care_female' ||
-                                        skill.id === 'denture_cleaning' ||
-                                        skill.id === 'urinary_output' ||
-                                        skill.id === 'ppe_donning_removing' ||
-                                        skill.id === 'mouth_care' ||
-                                        skill.title.includes('Blood Pressure') ||
-                                        skill.title.includes('Radial Pulse') ||
-                                        skill.title.includes('One Knee and One Ankle') ||
-                                        skill.title.includes('One Shoulder')
-                                    ).map((skill) => (
+                        {/* Skill Selection */}
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 className="text-lg font-semibold mb-4">Choose a Skill</h3>
+                            <div className="grid grid-cols-1 gap-2">
+                                {skillsData.skills.filter(skill => 
+                                    skill.id === 'hand_hygiene' ||
+                                    skill.id === 'catheter_care_female' ||
+                                    skill.id === 'perineal_care_female' ||
+                                    skill.id === 'denture_cleaning' ||
+                                    skill.id === 'cleans_denture' ||
+                                    skill.id === 'urinary_output' ||
+                                    skill.id === 'ppe_donning_removing' ||
+                                    skill.id === 'donning_removing_ppe' ||
+                                    skill.id === 'mouth_care' ||
+                                    skill.title.includes('Blood Pressure') ||
+                                    skill.title.includes('Radial Pulse') ||
+                                    skill.title.includes('One Knee and One Ankle') ||
+                                    skill.title.includes('One Shoulder') ||
+                                    skill.title.includes('Denture') ||
+                                    skill.title.includes('PPE') ||
+                                    skill.title.includes('Catheter') ||
+                                    skill.title.includes('Perineal') ||
+                                    skill.title.includes('Mouth Care') ||
+                                    skill.title.includes('Urinary Output')
+                                ).map((skill) => (
+                                    <div key={skill.id}>
                                         <button
-                                            key={skill.id}
                                             onClick={() => {
                                                 setAiEvalSkill(skill);
                                                 clearAiEvaluation();
                                             }}
-                                            className={`p-3 rounded-lg border text-left transition-colors ${
+                                            className={`w-full p-3 rounded-lg border text-left transition-colors ${
                                                 aiEvalSkill?.id === skill.id
                                                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                                                     : 'border-gray-200 hover:border-gray-300 text-gray-700'
@@ -2060,69 +2034,119 @@ Practice at: ${window.location.href}`;
                                             <div className="font-medium text-sm">{skill.title}</div>
                                             <div className="text-xs text-gray-500 mt-1">{skill.steps.length} steps</div>
                                         </button>
-                                    ))}
+                                        
+                                        {/* Expanded Practice Section - appears right under the selected skill */}
+                                        {aiEvalSkill?.id === skill.id && (
+                                            <div className="bg-blue-50 rounded-lg border-2 border-blue-300 p-4 mt-2 ml-2">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-semibold text-gray-800">{aiEvalSkill.title}</h3>
+                                    <button
+                                        onClick={clearAiEvaluation}
+                                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
+                                    >
+                                        Reset
+                                    </button>
                                 </div>
-                            </div>
 
-                            {/* Selected Skill Display */}
-                            {aiEvalSkill && (
-                                <div className="bg-blue-50 rounded-lg p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-lg font-semibold text-blue-800">{aiEvalSkill.title}</h3>
+                                {/* Voice Recognition Controls */}
+                                <div className="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-sm font-medium">Voice Recognition</span>
+                                        {speechRecognition ? (
+                                            <span className="text-green-600 text-xs flex items-center gap-1">
+                                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                Ready
+                                            </span>
+                                        ) : (
+                                            <span className="text-red-600 text-xs flex items-center gap-1">
+                                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                                Not supported
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {speechRecognition && (
                                         <button
-                                            onClick={clearAiEvaluation}
-                                            className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 rounded transition-colors"
+                                            onClick={isListening ? stopListening : startListening}
+                                            className={`w-full py-2 px-4 rounded-lg font-medium text-sm transition-colors ${
+                                                isListening
+                                                    ? 'bg-red-600 text-white hover:bg-red-700'
+                                                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                                            }`}
                                         >
-                                            Reset Steps
+                                            {isListening ? '🔴 Stop Listening' : '🎤 Start Listening'}
                                         </button>
-                                    </div>
-                                    <div className="space-y-2">
-                                        {aiEvalSkill.steps.map((step, index) => {
-                                            const stepKey = `${aiEvalSkill.id}-${index}`;
-                                            const isCompleted = aiStepEvaluations[stepKey] === 'satisfactory';
-                                            return (
-                                                <div key={index} className={`flex items-center gap-3 p-2 rounded border transition-colors ${
-                                                    isCompleted 
-                                                        ? 'bg-green-100 border-green-300' 
-                                                        : 'bg-white border-gray-200'
-                                                }`}>
-                                                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                                                        isCompleted 
-                                                            ? 'bg-green-500 text-white' 
-                                                            : 'bg-gray-200 text-gray-600'
-                                                    }`}>
-                                                        {isCompleted ? '✓' : index + 1}
-                                                    </span>
-                                                    <span className="text-sm">{step.description || step.text}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    
-                                    {/* Detection Feedback */}
-                                    {detectedMatches.length > 0 && (
-                                        <div className="mt-4 p-3 bg-purple-50 rounded border border-purple-200">
-                                            <h4 className="text-sm font-medium text-purple-800 mb-2">Recent Detections:</h4>
-                                            <div className="space-y-1 max-h-32 overflow-y-auto">
-                                                {detectedMatches.slice(-5).map((match, index) => (
-                                                    <div key={index} className="text-xs text-purple-700">
-                                                        {match.type === 'completion' 
-                                                            ? `🎉 ${match.message}`
-                                                            : `✓ Step ${match.stepIndex + 1} detected (${Math.round(match.confidence * 100)}% match)`
-                                                        }
-                                                    </div>
-                                                ))}
-                                            </div>
+                                    )}
+
+                                    {/* Live Transcript */}
+                                    {isListening && transcript && (
+                                        <div className="mt-3 p-3 bg-white rounded border">
+                                            <div className="text-xs text-gray-500 mb-1">Hearing:</div>
+                                            <div className="text-sm text-gray-700">{transcript}</div>
                                         </div>
                                     )}
-                                    
-                                    <div className="mt-4 p-3 bg-green-50 rounded border border-green-200">
-                                        <p className="text-green-800 text-sm">
-                                            💡 <strong>Tip:</strong> Speak clearly about what you're doing. Say "skill complete" when finished.
-                                        </p>
-                                    </div>
+
+                                    {/* Show placeholder when no steps detected yet - right inside voice controls */}
+                                    {Object.keys(aiStepEvaluations).length === 0 && (
+                                        <div className="mt-3 text-center py-4 text-gray-500 bg-gray-50 rounded border border-dashed border-gray-300">
+                                            <div className="text-2xl mb-1">🎤</div>
+                                            <div className="text-sm font-medium">Start speaking to see step feedback</div>
+                                            <div className="text-xs mt-1">Steps will appear here as you complete them</div>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+
+                                {/* Step Feedback - Only show steps that have feedback */}
+                                <div className="space-y-2 mb-4">
+                                    {aiEvalSkill.steps.map((step, index) => {
+                                        const stepKey = `${aiEvalSkill.id}-${index}`;
+                                        const isCompleted = aiStepEvaluations[stepKey] === 'satisfactory';
+                                        const wasJustDetected = detectedMatches.some(match => 
+                                            match.stepIndex === index && match.type !== 'completion'
+                                        );
+                                        
+                                        // Only show steps that have been completed or detected
+                                        if (!isCompleted && !wasJustDetected) {
+                                            return null;
+                                        }
+                                        
+                                        return (
+                                            <div key={index} className={`flex items-start gap-3 p-3 rounded border transition-all duration-300 ${
+                                                isCompleted 
+                                                    ? 'bg-green-50 border-green-300' 
+                                                    : 'bg-yellow-50 border-yellow-300'
+                                            }`}>
+                                                <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5 ${
+                                                    isCompleted 
+                                                        ? 'bg-green-500 text-white' 
+                                                        : 'bg-yellow-500 text-white'
+                                                }`}>
+                                                    {isCompleted ? '✓' : '!'}
+                                                </span>
+                                                <div className="flex-1">
+                                                    <div className="text-sm">{step.description || step.text}</div>
+                                                    <div className={`text-xs mt-1 ${
+                                                        isCompleted ? 'text-green-700' : 'text-yellow-700'
+                                                    }`}>
+                                                        {isCompleted ? 'Completed!' : 'Just detected!'}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Completion Status */}
+                                {detectedMatches.some(match => match.type === 'completion') && (
+                                    <div className="p-3 bg-green-50 rounded border border-green-200 text-center">
+                                        <div className="text-green-800 font-medium">🎉 Skill Complete!</div>
+                                    </div>
+                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}
