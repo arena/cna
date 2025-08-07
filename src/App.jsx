@@ -1,5 +1,6 @@
 import React from 'react';
 import skillsData from './data/skills_data.json';
+import contentData from './content.yml';
 import './App.css';
 
 // Simple icons using SVG
@@ -104,7 +105,7 @@ const ShareIcon = () => (
 
 // Main App Component
 const CNASkillsApp = () => {
-    const [currentView, setCurrentView] = React.useState('practice'); // 'practice' or 'browser'
+    const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', or 'about'
     const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number' or 'type'
     const [currentSkills, setCurrentSkills] = React.useState([]);
     const [expandedSkill, setExpandedSkill] = React.useState(null);
@@ -573,7 +574,7 @@ const CNASkillsApp = () => {
             return `${index + 1}. ${skill.title}: ${formatDuration(completionTime)} ${hasFailed ? '(NEEDS REVIEW)' : '(PASSED)'}`;
         }).join('\n');
 
-        const shareText = `🏥 CNA Skills Practice Test Results
+        const shareText = `${contentData.share.results.header}
 
 📊 Overall: ${overallStatus}
 ⏱️ Total Time: ${totalTime} / 30:00
@@ -588,7 +589,7 @@ Practice at: ${window.location.href}`;
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: 'CNA Skills Practice Results',
+                    title: contentData.share.results.title,
                     text: shareText
                 });
             } catch (err) {
@@ -634,9 +635,14 @@ Practice at: ${window.location.href}`;
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                     <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">CNA Skills Practice</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{contentData.app.name}</h1>
                         <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">
-                            {currentView === 'practice' ? 'Practice set of 5 skills • 30 minute time limit' : 'All twenty-two CNA skills'}
+                            {currentView === 'practice' 
+                                ? contentData.app.taglines.practice
+                                : currentView === 'browser'
+                                    ? contentData.app.taglines.browser
+                                    : contentData.app.taglines.about
+                            }
                         </p>
                     </div>
                     {currentView === 'practice' && (
@@ -699,6 +705,16 @@ Practice at: ${window.location.href}`;
                         }`}
                     >
                         All Skills
+                    </button>
+                    <button
+                        onClick={() => setCurrentView('about')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                            currentView === 'about'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        }`}
+                    >
+                        About
                     </button>
                 </div>
 
@@ -787,6 +803,11 @@ Practice at: ${window.location.href}`;
                                         <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
                                         <div className="space-y-2">
                                             {skill.steps.map((step, stepIndex) => {
+                                                // Skip tips in practice test view
+                                                if (step.tip) {
+                                                    return null;
+                                                }
+
                                                 const evaluation = getStepEvaluation(skill.id, stepIndex);
                                                 
                                                 return (
@@ -1145,6 +1166,25 @@ Practice at: ${window.location.href}`;
                                                 <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
                                                 <div className="space-y-2">
                                                     {skill.steps.map((step, stepIndex) => {
+                                                        // Handle tips differently
+                                                        if (step.tip) {
+                                                            return (
+                                                                <div
+                                                                    key={stepIndex}
+                                                                    className="flex items-start gap-3 p-3 rounded-lg border bg-blue-50 border-blue-200"
+                                                                >
+                                                                    <div className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 bg-blue-100 text-blue-700">
+                                                                        💡
+                                                                    </div>
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <p className="text-sm text-blue-800 font-medium leading-relaxed">
+                                                                            <span className="font-bold">Tip:</span> {step.description}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+
                                                         const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
                                                         
                                                         return (
@@ -1344,40 +1384,61 @@ Practice at: ${window.location.href}`;
                                                     </button>
                                                 </div>
                                                 <div className="space-y-2">
-                                                    {skill.steps.map((step, stepIndex) => (
-                                                        <div
-                                                            key={stepIndex}
-                                                            className={`flex items-start gap-3 p-3 rounded-lg border ${
-                                                                step.critical 
-                                                                    ? 'critical-step-default'
-                                                                    : 'bg-white border-gray-200'
-                                                            }`}
-                                                        >
-                                                            <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
-                                                                step.critical 
-                                                                    ? 'critical-step-number-default'
-                                                                    : 'bg-gray-100 text-gray-700'
-                                                            }`}>
-                                                                {stepIndex + 1}
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <p className={`text-sm ${
-                                                                    step.critical 
-                                                                        ? 'text-gray-800 font-bold'
-                                                                        : 'text-gray-800'
-                                                                } leading-relaxed`}>
-                                                                    {step.description}
-                                                                </p>
-                                                                {step.critical && (
-                                                                    <div className="flex items-center gap-1 mt-2">
-                                                                        <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
-                                                                            CRITICAL STEP
-                                                                        </span>
+                                                    {skill.steps.map((step, stepIndex) => {
+                                                        // Handle tips differently
+                                                        if (step.tip) {
+                                                            return (
+                                                                <div
+                                                                    key={stepIndex}
+                                                                    className="flex items-start gap-3 p-3 rounded-lg border bg-blue-50 border-blue-200"
+                                                                >
+                                                                    <div className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 bg-blue-100 text-blue-700">
+                                                                        💡
                                                                     </div>
-                                                                )}
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <p className="text-sm text-blue-800 font-medium leading-relaxed">
+                                                                            <span className="font-bold">Tip:</span> {step.description}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+
+                                                        return (
+                                                            <div
+                                                                key={stepIndex}
+                                                                className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                                    step.critical 
+                                                                        ? 'critical-step-default'
+                                                                        : 'bg-white border-gray-200'
+                                                                }`}
+                                                            >
+                                                                <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                    step.critical 
+                                                                        ? 'critical-step-number-default'
+                                                                        : 'bg-gray-100 text-gray-700'
+                                                                }`}>
+                                                                    {stepIndex + 1}
+                                                                </div>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <p className={`text-sm ${
+                                                                        step.critical 
+                                                                            ? 'text-gray-800 font-bold'
+                                                                            : 'text-gray-800'
+                                                                    } leading-relaxed`}>
+                                                                        {step.description}
+                                                                    </p>
+                                                                    {step.critical && (
+                                                                        <div className="flex items-center gap-1 mt-2">
+                                                                            <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                                CRITICAL STEP
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    ))}
+                                                        );
+                                                    })}
                                                 </div>
                                             </>
                                         )}
@@ -1487,6 +1548,25 @@ Practice at: ${window.location.href}`;
                                                                         <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
                                                                         <div className="space-y-2">
                                                                             {skill.steps.map((step, stepIndex) => {
+                                                                                // Handle tips differently
+                                                                                if (step.tip) {
+                                                                                    return (
+                                                                                        <div
+                                                                                            key={stepIndex}
+                                                                                            className="flex items-start gap-3 p-3 rounded-lg border bg-blue-50 border-blue-200"
+                                                                                        >
+                                                                                            <div className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 bg-blue-100 text-blue-700">
+                                                                                                💡
+                                                                                            </div>
+                                                                                            <div className="flex-1 min-w-0">
+                                                                                                <p className="text-sm text-blue-800 font-medium leading-relaxed">
+                                                                                                    <span className="font-bold">Tip:</span> {step.description}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    );
+                                                                                }
+
                                                                                 const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
                                                                                 
                                                                                 return (
@@ -1686,40 +1766,61 @@ Practice at: ${window.location.href}`;
                                                                             </button>
                                                                         </div>
                                                                         <div className="space-y-2">
-                                                                            {skill.steps.map((step, stepIndex) => (
-                                                                                <div
-                                                                                    key={stepIndex}
-                                                                                    className={`flex items-start gap-3 p-3 rounded-lg border ${
-                                                                                        step.critical 
-                                                                                            ? 'critical-step-default'
-                                                                                            : 'bg-white border-gray-200'
-                                                                                    }`}
-                                                                                >
-                                                                                    <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
-                                                                                        step.critical 
-                                                                                            ? 'critical-step-number-default'
-                                                                                            : 'bg-gray-100 text-gray-700'
-                                                                                    }`}>
-                                                                                        {stepIndex + 1}
-                                                                                    </div>
-                                                                                    <div className="flex-1 min-w-0">
-                                                                                        <p className={`text-sm ${
-                                                                                            step.critical 
-                                                                                                ? 'text-gray-800 font-bold'
-                                                                                                : 'text-gray-800'
-                                                                                        } leading-relaxed`}>
-                                                                                            {step.description}
-                                                                                        </p>
-                                                                                        {step.critical && (
-                                                                                            <div className="flex items-center gap-1 mt-2">
-                                                                                                <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
-                                                                                                    CRITICAL STEP
-                                                                                                </span>
+                                                                            {skill.steps.map((step, stepIndex) => {
+                                                                                // Handle tips differently
+                                                                                if (step.tip) {
+                                                                                    return (
+                                                                                        <div
+                                                                                            key={stepIndex}
+                                                                                            className="flex items-start gap-3 p-3 rounded-lg border bg-blue-50 border-blue-200"
+                                                                                        >
+                                                                                            <div className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 bg-blue-100 text-blue-700">
+                                                                                                💡
                                                                                             </div>
-                                                                                        )}
+                                                                                            <div className="flex-1 min-w-0">
+                                                                                                <p className="text-sm text-blue-800 font-medium leading-relaxed">
+                                                                                                    <span className="font-bold">Tip:</span> {step.description}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    );
+                                                                                }
+
+                                                                                return (
+                                                                                    <div
+                                                                                        key={stepIndex}
+                                                                                        className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                                                            step.critical 
+                                                                                                ? 'critical-step-default'
+                                                                                                : 'bg-white border-gray-200'
+                                                                                        }`}
+                                                                                    >
+                                                                                        <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                                            step.critical 
+                                                                                                ? 'critical-step-number-default'
+                                                                                                : 'bg-gray-100 text-gray-700'
+                                                                                        }`}>
+                                                                                            {stepIndex + 1}
+                                                                                        </div>
+                                                                                        <div className="flex-1 min-w-0">
+                                                                                            <p className={`text-sm ${
+                                                                                                step.critical 
+                                                                                                    ? 'text-gray-800 font-bold'
+                                                                                                    : 'text-gray-800'
+                                                                                            } leading-relaxed`}>
+                                                                                                {step.description}
+                                                                                            </p>
+                                                                                            {step.critical && (
+                                                                                                <div className="flex items-center gap-1 mt-2">
+                                                                                                    <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                                                        CRITICAL STEP
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            ))}
+                                                                                );
+                                                                            })}
                                                                         </div>
                                                                     </>
                                                                 )}
@@ -1734,6 +1835,95 @@ Practice at: ${window.location.href}`;
                             </div>
                         )}
                     </>
+                )}
+
+                {/* About View */}
+                {currentView === 'about' && (
+                    <div className="max-w-3xl mx-auto space-y-6">
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">{contentData.about.title}</h2>
+                            
+                            <div className="space-y-4 text-gray-700">
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.who.title}</h3>
+                                    <p className="text-sm leading-relaxed mb-3">
+                                        {contentData.about.sections.who.text}
+                                    </p>
+                                    <p className="text-sm text-gray-700 mb-3">
+                                        {contentData.about.sections.who.share_prompt}
+                                    </p>
+                                    <button
+                                        onClick={() => {
+                                            if (navigator.share) {
+                                                navigator.share({
+                                                    title: contentData.share.app.title,
+                                                    text: contentData.share.app.description,
+                                                    url: window.location.href
+                                                });
+                                            } else {
+                                                navigator.clipboard.writeText(window.location.href).then(() => {
+                                                    alert('Link copied to clipboard!');
+                                                }).catch(() => {
+                                                    prompt('Copy this link to share:', window.location.href);
+                                                });
+                                            }
+                                        }}
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                                    >
+                                        <ShareIcon />
+                                        Share App
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.why.title}</h3>
+                                    <p className="text-sm leading-relaxed">
+                                        {contentData.about.sections.why.text}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.usage.title}</h3>
+                                    <ul className="text-sm space-y-1 ml-4">
+                                        {contentData.about.sections.usage.items.map((item, index) => (
+                                            <li key={index} className="flex items-start gap-2">
+                                                <span className="text-blue-500 font-bold">•</span>
+                                                <span><strong>{item.title}:</strong> {item.description}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.pricing.title}</h3>
+                                    <p className="text-sm leading-relaxed">
+                                        {contentData.about.sections.pricing.text}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.feedback.title}</h3>
+                                    <p className="text-sm leading-relaxed mb-3">
+                                        {contentData.about.sections.feedback.text}
+                                    </p>
+                                    <a
+                                        href={contentData.links.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium"
+                                    >
+                                        📝 GitHub Repo
+                                    </a>
+                                </div>
+
+                                <div className="pt-4 border-t border-gray-200">
+                                    <p className="text-sm text-gray-600">
+                                        <span className="italic">{contentData.about.sections.footer.text}</span> 💙
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

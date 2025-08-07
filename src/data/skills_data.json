@@ -444,8 +444,7 @@
       "estimatedTime": 135,
       "description": "Counting and recording radial pulse rate",
       "suppliesNeeded": [
-        "Recording form",
-        "Pen",
+        "Recording form and pen",
         "Second hand watch"
       ],
       "steps": [
@@ -569,6 +568,12 @@
         {
           "id": "step_6",
           "description": "Cuffs of gloves overlap cuffs of gown",
+          "critical": false
+        },
+        {
+          "id": "tip_before_step_7",
+          "description": "Pull up sleeves of gown before removing gloves to prevent contaminating your ungloved hand",
+          "tip": true,
           "critical": false
         },
         {
@@ -949,7 +954,8 @@
       "estimatedTime": 120,
       "description": "Measuring and recording urinary output",
       "suppliesNeeded": [
-        "Recording form/ pen/ gloves",
+        "Recording form and pen",
+        "Gloves",
         "Bed side Commode & graduate",
         "Bedpan w/ urine"
       ],
@@ -1008,7 +1014,7 @@
       "estimatedTime": 130,
       "description": "Measuring and recording client weight",
       "suppliesNeeded": [
-        "Recording form/ pen",
+        "Recording form and pen",
         "Non-skid shoes"
       ],
       "steps": [
@@ -1791,7 +1797,7 @@
       "suppliesNeeded": [
         "BP cuff",
         "Stethoscope",
-        "Recording form/pen",
+        "Recording form and pen",
         "Alcohol prep pad",
         "Pillow"
       ],

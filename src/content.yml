@@ -1,0 +1,51 @@
+app:
+  name: "CNA Champ"
+  taglines:
+    practice: "Practice set of 5 skills • 30 minute time limit"
+    browser: "All twenty-two CNA skills"
+    about: "Your best friend on your path to getting your CNA license in the state of Nevada"
+
+about:
+  title: "About CNA Champ"
+  sections:
+    who:
+      title: "Who is this for?"
+      text: "This app is designed for CNA students preparing for their skills competency test. Whether you're just learning the skills or getting ready for exam day, this tool helps you practice and get faster."
+      share_prompt: "Know someone studying for the CNA Skills Test?"
+    
+    why:
+      title: "Why this app exists"
+      text: "Frustrated with hard-to-use skills booklets and expensive fluff apps on the app store? Yep. Now you can focus on practicing the skills instead of trying to find the page they are on and looking for a timer to start."
+    
+    usage:
+      title: "How to use this app"
+      items:
+        - title: "Practice with fellow students"
+          description: "Use the evaluation buttons to mark each step as you watch each other perform skills"
+        - title: "Prep for the Credentia timed skills test"
+          description: "Run through 5-skill practice tests with the 30-minute timer"
+        - title: "Study individual skills"
+          description: "Browse all 22 skills with helpful tips and use the practice timer to track your progress"
+    
+    pricing:
+      title: "Free to Use"
+      text: "This app is free to use. Share it with any CNA student who could benefit from it! This is a free alternative to low quality, expensive apps that only have mutliple choice questions. This app helps you with the hard part (the skills)."
+    
+    feedback:
+      title: "Contribute"
+      text: "See something that could be better? Want to update the skills to match the current Credentia or Nursing Board's published set? Make this tool even more helpful for CNA students. Your feedback and contributions are welcome."
+      
+    footer:
+      text: "Created by students for students"
+
+share:
+  app:
+    title: "CNA Champ"
+    description: "Free practice tool for CNA students preparing for their skills competency test"
+  
+  results:
+    title: "CNA Skills Practice Test Results"
+    header: "🏥 CNA Skills Practice Test Results"
+
+links:
+  github: "https://github.com/arena/cna"
