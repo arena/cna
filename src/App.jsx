@@ -114,6 +114,13 @@ const CNASkillsApp = () => {
     const [skillCompletionTimes, setSkillCompletionTimes] = React.useState({});
     const [skillStartTimes, setSkillStartTimes] = React.useState({});
     const [visitedSkills, setVisitedSkills] = React.useState(new Set());
+    
+    // Individual skill practice mode state
+    const [practiceMode, setPracticeMode] = React.useState(null); // skillId when in practice mode
+    const [practiceTime, setPracticeTime] = React.useState(0);
+    const [isPracticeRunning, setIsPracticeRunning] = React.useState(false);
+    const [practiceStepEvaluations, setPracticeStepEvaluations] = React.useState({});
+    const [practiceCompleted, setPracticeCompleted] = React.useState(false);
 
     // Initialize with random skills on mount
     React.useEffect(() => {
@@ -135,6 +142,17 @@ const CNASkillsApp = () => {
         }
         return () => clearInterval(interval);
     }, [isTimerRunning, timeRemaining, allSkillsCompleted]);
+
+    // Practice mode timer effect
+    React.useEffect(() => {
+        let interval = null;
+        if (isPracticeRunning && !practiceCompleted) {
+            interval = setInterval(() => {
+                setPracticeTime(time => time + 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isPracticeRunning, practiceCompleted]);
 
     // Function to generate new skill set according to CNA rules
     const generateSkillSet = (allSkills) => {
@@ -203,6 +221,10 @@ const CNASkillsApp = () => {
     const resetTimer = () => {
         setTimeRemaining(30 * 60);
         setIsTimerRunning(false);
+        setStepEvaluations({});
+        setSkillCompletionTimes({});
+        setSkillStartTimes({});
+        setVisitedSkills(new Set());
     };
 
     const formatTime = (seconds) => {
@@ -215,6 +237,89 @@ const CNASkillsApp = () => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
+    // Practice mode functions
+    const startPractice = (skillId) => {
+        setPracticeMode(skillId);
+        setPracticeTime(0);
+        setIsPracticeRunning(true);
+        setPracticeStepEvaluations({});
+        setPracticeCompleted(false);
+    };
+
+    const resetPractice = () => {
+        setPracticeTime(0);
+        setIsPracticeRunning(true);
+        setPracticeStepEvaluations({});
+        setPracticeCompleted(false);
+        
+        // Scroll to the top of the skill being practiced
+        setTimeout(() => {
+            const skillElement = document.querySelector(`[data-skill-id="${practiceMode}"]`);
+            if (skillElement) {
+                skillElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+        }, 100);
+    };
+
+    const stopPractice = () => {
+        setPracticeMode(null);
+        setPracticeTime(0);
+        setIsPracticeRunning(false);
+        setPracticeStepEvaluations({});
+        setPracticeCompleted(false);
+    };
+
+    const completePractice = () => {
+        setIsPracticeRunning(false);
+        setPracticeCompleted(true);
+    };
+
+    const handlePracticeStepEvaluation = (skillId, stepIndex, evaluation) => {
+        // Auto-start practice timer on first step evaluation
+        if (!isPracticeRunning && !practiceCompleted) {
+            setIsPracticeRunning(true);
+        }
+        
+        const stepKey = `${skillId}-${stepIndex}`;
+        setPracticeStepEvaluations(prev => ({
+            ...prev,
+            [stepKey]: evaluation
+        }));
+    };
+
+    const getPracticeStepEvaluation = (skillId, stepIndex) => {
+        const stepKey = `${skillId}-${stepIndex}`;
+        return practiceStepEvaluations[stepKey] || null;
+    };
+
+    const getPracticeMissedSteps = (skill) => {
+        const missedSteps = [];
+        skill.steps.forEach((step, stepIndex) => {
+            const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
+            if (evaluation === 'skipped' || evaluation === 'wrong') {
+                missedSteps.push({
+                    stepNumber: stepIndex + 1,
+                    description: step.description,
+                    critical: step.critical,
+                    evaluation: evaluation
+                });
+            }
+        });
+        return missedSteps;
+    };
+
+    const hasPracticeCriticalFailures = (skill) => {
+        return skill.steps.some((step, stepIndex) => {
+            if (!step.critical) return false;
+            const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
+            return evaluation === 'skipped' || evaluation === 'wrong';
+        });
     };
 
     const toggleSkillExpansion = (skillId) => {
@@ -1007,43 +1112,275 @@ Practice at: ${window.location.href}`;
                                                 </ul>
                                             </div>
                                         )}
-                                        <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
-                                        <div className="space-y-2">
-                                            {skill.steps.map((step, stepIndex) => (
-                                                <div
-                                                    key={stepIndex}
-                                                    className={`flex items-start gap-3 p-3 rounded-lg border ${
-                                                        step.critical 
-                                                            ? 'critical-step-default'
-                                                            : 'bg-white border-gray-200'
-                                                    }`}
-                                                >
-                                                    <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
-                                                        step.critical 
-                                                            ? 'critical-step-number-default'
-                                                            : 'bg-gray-100 text-gray-700'
-                                                    }`}>
-                                                        {stepIndex + 1}
+                                        {/* Practice Mode */}
+                                        {practiceMode === skill.id ? (
+                                            <>
+                                                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <h4 className="font-semibold text-green-800 text-sm sm:text-base">
+                                                            Practice Mode
+                                                        </h4>
+                                                        <div className="flex items-center gap-2">
+                                                            <ClockIcon />
+                                                            <span className="text-lg font-mono font-bold text-green-800">
+                                                                {formatDuration(practiceTime)}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className={`text-sm ${
-                                                            step.critical 
-                                                                ? 'text-gray-800 font-bold'
-                                                                : 'text-gray-800'
-                                                        } leading-relaxed`}>
-                                                            {step.description}
-                                                        </p>
-                                                        {step.critical && (
-                                                            <div className="flex items-center gap-1 mt-2">
-                                                                <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
-                                                                    CRITICAL STEP
-                                                                </span>
-                                                            </div>
-                                                        )}
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            onClick={resetPractice}
+                                                            className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
+                                                        >
+                                                            Reset
+                                                        </button>
+                                                        <button
+                                                            onClick={stopPractice}
+                                                            className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                                                        >
+                                                            Stop Practice
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </div>
+                                                <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
+                                                <div className="space-y-2">
+                                                    {skill.steps.map((step, stepIndex) => {
+                                                        const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
+                                                        
+                                                        return (
+                                                            <div
+                                                                key={stepIndex}
+                                                                className={`flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 p-3 rounded-lg border ${
+                                                                    step.critical 
+                                                                        ? evaluation === 'good' 
+                                                                            ? 'bg-green-50 border-green-200' 
+                                                                            : evaluation === 'wrong' 
+                                                                                ? 'bg-red-50 border-red-200'
+                                                                                : 'critical-step-default'
+                                                                        : 'bg-white border-gray-200'
+                                                                }`}
+                                                            >
+                                                                <div className="flex items-start gap-3 flex-1 min-w-0">
+                                                                    <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                        step.critical 
+                                                                            ? evaluation === 'good'
+                                                                                ? 'bg-green-100 text-green-800'
+                                                                                : evaluation === 'wrong'
+                                                                                    ? 'bg-red-100 text-red-800'
+                                                                                    : 'critical-step-number-default'
+                                                                            : 'bg-gray-100 text-gray-700'
+                                                                    }`}>
+                                                                        {stepIndex + 1}
+                                                                    </div>
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <p className={`text-sm ${
+                                                                            step.critical 
+                                                                                ? evaluation === 'good'
+                                                                                    ? 'text-green-900 font-bold'
+                                                                                    : evaluation === 'wrong'
+                                                                                        ? 'text-red-900 font-bold'
+                                                                                        : 'text-gray-800 font-bold'
+                                                                                : 'text-gray-800'
+                                                                        } leading-relaxed`}>
+                                                                            {step.description}
+                                                                        </p>
+                                                                        {step.critical && (
+                                                                            <div className="flex items-center gap-1 mt-2">
+                                                                                <span className={`text-xs font-bold px-2 py-1 rounded ${
+                                                                                    evaluation === 'good'
+                                                                                        ? 'bg-green-200 text-green-800'
+                                                                                        : evaluation === 'wrong'
+                                                                                            ? 'bg-red-200 text-red-800'
+                                                                                            : 'bg-yellow-200 text-gray-700'
+                                                                                }`}>
+                                                                                    CRITICAL STEP
+                                                                                </span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                                {/* Evaluation buttons */}
+                                                                <div className="flex gap-1 justify-center sm:justify-start sm:ml-2 flex-shrink-0">
+                                                                    <button
+                                                                        onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'good')}
+                                                                        className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                            evaluation === 'good' ? 'bg-green-100 text-green-700' : 'hover:bg-green-50 text-gray-400 hover:text-green-600'
+                                                                        }`}
+                                                                        title="Good"
+                                                                    >
+                                                                        <CheckIcon />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'skipped')}
+                                                                        className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                            evaluation === 'skipped' ? 'bg-yellow-100 text-yellow-700' : 'hover:bg-yellow-50 text-gray-400 hover:text-yellow-600'
+                                                                        }`}
+                                                                        title="Skipped"
+                                                                    >
+                                                                        <MinusIcon />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'wrong')}
+                                                                        className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                            evaluation === 'wrong' ? 'bg-red-100 text-red-700' : 'hover:bg-red-50 text-gray-400 hover:text-red-600'
+                                                                        }`}
+                                                                        title="Wrong"
+                                                                    >
+                                                                        <XIcon />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                {/* Complete Practice Button */}
+                                                <div className="mt-4 pt-3 border-t border-gray-200">
+                                                    {practiceCompleted ? (
+                                                        (() => {
+                                                            const missedSteps = getPracticeMissedSteps(skill);
+                                                            const hasCriticalFailures = hasPracticeCriticalFailures(skill);
+                                                            const hasAnyMissedSteps = missedSteps.length > 0;
+
+                                                            if (hasCriticalFailures) {
+                                                                const criticalMissedSteps = missedSteps.filter(step => step.critical);
+                                                                const criticalStepCount = criticalMissedSteps.length;
+                                                                
+                                                                return (
+                                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                                                        <div className="flex items-center gap-2 text-yellow-800 mb-2">
+                                                                            <XIcon />
+                                                                            <span className="font-bold">
+                                                                                Critical Step{criticalStepCount > 1 ? 's' : ''} Missed
+                                                                            </span>
+                                                                        </div>
+                                                                        <p className="text-sm text-yellow-700 mb-2">
+                                                                            Completed in {formatDuration(practiceTime)} 
+                                                                            {skill.estimatedTime && (
+                                                                                <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                            )}
+                                                                        </p>
+                                                                        <p className="text-sm text-yellow-700 mb-2">
+                                                                            Review the critical step{criticalStepCount > 1 ? 's' : ''} that {criticalStepCount > 1 ? 'were' : 'was'} missed or performed incorrectly.
+                                                                        </p>
+                                                                        <button
+                                                                            onClick={resetPractice}
+                                                                            className="mt-2 px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors text-sm"
+                                                                        >
+                                                                            Try Again
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            } else if (hasAnyMissedSteps) {
+                                                                return (
+                                                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                                                        <div className="flex items-center gap-2 text-blue-800 mb-2">
+                                                                            <CheckCircleIcon />
+                                                                            <span className="font-bold">Practice Completed</span>
+                                                                        </div>
+                                                                        <p className="text-sm text-blue-700 mb-2">
+                                                                            Completed in {formatDuration(practiceTime)} 
+                                                                            {skill.estimatedTime && (
+                                                                                <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                            )}
+                                                                        </p>
+                                                                        <p className="text-sm text-blue-700 mb-2">
+                                                                            Some steps need review - consider practicing again.
+                                                                        </p>
+                                                                        <button
+                                                                            onClick={resetPractice}
+                                                                            className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                                                                        >
+                                                                            Practice Again
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                                                        <div className="flex items-center gap-2 text-green-800 mb-2">
+                                                                            <CheckCircleIcon />
+                                                                            <span className="font-bold">Excellent Work!</span>
+                                                                        </div>
+                                                                        <p className="text-sm text-green-700 mb-2">
+                                                                            Completed in {formatDuration(practiceTime)} 
+                                                                            {skill.estimatedTime && (
+                                                                                <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                            )}
+                                                                        </p>
+                                                                        <p className="text-sm text-green-700 mb-2">
+                                                                            All steps performed correctly!
+                                                                        </p>
+                                                                        <button
+                                                                            onClick={resetPractice}
+                                                                            className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm"
+                                                                        >
+                                                                            Practice Again
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        })()
+                                                    ) : (
+                                                        <button
+                                                            onClick={completePractice}
+                                                            className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                                                        >
+                                                            <CheckCircleIcon />
+                                                            Complete Practice
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="mb-4 flex justify-between items-center">
+                                                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Steps:</h4>
+                                                    <button
+                                                        onClick={() => startPractice(skill.id)}
+                                                        className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-xs flex items-center gap-1"
+                                                    >
+                                                        <PlayIcon />
+                                                        Practice
+                                                    </button>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    {skill.steps.map((step, stepIndex) => (
+                                                        <div
+                                                            key={stepIndex}
+                                                            className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                                step.critical 
+                                                                    ? 'critical-step-default'
+                                                                    : 'bg-white border-gray-200'
+                                                            }`}
+                                                        >
+                                                            <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                step.critical 
+                                                                    ? 'critical-step-number-default'
+                                                                    : 'bg-gray-100 text-gray-700'
+                                                            }`}>
+                                                                {stepIndex + 1}
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <p className={`text-sm ${
+                                                                    step.critical 
+                                                                        ? 'text-gray-800 font-bold'
+                                                                        : 'text-gray-800'
+                                                                } leading-relaxed`}>
+                                                                    {step.description}
+                                                                </p>
+                                                                {step.critical && (
+                                                                    <div className="flex items-center gap-1 mt-2">
+                                                                        <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                            CRITICAL STEP
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -1117,43 +1454,275 @@ Practice at: ${window.location.href}`;
                                                                         </ul>
                                                                     </div>
                                                                 )}
-                                                                <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
-                                                                <div className="space-y-2">
-                                                                    {skill.steps.map((step, stepIndex) => (
-                                                                        <div
-                                                                            key={stepIndex}
-                                                                            className={`flex items-start gap-3 p-3 rounded-lg border ${
-                                                                                step.critical 
-                                                                                    ? 'critical-step-default'
-                                                                                    : 'bg-white border-gray-200'
-                                                                            }`}
-                                                                        >
-                                                                            <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
-                                                                                step.critical 
-                                                                                    ? 'critical-step-number-default'
-                                                                                    : 'bg-gray-100 text-gray-700'
-                                                                            }`}>
-                                                                                {stepIndex + 1}
+                                                                {/* Practice Mode */}
+                                                                {practiceMode === skill.id ? (
+                                                                    <>
+                                                                        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                                                            <div className="flex items-center justify-between mb-2">
+                                                                                <h4 className="font-semibold text-green-800 text-sm sm:text-base">
+                                                                                    Practice Mode
+                                                                                </h4>
+                                                                                <div className="flex items-center gap-2">
+                                                                                    <ClockIcon />
+                                                                                    <span className="text-lg font-mono font-bold text-green-800">
+                                                                                        {formatDuration(practiceTime)}
+                                                                                    </span>
+                                                                                </div>
                                                                             </div>
-                                                                            <div className="flex-1 min-w-0">
-                                                                                <p className={`text-sm ${
-                                                                                    step.critical 
-                                                                                        ? 'text-gray-800 font-bold'
-                                                                                        : 'text-gray-800'
-                                                                                } leading-relaxed`}>
-                                                                                    {step.description}
-                                                                                </p>
-                                                                                {step.critical && (
-                                                                                    <div className="flex items-center gap-1 mt-2">
-                                                                                        <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
-                                                                                            CRITICAL STEP
-                                                                                        </span>
-                                                                                    </div>
-                                                                                )}
+                                                                            <div className="flex gap-2">
+                                                                                <button
+                                                                                    onClick={resetPractice}
+                                                                                    className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
+                                                                                >
+                                                                                    Reset
+                                                                                </button>
+                                                                                <button
+                                                                                    onClick={stopPractice}
+                                                                                    className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                                                                                >
+                                                                                    Stop Practice
+                                                                                </button>
                                                                             </div>
                                                                         </div>
-                                                                    ))}
-                                                                </div>
+                                                                        <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Steps:</h4>
+                                                                        <div className="space-y-2">
+                                                                            {skill.steps.map((step, stepIndex) => {
+                                                                                const evaluation = getPracticeStepEvaluation(skill.id, stepIndex);
+                                                                                
+                                                                                return (
+                                                                                    <div
+                                                                                        key={stepIndex}
+                                                                                        className={`flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 p-3 rounded-lg border ${
+                                                                                            step.critical 
+                                                                                                ? evaluation === 'good' 
+                                                                                                    ? 'bg-green-50 border-green-200' 
+                                                                                                    : evaluation === 'wrong' 
+                                                                                                        ? 'bg-red-50 border-red-200'
+                                                                                                        : 'critical-step-default'
+                                                                                                : 'bg-white border-gray-200'
+                                                                                        }`}
+                                                                                    >
+                                                                                        <div className="flex items-start gap-3 flex-1 min-w-0">
+                                                                                            <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                                                step.critical 
+                                                                                                    ? evaluation === 'good'
+                                                                                                        ? 'bg-green-100 text-green-800'
+                                                                                                        : evaluation === 'wrong'
+                                                                                                            ? 'bg-red-100 text-red-800'
+                                                                                                            : 'critical-step-number-default'
+                                                                                                    : 'bg-gray-100 text-gray-700'
+                                                                                            }`}>
+                                                                                                {stepIndex + 1}
+                                                                                            </div>
+                                                                                            <div className="flex-1 min-w-0">
+                                                                                                <p className={`text-sm ${
+                                                                                                    step.critical 
+                                                                                                        ? evaluation === 'good'
+                                                                                                            ? 'text-green-900 font-bold'
+                                                                                                            : evaluation === 'wrong'
+                                                                                                                ? 'text-red-900 font-bold'
+                                                                                                                : 'text-gray-800 font-bold'
+                                                                                                        : 'text-gray-800'
+                                                                                                } leading-relaxed`}>
+                                                                                                    {step.description}
+                                                                                                </p>
+                                                                                                {step.critical && (
+                                                                                                    <div className="flex items-center gap-1 mt-2">
+                                                                                                        <span className={`text-xs font-bold px-2 py-1 rounded ${
+                                                                                                            evaluation === 'good'
+                                                                                                                ? 'bg-green-200 text-green-800'
+                                                                                                                : evaluation === 'wrong'
+                                                                                                                    ? 'bg-red-200 text-red-800'
+                                                                                                                    : 'bg-yellow-200 text-gray-700'
+                                                                                                        }`}>
+                                                                                                            CRITICAL STEP
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                )}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        {/* Evaluation buttons */}
+                                                                                        <div className="flex gap-1 justify-center sm:justify-start sm:ml-2 flex-shrink-0">
+                                                                                            <button
+                                                                                                onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'good')}
+                                                                                                className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                                                    evaluation === 'good' ? 'bg-green-100 text-green-700' : 'hover:bg-green-50 text-gray-400 hover:text-green-600'
+                                                                                                }`}
+                                                                                                title="Good"
+                                                                                            >
+                                                                                                <CheckIcon />
+                                                                                            </button>
+                                                                                            <button
+                                                                                                onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'skipped')}
+                                                                                                className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                                                    evaluation === 'skipped' ? 'bg-yellow-100 text-yellow-700' : 'hover:bg-yellow-50 text-gray-400 hover:text-yellow-600'
+                                                                                                }`}
+                                                                                                title="Skipped"
+                                                                                            >
+                                                                                                <MinusIcon />
+                                                                                            </button>
+                                                                                            <button
+                                                                                                onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'wrong')}
+                                                                                                className={`p-2 sm:p-1 rounded transition-colors ${
+                                                                                                    evaluation === 'wrong' ? 'bg-red-100 text-red-700' : 'hover:bg-red-50 text-gray-400 hover:text-red-600'
+                                                                                                }`}
+                                                                                                title="Wrong"
+                                                                                            >
+                                                                                                <XIcon />
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                );
+                                                                            })}
+                                                                        </div>
+                                                                        {/* Complete Practice Button */}
+                                                                        <div className="mt-4 pt-3 border-t border-gray-200">
+                                                                            {practiceCompleted ? (
+                                                                                (() => {
+                                                                                    const missedSteps = getPracticeMissedSteps(skill);
+                                                                                    const hasCriticalFailures = hasPracticeCriticalFailures(skill);
+                                                                                    const hasAnyMissedSteps = missedSteps.length > 0;
+
+                                                                                    if (hasCriticalFailures) {
+                                                                                        const criticalMissedSteps = missedSteps.filter(step => step.critical);
+                                                                                        const criticalStepCount = criticalMissedSteps.length;
+                                                                                        
+                                                                                        return (
+                                                                                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                                                                                <div className="flex items-center gap-2 text-yellow-800 mb-2">
+                                                                                                    <XIcon />
+                                                                                                    <span className="font-bold">
+                                                                                                        Critical Step{criticalStepCount > 1 ? 's' : ''} Missed
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                                <p className="text-sm text-yellow-700 mb-2">
+                                                                                                    Completed in {formatDuration(practiceTime)} 
+                                                                                                    {skill.estimatedTime && (
+                                                                                                        <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                                                    )}
+                                                                                                </p>
+                                                                                                <p className="text-sm text-yellow-700 mb-2">
+                                                                                                    Review the critical step{criticalStepCount > 1 ? 's' : ''} that {criticalStepCount > 1 ? 'were' : 'was'} missed or performed incorrectly.
+                                                                                                </p>
+                                                                                                <button
+                                                                                                    onClick={resetPractice}
+                                                                                                    className="mt-2 px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors text-sm"
+                                                                                                >
+                                                                                                    Try Again
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        );
+                                                                                    } else if (hasAnyMissedSteps) {
+                                                                                        return (
+                                                                                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                                                                                <div className="flex items-center gap-2 text-blue-800 mb-2">
+                                                                                                    <CheckCircleIcon />
+                                                                                                    <span className="font-bold">Practice Completed</span>
+                                                                                                </div>
+                                                                                                <p className="text-sm text-blue-700 mb-2">
+                                                                                                    Completed in {formatDuration(practiceTime)} 
+                                                                                                    {skill.estimatedTime && (
+                                                                                                        <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                                                    )}
+                                                                                                </p>
+                                                                                                <p className="text-sm text-blue-700 mb-2">
+                                                                                                    Some steps need review - consider practicing again.
+                                                                                                </p>
+                                                                                                <button
+                                                                                                    onClick={resetPractice}
+                                                                                                    className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                                                                                                >
+                                                                                                    Practice Again
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        );
+                                                                                    } else {
+                                                                                        return (
+                                                                                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                                                                                <div className="flex items-center gap-2 text-green-800 mb-2">
+                                                                                                    <CheckCircleIcon />
+                                                                                                    <span className="font-bold">Excellent Work!</span>
+                                                                                                </div>
+                                                                                                <p className="text-sm text-green-700 mb-2">
+                                                                                                    Completed in {formatDuration(practiceTime)} 
+                                                                                                    {skill.estimatedTime && (
+                                                                                                        <span> (estimated {formatDuration(skill.estimatedTime)})</span>
+                                                                                                    )}
+                                                                                                </p>
+                                                                                                <p className="text-sm text-green-700 mb-2">
+                                                                                                    All steps performed correctly!
+                                                                                                </p>
+                                                                                                <button
+                                                                                                    onClick={resetPractice}
+                                                                                                    className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm"
+                                                                                                >
+                                                                                                    Practice Again
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        );
+                                                                                    }
+                                                                                })()
+                                                                            ) : (
+                                                                                <button
+                                                                                    onClick={completePractice}
+                                                                                    className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                                                                                >
+                                                                                    <CheckCircleIcon />
+                                                                                    Complete Practice
+                                                                                </button>
+                                                                            )}
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <div className="mb-4 flex justify-between items-center">
+                                                                            <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Steps:</h4>
+                                                                            <button
+                                                                                onClick={() => startPractice(skill.id)}
+                                                                                className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-xs flex items-center gap-1"
+                                                                            >
+                                                                                <PlayIcon />
+                                                                                Practice
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className="space-y-2">
+                                                                            {skill.steps.map((step, stepIndex) => (
+                                                                                <div
+                                                                                    key={stepIndex}
+                                                                                    className={`flex items-start gap-3 p-3 rounded-lg border ${
+                                                                                        step.critical 
+                                                                                            ? 'critical-step-default'
+                                                                                            : 'bg-white border-gray-200'
+                                                                                    }`}
+                                                                                >
+                                                                                    <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                                                        step.critical 
+                                                                                            ? 'critical-step-number-default'
+                                                                                            : 'bg-gray-100 text-gray-700'
+                                                                                    }`}>
+                                                                                        {stepIndex + 1}
+                                                                                    </div>
+                                                                                    <div className="flex-1 min-w-0">
+                                                                                        <p className={`text-sm ${
+                                                                                            step.critical 
+                                                                                                ? 'text-gray-800 font-bold'
+                                                                                                : 'text-gray-800'
+                                                                                        } leading-relaxed`}>
+                                                                                            {step.description}
+                                                                                        </p>
+                                                                                        {step.critical && (
+                                                                                            <div className="flex items-center gap-1 mt-2">
+                                                                                                <span className="text-xs font-bold px-2 py-1 rounded bg-yellow-200 text-gray-700">
+                                                                                                    CRITICAL STEP
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </div>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>
