@@ -105,7 +105,7 @@ const ShareIcon = () => (
 
 // Main App Component
 const CNASkillsApp = () => {
-    const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', or 'about'
+    const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', 'ai-eval', or 'about'
     const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number' or 'type'
     const [currentSkills, setCurrentSkills] = React.useState([]);
     const [expandedSkill, setExpandedSkill] = React.useState(null);
@@ -122,10 +122,56 @@ const CNASkillsApp = () => {
     const [isPracticeRunning, setIsPracticeRunning] = React.useState(false);
     const [practiceStepEvaluations, setPracticeStepEvaluations] = React.useState({});
     const [practiceCompleted, setPracticeCompleted] = React.useState(false);
+    
+    // AI Evaluator state
+    const [isListening, setIsListening] = React.useState(false);
+    const [speechRecognition, setSpeechRecognition] = React.useState(null);
+    const [transcript, setTranscript] = React.useState('');
+    const [aiEvalSkill, setAiEvalSkill] = React.useState(null);
 
     // Initialize with random skills on mount
     React.useEffect(() => {
         setCurrentSkills(generateSkillSet(skillsData.skills));
+    }, []);
+
+    // Initialize Speech Recognition API
+    React.useEffect(() => {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            
+            recognition.onstart = () => {
+                setIsListening(true);
+                setTranscript('');
+            };
+            
+            recognition.onresult = (event) => {
+                let finalTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    }
+                }
+                if (finalTranscript) {
+                    setTranscript(prev => prev + ' ' + finalTranscript);
+                }
+            };
+            
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                setIsListening(false);
+            };
+            
+            recognition.onend = () => {
+                setIsListening(false);
+            };
+            
+            setSpeechRecognition(recognition);
+        }
     }, []);
 
 
@@ -228,6 +274,34 @@ const CNASkillsApp = () => {
         setSkillStartTimes({});
         setVisitedSkills(new Set());
     };
+
+    // AI Evaluator functions
+    const startListening = () => {
+        if (speechRecognition && !isListening) {
+            speechRecognition.start();
+        }
+    };
+
+    const stopListening = () => {
+        if (speechRecognition && isListening) {
+            speechRecognition.stop();
+        }
+    };
+
+    // Process transcript for AI evaluation
+    React.useEffect(() => {
+        if (transcript && aiEvalSkill) {
+            const lowercaseTranscript = transcript.toLowerCase();
+            
+            // Check for "skill complete" phrase
+            if (lowercaseTranscript.includes('skill complete') || 
+                lowercaseTranscript.includes('skill completed')) {
+                console.log('Skill completion detected!');
+                setTranscript(''); // Clear transcript
+                // Could add completion logic here
+            }
+        }
+    }, [transcript, aiEvalSkill]);
 
     const formatTime = (seconds) => {
         const isNegative = seconds < 0;
@@ -709,6 +783,16 @@ Practice at: ${window.location.href}`;
                         }`}
                     >
                         All Skills
+                    </button>
+                    <button
+                        onClick={() => setCurrentView('ai-eval')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                            currentView === 'ai-eval'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        }`}
+                    >
+                        AI Eval
                     </button>
                     <button
                         onClick={() => setCurrentView('about')}
@@ -1839,6 +1923,112 @@ Practice at: ${window.location.href}`;
                             </div>
                         )}
                     </>
+                )}
+
+                {/* AI Eval View */}
+                {currentView === 'ai-eval' && (
+                    <div className="max-w-4xl mx-auto space-y-6">
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">AI Evaluator (Experimental)</h2>
+                            <p className="text-gray-600 mb-6">Practice skills with voice recognition that listens for step completion and the phrase "skill complete"</p>
+                            
+                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                                <p className="text-yellow-800 text-sm">
+                                    🧪 <strong>Experimental Feature:</strong> This uses your browser's speech recognition. 
+                                    Make sure to allow microphone access when prompted.
+                                </p>
+                            </div>
+
+                            {/* Speech Recognition Status */}
+                            <div className="mb-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-semibold">Voice Recognition</h3>
+                                    <div className="flex items-center gap-3">
+                                        {speechRecognition ? (
+                                            <span className="text-green-600 text-sm">✓ Available</span>
+                                        ) : (
+                                            <span className="text-red-600 text-sm">✗ Not supported in this browser</span>
+                                        )}
+                                        {speechRecognition && (
+                                            <button
+                                                onClick={isListening ? stopListening : startListening}
+                                                className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+                                                    isListening
+                                                        ? 'bg-red-600 text-white hover:bg-red-700'
+                                                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                                                }`}
+                                            >
+                                                {isListening ? '🔴 Stop Listening' : '🎤 Start Listening'}
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Live Transcript */}
+                                <div className="bg-gray-50 rounded-lg p-4">
+                                    <h4 className="text-sm font-medium text-gray-700 mb-2">Live Transcript:</h4>
+                                    <div className="min-h-[100px] text-sm text-gray-600">
+                                        {transcript || (isListening ? 'Listening...' : 'Click "Start Listening" to begin')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Skill Selection */}
+                            <div className="mb-6">
+                                <h3 className="text-lg font-semibold mb-4">Select Skill to Practice (Solo-Friendly Skills)</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {skillsData.skills.filter(skill => 
+                                        skill.id === 'hand_hygiene' ||
+                                        skill.id === 'catheter_care_female' ||
+                                        skill.id === 'perineal_care_female' ||
+                                        skill.id === 'denture_cleaning' ||
+                                        skill.id === 'urinary_output' ||
+                                        skill.id === 'ppe_donning_removing' ||
+                                        skill.id === 'mouth_care' ||
+                                        skill.title.includes('Blood Pressure') ||
+                                        skill.title.includes('Radial Pulse') ||
+                                        skill.title.includes('One Knee and One Ankle') ||
+                                        skill.title.includes('One Shoulder')
+                                    ).map((skill) => (
+                                        <button
+                                            key={skill.id}
+                                            onClick={() => setAiEvalSkill(skill)}
+                                            className={`p-3 rounded-lg border text-left transition-colors ${
+                                                aiEvalSkill?.id === skill.id
+                                                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                                    : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                            }`}
+                                        >
+                                            <div className="font-medium text-sm">{skill.title}</div>
+                                            <div className="text-xs text-gray-500 mt-1">{skill.steps.length} steps</div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Selected Skill Display */}
+                            {aiEvalSkill && (
+                                <div className="bg-blue-50 rounded-lg p-6">
+                                    <h3 className="text-lg font-semibold text-blue-800 mb-4">{aiEvalSkill.title}</h3>
+                                    <div className="space-y-2">
+                                        {aiEvalSkill.steps.map((step, index) => (
+                                            <div key={index} className="flex items-center gap-3 p-2 bg-white rounded border">
+                                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs font-medium">
+                                                    {index + 1}
+                                                </span>
+                                                <span className="text-sm">{step.text}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-4 p-3 bg-green-50 rounded border border-green-200">
+                                        <p className="text-green-800 text-sm">
+                                            💡 <strong>Tip:</strong> Say "skill complete" when you finish all steps to end the evaluation.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 )}
 
                 {/* About View */}
