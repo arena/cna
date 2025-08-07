@@ -1,12 +1,12 @@
 app:
-  name: "CNA Champ"
+  name: "CNA Friend"
   taglines:
     practice: "Practice set of 5 skills • 30 minute time limit"
     browser: "All twenty-two CNA skills"
     about: "Your best friend on your path to getting your CNA license in the state of Nevada"
 
 about:
-  title: "About CNA Champ"
+  title: "About CNA Friend"
   sections:
     who:
       title: "Who is this for?"
@@ -40,7 +40,7 @@ about:
 
 share:
   app:
-    title: "CNA Champ"
+    title: "CNA Friend"
     description: "Free practice tool for CNA students preparing for their skills competency test"
   
   results:
