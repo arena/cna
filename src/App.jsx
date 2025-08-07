@@ -128,6 +128,8 @@ const CNASkillsApp = () => {
     const [speechRecognition, setSpeechRecognition] = React.useState(null);
     const [transcript, setTranscript] = React.useState('');
     const [aiEvalSkill, setAiEvalSkill] = React.useState(null);
+    const [aiStepEvaluations, setAiStepEvaluations] = React.useState({});
+    const [detectedMatches, setDetectedMatches] = React.useState([]);
 
     // Initialize with random skills on mount
     React.useEffect(() => {
@@ -288,20 +290,73 @@ const CNASkillsApp = () => {
         }
     };
 
+    const clearAiEvaluation = () => {
+        setAiStepEvaluations({});
+        setDetectedMatches([]);
+        setTranscript('');
+    };
+
+    // Simple word matching function
+    const matchesStep = (spokenText, stepText) => {
+        const spoken = spokenText.toLowerCase();
+        const step = stepText.toLowerCase();
+        
+        // Extract key words from step (ignore common words)
+        const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'shall', 'can', 'client', 'candidate'];
+        const stepWords = step.split(' ').filter(word => 
+            word.length > 2 && !commonWords.includes(word)
+        );
+        
+        // Count how many key words from the step are found in spoken text
+        const matchedWords = stepWords.filter(word => spoken.includes(word));
+        const matchRatio = matchedWords.length / stepWords.length;
+        
+        return { matched: matchRatio >= 0.3, ratio: matchRatio, words: matchedWords };
+    };
+
     // Process transcript for AI evaluation
     React.useEffect(() => {
         if (transcript && aiEvalSkill) {
             const lowercaseTranscript = transcript.toLowerCase();
+            const newMatches = [];
+            
+            // Check each step for matches
+            aiEvalSkill.steps.forEach((step, index) => {
+                const stepKey = `${aiEvalSkill.id}-${index}`;
+                const match = matchesStep(transcript, step.description || step.text);
+                
+                if (match.matched && !aiStepEvaluations[stepKey]) {
+                    // Auto-check this step
+                    setAiStepEvaluations(prev => ({
+                        ...prev,
+                        [stepKey]: 'satisfactory'
+                    }));
+                    
+                    newMatches.push({
+                        stepIndex: index,
+                        stepText: step.description || step.text,
+                        confidence: match.ratio,
+                        matchedWords: match.words
+                    });
+                }
+            });
+            
+            if (newMatches.length > 0) {
+                setDetectedMatches(prev => [...prev, ...newMatches]);
+            }
             
             // Check for "skill complete" phrase
             if (lowercaseTranscript.includes('skill complete') || 
                 lowercaseTranscript.includes('skill completed')) {
                 console.log('Skill completion detected!');
-                setTranscript(''); // Clear transcript
+                setDetectedMatches(prev => [...prev, { 
+                    type: 'completion', 
+                    message: 'Skill completion detected!' 
+                }]);
                 // Could add completion logic here
             }
         }
-    }, [transcript, aiEvalSkill]);
+    }, [transcript, aiEvalSkill, aiStepEvaluations]);
 
     const formatTime = (seconds) => {
         const isNegative = seconds < 0;
@@ -1992,7 +2047,10 @@ Practice at: ${window.location.href}`;
                                     ).map((skill) => (
                                         <button
                                             key={skill.id}
-                                            onClick={() => setAiEvalSkill(skill)}
+                                            onClick={() => {
+                                                setAiEvalSkill(skill);
+                                                clearAiEvaluation();
+                                            }}
                                             className={`p-3 rounded-lg border text-left transition-colors ${
                                                 aiEvalSkill?.id === skill.id
                                                     ? 'border-blue-500 bg-blue-50 text-blue-700'
@@ -2009,20 +2067,58 @@ Practice at: ${window.location.href}`;
                             {/* Selected Skill Display */}
                             {aiEvalSkill && (
                                 <div className="bg-blue-50 rounded-lg p-6">
-                                    <h3 className="text-lg font-semibold text-blue-800 mb-4">{aiEvalSkill.title}</h3>
-                                    <div className="space-y-2">
-                                        {aiEvalSkill.steps.map((step, index) => (
-                                            <div key={index} className="flex items-center gap-3 p-2 bg-white rounded border">
-                                                <span className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs font-medium">
-                                                    {index + 1}
-                                                </span>
-                                                <span className="text-sm">{step.text}</span>
-                                            </div>
-                                        ))}
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-lg font-semibold text-blue-800">{aiEvalSkill.title}</h3>
+                                        <button
+                                            onClick={clearAiEvaluation}
+                                            className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 rounded transition-colors"
+                                        >
+                                            Reset Steps
+                                        </button>
                                     </div>
+                                    <div className="space-y-2">
+                                        {aiEvalSkill.steps.map((step, index) => {
+                                            const stepKey = `${aiEvalSkill.id}-${index}`;
+                                            const isCompleted = aiStepEvaluations[stepKey] === 'satisfactory';
+                                            return (
+                                                <div key={index} className={`flex items-center gap-3 p-2 rounded border transition-colors ${
+                                                    isCompleted 
+                                                        ? 'bg-green-100 border-green-300' 
+                                                        : 'bg-white border-gray-200'
+                                                }`}>
+                                                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
+                                                        isCompleted 
+                                                            ? 'bg-green-500 text-white' 
+                                                            : 'bg-gray-200 text-gray-600'
+                                                    }`}>
+                                                        {isCompleted ? '✓' : index + 1}
+                                                    </span>
+                                                    <span className="text-sm">{step.description || step.text}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                    
+                                    {/* Detection Feedback */}
+                                    {detectedMatches.length > 0 && (
+                                        <div className="mt-4 p-3 bg-purple-50 rounded border border-purple-200">
+                                            <h4 className="text-sm font-medium text-purple-800 mb-2">Recent Detections:</h4>
+                                            <div className="space-y-1 max-h-32 overflow-y-auto">
+                                                {detectedMatches.slice(-5).map((match, index) => (
+                                                    <div key={index} className="text-xs text-purple-700">
+                                                        {match.type === 'completion' 
+                                                            ? `🎉 ${match.message}`
+                                                            : `✓ Step ${match.stepIndex + 1} detected (${Math.round(match.confidence * 100)}% match)`
+                                                        }
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    
                                     <div className="mt-4 p-3 bg-green-50 rounded border border-green-200">
                                         <p className="text-green-800 text-sm">
-                                            💡 <strong>Tip:</strong> Say "skill complete" when you finish all steps to end the evaluation.
+                                            💡 <strong>Tip:</strong> Speak clearly about what you're doing. Say "skill complete" when finished.
                                         </p>
                                     </div>
                                 </div>
