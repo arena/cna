@@ -348,10 +348,24 @@ const CNASkillsApp = () => {
             const lowercaseTranscript = transcript.toLowerCase();
             if (lowercaseTranscript.includes('skill complete') || 
                 lowercaseTranscript.includes('skill completed')) {
+                
+                // Mark any undetected steps as skipped
+                aiEvalSkill.steps.forEach((step, index) => {
+                    const stepKey = `${aiEvalSkill.id}-${index}`;
+                    if (!aiStepEvaluations[stepKey]) {
+                        setAiStepEvaluations(prev => ({
+                            ...prev,
+                            [stepKey]: 'skipped'
+                        }));
+                    }
+                });
+
                 setDetectedMatches(prev => [...prev, { 
                     type: 'completion', 
                     message: 'Skill completion detected!' 
                 }]);
+                // Stop listening when skill is complete
+                stopListening();
             }
         }
     }, [transcript, aiEvalSkill, aiStepEvaluations]);
@@ -1988,7 +2002,7 @@ Practice at: ${window.location.href}`;
                             
                             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                                 <p className="text-gray-700 text-sm">
-                                    {contentData.ai_eval.how_it_works}
+                                    <strong>{contentData.ai_eval.how_it_works_intro}</strong> {contentData.ai_eval.how_it_works_body}
                                 </p>
                             </div>
                         </div>
@@ -2104,35 +2118,50 @@ Practice at: ${window.location.href}`;
                                 <div className="space-y-2 mb-4">
                                     {aiEvalSkill.steps.map((step, index) => {
                                         const stepKey = `${aiEvalSkill.id}-${index}`;
-                                        const isCompleted = aiStepEvaluations[stepKey] === 'satisfactory';
+                                        const stepStatus = aiStepEvaluations[stepKey];
+                                        const isCompleted = stepStatus === 'satisfactory';
+                                        const isSkipped = stepStatus === 'skipped';
                                         const wasJustDetected = detectedMatches.some(match => 
                                             match.stepIndex === index && match.type !== 'completion'
                                         );
                                         
-                                        // Only show steps that have been completed or detected
-                                        if (!isCompleted && !wasJustDetected) {
+                                        // Only show steps that have been completed, detected, or skipped
+                                        if (!isCompleted && !wasJustDetected && !isSkipped) {
                                             return null;
                                         }
                                         
                                         return (
                                             <div key={index} className={`flex items-start gap-3 p-3 rounded border transition-all duration-300 ${
                                                 isCompleted 
-                                                    ? 'bg-green-50 border-green-300' 
-                                                    : 'bg-yellow-50 border-yellow-300'
+                                                    ? 'bg-green-50 border-green-300'
+                                                    : isSkipped 
+                                                        ? 'bg-red-50 border-red-300'
+                                                        : 'bg-yellow-50 border-yellow-300'
                                             }`}>
                                                 <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5 ${
                                                     isCompleted 
-                                                        ? 'bg-green-500 text-white' 
-                                                        : 'bg-yellow-500 text-white'
+                                                        ? 'bg-green-500 text-white'
+                                                        : isSkipped
+                                                            ? 'bg-red-500 text-white'
+                                                            : 'bg-yellow-500 text-white'
                                                 }`}>
-                                                    {isCompleted ? '✓' : '!'}
+                                                    {isCompleted ? '✓' : isSkipped ? '✗' : '!'}
                                                 </span>
                                                 <div className="flex-1">
                                                     <div className="text-sm">{step.description || step.text}</div>
                                                     <div className={`text-xs mt-1 ${
-                                                        isCompleted ? 'text-green-700' : 'text-yellow-700'
+                                                        isCompleted 
+                                                            ? 'text-green-700' 
+                                                            : isSkipped 
+                                                                ? 'text-red-700'
+                                                                : 'text-yellow-700'
                                                     }`}>
-                                                        {isCompleted ? contentData.ai_eval.completed : contentData.ai_eval.just_detected}
+                                                        {isCompleted 
+                                                            ? contentData.ai_eval.completed 
+                                                            : isSkipped 
+                                                                ? contentData.ai_eval.skipped
+                                                                : contentData.ai_eval.just_detected
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

@@ -15,7 +15,8 @@ navigation:
 ai_eval:
   title: "AI Evaluator"
   description: "Practice skills with voice recognition that automatically checks steps as you speak"
-  how_it_works: "🎤 **How it works:** Select a skill, press \"start listening\", and verbalize the steps as you perform them. Say \"skill complete\" when finished to see which steps you did or skipped."
+  how_it_works_intro: "🎤 How it works:"
+  how_it_works_body: "Select a skill, press \"start listening\", and verbalize the steps as you perform them. Clearly say, \"SKILL COMPLETE\" when you're finished to see which steps you completed or skipped."
   choose_skill: "Choose a Skill"
   voice_recognition: "Voice Recognition"
   ready: "Ready"
@@ -30,6 +31,7 @@ ai_eval:
   reset: "Reset"
   completed: "Completed!"
   just_detected: "Just detected!"
+  skipped: "Skipped"
   skill_complete: "🎉 Skill Complete!"
   share_progress: "Share My Progress"
   share_text_template: "I'm practicing {skill} for the CNA Skills Test on my own with an AI evaluator using CNA Friend!"
