@@ -1233,7 +1233,7 @@ Practice at: ${window.location.href}`;
                                                         );
                                                     })}
                                                 </div>
-                                                {/* Complete Practice Button */}
+                                                {/* Skill Complete Button */}
                                                 <div className="mt-4 pt-3 border-t border-gray-200">
                                                     {practiceCompleted ? (
                                                         (() => {
@@ -1326,7 +1326,7 @@ Practice at: ${window.location.href}`;
                                                             className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
                                                         >
                                                             <CheckCircleIcon />
-                                                            Complete Practice
+                                                            Skill Complete
                                                         </button>
                                                     )}
                                                 </div>
@@ -1575,7 +1575,7 @@ Practice at: ${window.location.href}`;
                                                                                 );
                                                                             })}
                                                                         </div>
-                                                                        {/* Complete Practice Button */}
+                                                                        {/* Skill Complete Button */}
                                                                         <div className="mt-4 pt-3 border-t border-gray-200">
                                                                             {practiceCompleted ? (
                                                                                 (() => {
@@ -1668,7 +1668,7 @@ Practice at: ${window.location.href}`;
                                                                                     className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
                                                                                 >
                                                                                     <CheckCircleIcon />
-                                                                                    Complete Practice
+                                                                                    Skill Complete
                                                                                 </button>
                                                                             )}
                                                                         </div>
