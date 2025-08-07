@@ -4,6 +4,35 @@ app:
     practice: "Practice set of 5 skills • 30 minute time limit"
     browser: "All twenty-two CNA skills"
     about: "Your best friend on your path to getting your CNA license in the state of Nevada"
+    ai_eval: "Practice skills with voice recognition that automatically checks steps as you speak"
+
+navigation:
+  practice: "Practice"
+  skills: "Skills" 
+  ai_eval: "AI Eval"
+  about: "About"
+
+ai_eval:
+  title: "AI Evaluator"
+  description: "Practice skills with voice recognition that automatically checks steps as you speak"
+  how_it_works: "🎤 **How it works:** Select a skill, press \"start listening\", and verbalize the steps as you perform them. Say \"skill complete\" when finished to see which steps you did or skipped."
+  choose_skill: "Choose a Skill"
+  voice_recognition: "Voice Recognition"
+  ready: "Ready"
+  not_supported: "Not supported"
+  start_listening: "🎤 Start Listening"
+  stop_listening: "🔴 Stop Listening"
+  hearing: "Hearing:"
+  start_speaking: "🎤"
+  start_speaking_title: "Start speaking to see step feedback"
+  start_speaking_subtitle: "Steps will appear here as you complete them"
+  steps_text: "steps"
+  reset: "Reset"
+  completed: "Completed!"
+  just_detected: "Just detected!"
+  skill_complete: "🎉 Skill Complete!"
+  share_progress: "Share My Progress"
+  share_text_template: "I'm practicing {skill} for the CNA Skills Test on my own with an AI evaluator using CNA Friend!"
 
 about:
   title: "About CNA Friend"

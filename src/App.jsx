@@ -825,7 +825,7 @@ Practice at: ${window.location.href}`;
                                 : 'border-transparent text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        Practice Test
+                        {contentData.navigation.practice}
                     </button>
                     <button
                         onClick={() => setCurrentView('browser')}
@@ -835,7 +835,7 @@ Practice at: ${window.location.href}`;
                                 : 'border-transparent text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        All Skills
+                        {contentData.navigation.skills}
                     </button>
                     <button
                         onClick={() => setCurrentView('ai-eval')}
@@ -845,7 +845,7 @@ Practice at: ${window.location.href}`;
                                 : 'border-transparent text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        AI Eval
+                        {contentData.navigation.ai_eval}
                     </button>
                     <button
                         onClick={() => setCurrentView('about')}
@@ -855,7 +855,7 @@ Practice at: ${window.location.href}`;
                                 : 'border-transparent text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        About
+                        {contentData.navigation.about}
                     </button>
                 </div>
 
@@ -1983,20 +1983,19 @@ Practice at: ${window.location.href}`;
                     <div className="max-w-5xl mx-auto space-y-6">
                         {/* Header */}
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
-                            <h2 className="text-xl font-bold text-gray-800 mb-2">AI Evaluator</h2>
-                            <p className="text-gray-600 mb-4">Practice skills with voice recognition that automatically checks steps as you speak</p>
+                            <h2 className="text-xl font-bold text-gray-800 mb-2">{contentData.ai_eval.title}</h2>
+                            <p className="text-gray-600 mb-4">{contentData.ai_eval.description}</p>
                             
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                                <p className="text-blue-800 text-sm">
-                                    🎤 <strong>How it works:</strong> Select a skill, start listening, and speak what you're doing. 
-                                    Steps will automatically check when detected. Say "skill complete" when finished.
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <p className="text-gray-700 text-sm">
+                                    {contentData.ai_eval.how_it_works}
                                 </p>
                             </div>
                         </div>
 
                         {/* Skill Selection */}
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
-                            <h3 className="text-lg font-semibold mb-4">Choose a Skill</h3>
+                            <h3 className="text-lg font-semibold mb-4">{contentData.ai_eval.choose_skill}</h3>
                             <div className="grid grid-cols-1 gap-2">
                                 {skillsData.skills.filter(skill => 
                                     skill.id === 'hand_hygiene' ||
@@ -2025,42 +2024,47 @@ Practice at: ${window.location.href}`;
                                                 setAiEvalSkill(skill);
                                                 clearAiEvaluation();
                                             }}
-                                            className={`w-full p-3 rounded-lg border text-left transition-colors ${
+                                            className={`w-full p-3 border text-left transition-colors ${
                                                 aiEvalSkill?.id === skill.id
-                                                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                                    : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                                                    ? 'rounded-t-lg border-blue-500 bg-blue-50 text-blue-700 border-b-0'
+                                                    : 'rounded-lg border-gray-200 hover:border-gray-300 text-gray-700'
                                             }`}
                                         >
-                                            <div className="font-medium text-sm">{skill.title}</div>
-                                            <div className="text-xs text-gray-500 mt-1">{skill.steps.length} steps</div>
+                                            <div className={`font-medium ${
+                                                aiEvalSkill?.id === skill.id 
+                                                    ? 'text-lg text-blue-900' 
+                                                    : 'text-sm'
+                                            }`}>
+                                                {skill.title}
+                                            </div>
+                                            <div className="text-xs text-gray-500 mt-1">{skill.steps.length} {contentData.ai_eval.steps_text}</div>
                                         </button>
                                         
                                         {/* Expanded Practice Section - appears right under the selected skill */}
                                         {aiEvalSkill?.id === skill.id && (
-                                            <div className="bg-blue-50 rounded-lg border-2 border-blue-300 p-4 mt-2 ml-2">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-lg font-semibold text-gray-800">{aiEvalSkill.title}</h3>
+                                            <div className="bg-blue-50 rounded-b-lg border-l border-r border-b border-blue-500 p-4 mt-0">
+                                <div className="flex justify-end mb-4">
                                     <button
                                         onClick={clearAiEvaluation}
                                         className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
                                     >
-                                        Reset
+                                        {contentData.ai_eval.reset}
                                     </button>
                                 </div>
 
                                 {/* Voice Recognition Controls */}
-                                <div className="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                                <div className="mb-6 p-4 bg-white rounded-lg">
                                     <div className="flex items-center justify-between mb-3">
-                                        <span className="text-sm font-medium">Voice Recognition</span>
+                                        <span className="text-sm font-medium">{contentData.ai_eval.voice_recognition}</span>
                                         {speechRecognition ? (
                                             <span className="text-green-600 text-xs flex items-center gap-1">
                                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                Ready
+                                                {contentData.ai_eval.ready}
                                             </span>
                                         ) : (
                                             <span className="text-red-600 text-xs flex items-center gap-1">
                                                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                                                Not supported
+                                                {contentData.ai_eval.not_supported}
                                             </span>
                                         )}
                                     </div>
@@ -2074,14 +2078,14 @@ Practice at: ${window.location.href}`;
                                                     : 'bg-blue-600 text-white hover:bg-blue-700'
                                             }`}
                                         >
-                                            {isListening ? '🔴 Stop Listening' : '🎤 Start Listening'}
+                                            {isListening ? contentData.ai_eval.stop_listening : contentData.ai_eval.start_listening}
                                         </button>
                                     )}
 
                                     {/* Live Transcript */}
                                     {isListening && transcript && (
                                         <div className="mt-3 p-3 bg-white rounded border">
-                                            <div className="text-xs text-gray-500 mb-1">Hearing:</div>
+                                            <div className="text-xs text-gray-500 mb-1">{contentData.ai_eval.hearing}</div>
                                             <div className="text-sm text-gray-700">{transcript}</div>
                                         </div>
                                     )}
@@ -2089,9 +2093,9 @@ Practice at: ${window.location.href}`;
                                     {/* Show placeholder when no steps detected yet - right inside voice controls */}
                                     {Object.keys(aiStepEvaluations).length === 0 && (
                                         <div className="mt-3 text-center py-4 text-gray-500 bg-gray-50 rounded border border-dashed border-gray-300">
-                                            <div className="text-2xl mb-1">🎤</div>
-                                            <div className="text-sm font-medium">Start speaking to see step feedback</div>
-                                            <div className="text-xs mt-1">Steps will appear here as you complete them</div>
+                                            <div className="text-2xl mb-1">{contentData.ai_eval.start_speaking}</div>
+                                            <div className="text-sm font-medium">{contentData.ai_eval.start_speaking_title}</div>
+                                            <div className="text-xs mt-1">{contentData.ai_eval.start_speaking_subtitle}</div>
                                         </div>
                                     )}
                                 </div>
@@ -2128,7 +2132,7 @@ Practice at: ${window.location.href}`;
                                                     <div className={`text-xs mt-1 ${
                                                         isCompleted ? 'text-green-700' : 'text-yellow-700'
                                                     }`}>
-                                                        {isCompleted ? 'Completed!' : 'Just detected!'}
+                                                        {isCompleted ? contentData.ai_eval.completed : contentData.ai_eval.just_detected}
                                                     </div>
                                                 </div>
                                             </div>
@@ -2138,8 +2142,34 @@ Practice at: ${window.location.href}`;
 
                                 {/* Completion Status */}
                                 {detectedMatches.some(match => match.type === 'completion') && (
-                                    <div className="p-3 bg-green-50 rounded border border-green-200 text-center">
-                                        <div className="text-green-800 font-medium">🎉 Skill Complete!</div>
+                                    <div className="p-4 bg-green-50 rounded border border-green-200 text-center space-y-3">
+                                        <div className="text-green-800 font-medium">{contentData.ai_eval.skill_complete}</div>
+                                        <button
+                                            onClick={() => {
+                                                const shareUrl = `${window.location.origin}${window.location.pathname}#ai-eval`;
+                                                const shareText = contentData.ai_eval.share_text_template.replace('{skill}', aiEvalSkill.title);
+                                                
+                                                if (navigator.share) {
+                                                    navigator.share({
+                                                        title: 'CNA Skills Practice',
+                                                        text: shareText,
+                                                        url: shareUrl
+                                                    });
+                                                } else {
+                                                    navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+                                                        alert('Link copied to clipboard!');
+                                                    }).catch(() => {
+                                                        prompt('Copy this to share:', `${shareText} ${shareUrl}`);
+                                                    });
+                                                }
+                                            }}
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                                        >
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
+                                            </svg>
+                                            {contentData.ai_eval.share_progress}
+                                        </button>
                                     </div>
                                 )}
                                             </div>
