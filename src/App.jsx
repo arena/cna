@@ -128,17 +128,18 @@ const CNASkillsApp = () => {
         setCurrentSkills(generateSkillSet(skillsData.skills));
     }, []);
 
+
     // Check if all skills are completed
     const allSkillsCompleted = currentSkills.length > 0 && currentSkills.every(skill => skillCompletionTimes[skill.id] !== undefined);
 
     // Timer effect
     React.useEffect(() => {
         let interval = null;
-        if (isTimerRunning && timeRemaining > 0 && !allSkillsCompleted) {
+        if (isTimerRunning && timeRemaining > -900 && !allSkillsCompleted) {
             interval = setInterval(() => {
                 setTimeRemaining(timeRemaining => timeRemaining - 1);
             }, 1000);
-        } else if (timeRemaining === 0 || allSkillsCompleted) {
+        } else if (timeRemaining <= -900 || allSkillsCompleted) {
             setIsTimerRunning(false);
         }
         return () => clearInterval(interval);
@@ -229,9 +230,12 @@ const CNASkillsApp = () => {
     };
 
     const formatTime = (seconds) => {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        const isNegative = seconds < 0;
+        const absoluteSeconds = Math.abs(seconds);
+        const minutes = Math.floor(absoluteSeconds / 60);
+        const remainingSeconds = absoluteSeconds % 60;
+        const timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        return isNegative ? `-${timeString}` : timeString;
     };
 
     const formatDuration = (seconds) => {
@@ -651,7 +655,7 @@ Practice at: ${window.location.href}`;
                             <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
                                 <div className="flex items-center gap-2">
                                     <ClockIcon />
-                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 ? 'text-red-600' : 'text-gray-800'}`}>
+                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 || timeRemaining < 0 ? 'text-red-600' : 'text-gray-800'}`}>
                                         {formatTime(timeRemaining)}
                                     </span>
                                 </div>
