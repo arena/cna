@@ -2475,6 +2475,13 @@ Practice at: ${window.location.href}`;
                                     </a>
                                 </div>
 
+                                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <h3 className="font-semibold text-yellow-800 mb-2">{contentData.about.sections.disclaimer.title}</h3>
+                                    <p className="text-sm leading-relaxed text-yellow-800">
+                                        {contentData.about.sections.disclaimer.text}
+                                    </p>
+                                </div>
+
                                 <div className="pt-4 border-t border-gray-200">
                                     <p className="text-sm text-gray-600">
                                         <span className="italic">{contentData.about.sections.footer.text}</span> 💙
