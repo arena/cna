@@ -130,6 +130,9 @@ const CNASkillsApp = () => {
     const [aiEvalSkill, setAiEvalSkill] = React.useState(null);
     const [aiStepEvaluations, setAiStepEvaluations] = React.useState({});
     const [detectedMatches, setDetectedMatches] = React.useState([]);
+    const [aiEvalStartTime, setAiEvalStartTime] = React.useState(null);
+    const [aiEvalEndTime, setAiEvalEndTime] = React.useState(null);
+    const [showTestButtons, setShowTestButtons] = React.useState(false);
 
     // Initialize with random skills on mount
     React.useEffect(() => {
@@ -281,6 +284,10 @@ const CNASkillsApp = () => {
     const startListening = () => {
         if (speechRecognition && !isListening) {
             speechRecognition.start();
+            // Start timing the AI eval session
+            if (!aiEvalStartTime) {
+                setAiEvalStartTime(Date.now());
+            }
         }
     };
 
@@ -294,6 +301,8 @@ const CNASkillsApp = () => {
         setAiStepEvaluations({});
         setDetectedMatches([]);
         setTranscript('');
+        setAiEvalStartTime(null);
+        setAiEvalEndTime(null);
     };
 
     // Simple word matching function
@@ -364,11 +373,39 @@ const CNASkillsApp = () => {
                     type: 'completion', 
                     message: 'Skill completion detected!' 
                 }]);
-                // Stop listening when skill is complete
+                // Record end time and stop listening when skill is complete
+                setAiEvalEndTime(Date.now());
                 stopListening();
             }
         }
     }, [transcript, aiEvalSkill, aiStepEvaluations]);
+
+    // Auto-scroll to newly completed steps
+    React.useEffect(() => {
+        if (aiEvalSkill && Object.keys(aiStepEvaluations).length > 0) {
+            // Find the highest index step that has been completed
+            const completedSteps = Object.keys(aiStepEvaluations).filter(key => 
+                key.startsWith(aiEvalSkill.id) && aiStepEvaluations[key] === 'satisfactory'
+            );
+            
+            if (completedSteps.length > 0) {
+                // Extract step indices and find the highest one
+                const stepIndices = completedSteps.map(key => parseInt(key.split('-')[1]));
+                const latestCompletedIndex = Math.max(...stepIndices);
+                
+                // Scroll to the latest completed step
+                setTimeout(() => {
+                    const stepElement = document.getElementById(`step-${latestCompletedIndex}`);
+                    if (stepElement) {
+                        stepElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
+                }, 300); // Small delay to ensure DOM is updated
+            }
+        }
+    }, [aiStepEvaluations, aiEvalSkill]);
 
     const formatTime = (seconds) => {
         const isNegative = seconds < 0;
@@ -2075,10 +2112,87 @@ Practice at: ${window.location.href}`;
                                                 {contentData.ai_eval.ready}
                                             </span>
                                         ) : (
-                                            <span className="text-red-600 text-xs flex items-center gap-1">
-                                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                                                {contentData.ai_eval.not_supported}
-                                            </span>
+                                            <div className="flex gap-1">
+                                                {/* Test buttons only in development */}
+                                                {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '' || showTestButtons) ? (
+                                                <>
+                                                <button 
+                                                    onClick={() => {
+                                                        // Simulate A+ grade - mark most steps as completed
+                                                        const newEvals = {};
+                                                        const stepCount = aiEvalSkill.steps.length;
+                                                        for (let i = 0; i < Math.floor(stepCount * 0.9); i++) {
+                                                            newEvals[`${aiEvalSkill.id}-${i}`] = 'satisfactory';
+                                                        }
+                                                        setAiStepEvaluations(newEvals);
+                                                        setDetectedMatches([{type: 'completion', stepIndex: -1}]);
+                                                        // Set realistic timing (2-4 minutes)
+                                                        const now = Date.now();
+                                                        const duration = 120000 + Math.random() * 120000; // 2-4 minutes
+                                                        setAiEvalStartTime(now - duration);
+                                                        setAiEvalEndTime(now);
+                                                    }}
+                                                    className="px-2 py-1 text-xs bg-green-100 hover:bg-green-200 text-green-700 rounded font-medium"
+                                                    title="Simulate A+ completion"
+                                                >
+                                                    A+
+                                                </button>
+                                                <button 
+                                                    onClick={() => {
+                                                        // Simulate B grade - mark some steps completed, some skipped
+                                                        const newEvals = {};
+                                                        const stepCount = aiEvalSkill.steps.length;
+                                                        for (let i = 0; i < Math.min(Math.floor(stepCount * 0.7), stepCount); i++) {
+                                                            newEvals[`${aiEvalSkill.id}-${i}`] = 'satisfactory';
+                                                        }
+                                                        for (let i = Math.floor(stepCount * 0.7); i < Math.min(stepCount, Math.floor(stepCount * 0.9)); i++) {
+                                                            newEvals[`${aiEvalSkill.id}-${i}`] = 'skipped';
+                                                        }
+                                                        setAiStepEvaluations(newEvals);
+                                                        setDetectedMatches([{type: 'completion', stepIndex: -1}]);
+                                                        // Set realistic timing (3-6 minutes)
+                                                        const now = Date.now();
+                                                        const duration = 180000 + Math.random() * 180000; // 3-6 minutes
+                                                        setAiEvalStartTime(now - duration);
+                                                        setAiEvalEndTime(now);
+                                                    }}
+                                                    className="px-2 py-1 text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded font-medium"
+                                                    title="Simulate B grade completion"
+                                                >
+                                                    B
+                                                </button>
+                                                <button 
+                                                    onClick={() => {
+                                                        // Simulate F grade - mark most steps as skipped
+                                                        const newEvals = {};
+                                                        const stepCount = aiEvalSkill.steps.length;
+                                                        for (let i = 0; i < Math.min(2, stepCount); i++) {
+                                                            newEvals[`${aiEvalSkill.id}-${i}`] = 'satisfactory';
+                                                        }
+                                                        for (let i = 2; i < stepCount; i++) {
+                                                            newEvals[`${aiEvalSkill.id}-${i}`] = 'skipped';
+                                                        }
+                                                        setAiStepEvaluations(newEvals);
+                                                        setDetectedMatches([{type: 'completion', stepIndex: -1}]);
+                                                        // Set realistic timing (5-8 minutes - struggled)
+                                                        const now = Date.now();
+                                                        const duration = 300000 + Math.random() * 180000; // 5-8 minutes
+                                                        setAiEvalStartTime(now - duration);
+                                                        setAiEvalEndTime(now);
+                                                    }}
+                                                    className="px-2 py-1 text-xs bg-red-100 hover:bg-red-200 text-red-700 rounded font-medium"
+                                                    title="Simulate F grade completion"
+                                                >
+                                                    F
+                                                </button>
+                                                </>
+                                                ) : (
+                                                    <span className="text-red-600 text-xs flex items-center gap-1">
+                                                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                                        {contentData.ai_eval.not_supported}
+                                                    </span>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
 
@@ -2103,18 +2217,22 @@ Practice at: ${window.location.href}`;
                                         </div>
                                     )}
 
-                                    {/* Show placeholder when no steps detected yet - right inside voice controls */}
-                                    {Object.keys(aiStepEvaluations).length === 0 && (
-                                        <div className="mt-3 text-center py-4 text-gray-500 bg-gray-50 rounded border border-dashed border-gray-300">
-                                            <div className="text-2xl mb-1">{contentData.ai_eval.start_speaking}</div>
-                                            <div className="text-sm font-medium">{contentData.ai_eval.start_speaking_title}</div>
-                                            <div className="text-xs mt-1">{contentData.ai_eval.start_speaking_subtitle}</div>
-                                        </div>
-                                    )}
                                 </div>
 
-                                {/* Step Feedback - Only show steps that have feedback */}
-                                <div className="space-y-2 mb-4">
+                                {/* Hidden testing toggle - only show when speech recognition is not supported and not in obvious dev */}
+                                {!speechRecognition && !window.location.hostname.includes('localhost') && window.location.hostname !== '127.0.0.1' && (
+                                    <div className="text-center mb-4">
+                                        <button
+                                            onClick={() => setShowTestButtons(!showTestButtons)}
+                                            className="text-xs text-gray-400 hover:text-gray-600 underline"
+                                        >
+                                            {showTestButtons ? 'hide testing' : 'testing'}
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Step Feedback - Show all steps with placeholders */}
+                                <div className="space-y-2 mb-4 ml-7">
                                     {aiEvalSkill.steps.map((step, index) => {
                                         const stepKey = `${aiEvalSkill.id}-${index}`;
                                         const stepStatus = aiStepEvaluations[stepKey];
@@ -2123,11 +2241,7 @@ Practice at: ${window.location.href}`;
                                         const wasJustDetected = detectedMatches.some(match => 
                                             match.stepIndex === index && match.type !== 'completion'
                                         );
-                                        
-                                        // Only show steps that have been completed, detected, or skipped
-                                        if (!isCompleted && !wasJustDetected && !isSkipped) {
-                                            return null;
-                                        }
+                                        const isMissed = !stepStatus && detectedMatches.some(match => match.type === 'completion'); // Show missed steps only after skill completion
                                         
                                         return (
                                             <div key={index} className={`flex items-start gap-3 p-3 rounded border transition-all duration-300 ${
@@ -2135,43 +2249,114 @@ Practice at: ${window.location.href}`;
                                                     ? 'bg-green-50 border-green-300'
                                                     : isSkipped 
                                                         ? 'bg-red-50 border-red-300'
-                                                        : 'bg-yellow-50 border-yellow-300'
-                                            }`}>
+                                                        : wasJustDetected
+                                                            ? 'bg-yellow-50 border-yellow-300'
+                                                            : isMissed
+                                                                ? 'bg-yellow-50 border-yellow-300'
+                                                                : 'bg-gray-50 border-gray-200'
+                                            }`} id={`step-${index}`}>
                                                 <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5 ${
                                                     isCompleted 
                                                         ? 'bg-green-500 text-white'
                                                         : isSkipped
                                                             ? 'bg-red-500 text-white'
-                                                            : 'bg-yellow-500 text-white'
+                                                            : wasJustDetected
+                                                                ? 'bg-yellow-500 text-white'
+                                                                : isMissed
+                                                                    ? 'bg-yellow-500 text-white'
+                                                                    : 'bg-gray-300 text-gray-600'
                                                 }`}>
-                                                    {isCompleted ? '✓' : isSkipped ? '✗' : '!'}
+                                                    {isCompleted ? '✓' : isSkipped ? '✗' : wasJustDetected ? '!' : isMissed ? '?' : index + 1}
                                                 </span>
                                                 <div className="flex-1">
-                                                    <div className="text-sm">{step.description || step.text}</div>
-                                                    <div className={`text-xs mt-1 ${
-                                                        isCompleted 
-                                                            ? 'text-green-700' 
-                                                            : isSkipped 
-                                                                ? 'text-red-700'
-                                                                : 'text-yellow-700'
-                                                    }`}>
-                                                        {isCompleted 
-                                                            ? contentData.ai_eval.completed 
-                                                            : isSkipped 
-                                                                ? contentData.ai_eval.skipped
-                                                                : contentData.ai_eval.just_detected
-                                                        }
-                                                    </div>
+                                                    {(isCompleted || isSkipped || wasJustDetected || isMissed) ? (
+                                                        <div className="text-sm">{step.description || step.text}</div>
+                                                    ) : (
+                                                        <div className="text-sm text-gray-400 italic">Step {index + 1}</div>
+                                                    )}
+                                                    {(isCompleted || isSkipped || wasJustDetected || isMissed || (isListening && !isCompleted && !isSkipped && !wasJustDetected && !isMissed)) && (
+                                                        <div className={`text-xs mt-1 ${
+                                                            isCompleted 
+                                                                ? 'text-green-700' 
+                                                                : isSkipped 
+                                                                    ? 'text-red-700'
+                                                                    : wasJustDetected
+                                                                        ? 'text-yellow-700'
+                                                                        : isMissed
+                                                                            ? 'text-yellow-700'
+                                                                            : 'text-gray-500'
+                                                        }`}>
+                                                            {isCompleted 
+                                                                ? contentData.ai_eval.completed 
+                                                                : isSkipped 
+                                                                    ? contentData.ai_eval.skipped
+                                                                    : wasJustDetected
+                                                                        ? contentData.ai_eval.just_detected
+                                                                        : isMissed
+                                                                            ? 'Missed'
+                                                                            : '👂 Waiting patiently'
+                                                            }
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         );
                                     })}
                                 </div>
 
-                                {/* Completion Status */}
-                                {detectedMatches.some(match => match.type === 'completion') && (
-                                    <div className="p-4 bg-green-50 rounded border border-green-200 text-center space-y-3">
-                                        <div className="text-green-800 font-medium">{contentData.ai_eval.skill_complete}</div>
+                                {/* Results Summary */}
+                                {detectedMatches.some(match => match.type === 'completion') && (() => {
+                                    const totalSteps = aiEvalSkill.steps.length;
+                                    const completedSteps = Object.values(aiStepEvaluations).filter(status => status === 'satisfactory').length;
+                                    const explicitlySkippedSteps = Object.values(aiStepEvaluations).filter(status => status === 'skipped').length;
+                                    const missedSteps = totalSteps - completedSteps - explicitlySkippedSteps; // Steps that weren't attempted at all
+                                    const skippedSteps = explicitlySkippedSteps + missedSteps; // Total missed/skipped
+                                    const completionRate = Math.round((completedSteps / totalSteps) * 100);
+                                    const duration = aiEvalEndTime && aiEvalStartTime ? aiEvalEndTime - aiEvalStartTime : 0;
+                                    const minutes = Math.floor(duration / 60000);
+                                    const seconds = Math.floor((duration % 60000) / 1000);
+                                    const timeString = duration > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : 'N/A';
+                                    
+                                    let summary, summaryColor;
+                                    if (completionRate === 100) {
+                                        summary = 'Excellent! You completed every step perfectly.';
+                                        summaryColor = 'text-green-700';
+                                    } else if (completionRate >= 70) {
+                                        summary = 'Good work, but some steps were missed.';
+                                        summaryColor = 'text-yellow-700';
+                                    } else {
+                                        summary = 'Keep practicing. Many steps were missed.';
+                                        summaryColor = 'text-red-700';
+                                    }
+                                    
+                                    return (
+                                        <div className="p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded border border-green-200 space-y-4">
+                                            <div className="text-center">
+                                                <div className="text-green-800 font-bold text-lg mb-2">{contentData.ai_eval.skill_complete}</div>
+                                                <div className={`text-lg font-medium ${summaryColor}`}>{summary}</div>
+                                            </div>
+                                            
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-2xl font-bold text-green-600">{completedSteps}</div>
+                                                    <div className="text-gray-600">Steps Completed</div>
+                                                </div>
+                                                <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-2xl font-bold text-blue-600">{timeString}</div>
+                                                    <div className="text-gray-600">Time Taken</div>
+                                                </div>
+                                                <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-2xl font-bold text-gray-600">{completionRate}%</div>
+                                                    <div className="text-gray-600">Completion Rate</div>
+                                                </div>
+                                                <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-2xl font-bold text-red-600">{skippedSteps}</div>
+                                                    <div className="text-gray-600">Steps Skipped</div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div className="text-center space-y-2">
                                         <button
                                             onClick={() => {
                                                 const shareUrl = `${window.location.origin}${window.location.pathname}#ai-eval`;
@@ -2198,14 +2383,16 @@ Practice at: ${window.location.href}`;
                                             </svg>
                                             {contentData.ai_eval.share_progress}
                                         </button>
-                                    </div>
-                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                ))}
+                                        </div>
+                                    );
+                                })()}
                             </div>
-                        </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
                     </div>
                 )}
 
