@@ -41,12 +41,12 @@ about:
   sections:
     who:
       title: "Who is this for?"
-      text: "This app is designed for CNA students preparing for their skills competency test. Whether you're just learning the skills or getting ready for exam day, this tool helps you practice and get faster."
+      text: "This app is designed for CNA students preparing for their skills test. Whether you're just learning the skills or getting ready for exam day, this tool helps you practice and get faster."
       share_prompt: "Know someone studying for the CNA Skills Test?"
     
     why:
       title: "Why this app exists"
-      text: "Frustrated with hard-to-use skills booklets and expensive fluff apps on the app store? Yep. Now you can focus on practicing the skills instead of trying to find the page they are on and looking for a timer to start."
+      text: "This exists os that you can focus on practicing the skills instead of trying to find the page they're on and then looking for a timer to start."
     
     usage:
       title: "How to use this app"
