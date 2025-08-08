@@ -1995,43 +1995,20 @@ Practice at: ${window.location.href}`;
                 {/* AI Eval View */}
                 {currentView === 'ai-eval' && (
                     <div className="max-w-5xl mx-auto space-y-6">
-                        {/* Header */}
+                        {/* Header and Skill Selection */}
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
                             <h2 className="text-xl font-bold text-gray-800 mb-2">{contentData.ai_eval.title}</h2>
                             <p className="text-gray-600 mb-4">{contentData.ai_eval.description}</p>
                             
-                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
                                 <p className="text-gray-700 text-sm">
                                     <strong>{contentData.ai_eval.how_it_works_intro}</strong> {contentData.ai_eval.how_it_works_body}
                                 </p>
                             </div>
-                        </div>
 
-                        {/* Skill Selection */}
-                        <div className="bg-white rounded-lg border border-gray-200 p-6">
                             <h3 className="text-lg font-semibold mb-4">{contentData.ai_eval.choose_skill}</h3>
                             <div className="grid grid-cols-1 gap-2">
-                                {skillsData.skills.filter(skill => 
-                                    skill.id === 'hand_hygiene' ||
-                                    skill.id === 'catheter_care_female' ||
-                                    skill.id === 'perineal_care_female' ||
-                                    skill.id === 'denture_cleaning' ||
-                                    skill.id === 'cleans_denture' ||
-                                    skill.id === 'urinary_output' ||
-                                    skill.id === 'ppe_donning_removing' ||
-                                    skill.id === 'donning_removing_ppe' ||
-                                    skill.id === 'mouth_care' ||
-                                    skill.title.includes('Blood Pressure') ||
-                                    skill.title.includes('Radial Pulse') ||
-                                    skill.title.includes('One Knee and One Ankle') ||
-                                    skill.title.includes('One Shoulder') ||
-                                    skill.title.includes('Denture') ||
-                                    skill.title.includes('PPE') ||
-                                    skill.title.includes('Catheter') ||
-                                    skill.title.includes('Perineal') ||
-                                    skill.title.includes('Mouth Care') ||
-                                    skill.title.includes('Urinary Output')
-                                ).map((skill) => (
+                                {skillsData.skills.map((skill, index) => (
                                     <div key={skill.id}>
                                         <button
                                             onClick={() => {
@@ -2044,30 +2021,52 @@ Practice at: ${window.location.href}`;
                                                     : 'rounded-lg border-gray-200 hover:border-gray-300 text-gray-700'
                                             }`}
                                         >
-                                            <div className={`font-medium ${
-                                                aiEvalSkill?.id === skill.id 
-                                                    ? 'text-lg text-blue-900' 
-                                                    : 'text-sm'
-                                            }`}>
-                                                {skill.title}
+                                            <div className="flex items-start gap-3">
+                                                <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 mt-0.5 ${
+                                                    aiEvalSkill?.id === skill.id 
+                                                        ? 'bg-blue-600 text-white' 
+                                                        : 'bg-gray-100 text-gray-800'
+                                                }`}>
+                                                    {index + 1}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className={`flex items-center gap-4 ${
+                                                        aiEvalSkill?.id === skill.id 
+                                                            ? 'text-lg text-gray-800 font-bold' 
+                                                            : 'text-sm font-medium'
+                                                    }`}>
+                                                        <span>{skill.title}</span>
+                                                        {aiEvalSkill?.id === skill.id && (
+                                                            <div className="flex items-center justify-center text-blue-600 mr-4">
+                                                                <div style={{transform: 'scale(2)'}}>
+                                                                    {getSkillCategoryIcon(aiEvalSkill)}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    {aiEvalSkill?.id === skill.id ? (
+                                                        <div className="flex justify-between items-center text-xs text-gray-500 mt-1">
+                                                            <span>{skill.steps.length} {contentData.ai_eval.steps_text}</span>
+                                                            <button
+                                                                onClick={clearAiEvaluation}
+                                                                className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
+                                                            >
+                                                                {contentData.ai_eval.reset}
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-xs text-gray-500 mt-1">{skill.steps.length} {contentData.ai_eval.steps_text}</div>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-500 mt-1">{skill.steps.length} {contentData.ai_eval.steps_text}</div>
                                         </button>
                                         
                                         {/* Expanded Practice Section - appears right under the selected skill */}
                                         {aiEvalSkill?.id === skill.id && (
                                             <div className="bg-blue-50 rounded-b-lg border-l border-r border-b border-blue-500 p-4 mt-0">
-                                <div className="flex justify-end mb-4">
-                                    <button
-                                        onClick={clearAiEvaluation}
-                                        className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
-                                    >
-                                        {contentData.ai_eval.reset}
-                                    </button>
-                                </div>
 
                                 {/* Voice Recognition Controls */}
-                                <div className="mb-6 p-4 bg-white rounded-lg">
+                                <div className="mb-6 p-4 bg-white rounded-lg ml-7">
                                     <div className="flex items-center justify-between mb-3">
                                         <span className="text-sm font-medium">{contentData.ai_eval.voice_recognition}</span>
                                         {speechRecognition ? (
