@@ -6,6 +6,7 @@ import GlovesIcon from './data/icons/GlovesIcon.jsx';
 import StockingsIcon from './data/icons/StockingsIcon.jsx';
 import MobilityIcon from './data/icons/MobilityIcon.jsx';
 import CareIcon from './data/icons/CareIcon.jsx';
+import WaterIcon from './data/icons/WaterIcon.jsx';
 import './App.css';
 
 // Simple icons using SVG
@@ -630,7 +631,7 @@ const CNASkillsApp = () => {
         }
         
         // Water skills
-        if (skill.isWaterSkill) return <DropletsIcon />;
+        if (skill.isWaterSkill) return <WaterIcon />;
         
         // Mobility skills
         if (skill.category === "Mobility") {
