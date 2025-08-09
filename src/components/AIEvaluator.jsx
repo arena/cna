@@ -206,10 +206,10 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
                                     setAiEvalSkill(skill);
                                     clearAiEvaluation();
                                 }}
-                                className={`w-full p-3 border text-left transition-colors ${
+                                className={`w-full p-3 border-2 text-left transition-colors ${
                                     aiEvalSkill?.id === skill.id
-                                        ? 'bg-blue-50 border-blue-500 text-blue-800'
-                                        : 'bg-white border-gray-200 hover:bg-gray-50'
+                                        ? 'bg-blue-50 border-blue-500 text-blue-800 rounded-t-lg border-b-0'
+                                        : 'bg-white border-gray-200 hover:bg-gray-50 rounded-lg'
                                 }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -224,13 +224,6 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
                                         aiEvalSkill?.id === skill.id ? 'text-gray-800 font-semibold' : 'text-gray-700'
                                     }`}>
                                         <span>{skill.title}</span>
-                                        {aiEvalSkill?.id === skill.id && (
-                                            <div className="flex items-center justify-center text-blue-600 mr-4">
-                                                <div style={{transform: 'scale(2)'}}>
-                                                    {getSkillCategoryIcon(skill)}
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                     {aiEvalSkill?.id === skill.id ? (
                                         <div className="flex justify-between items-center text-xs text-gray-500 mt-1">
@@ -250,7 +243,7 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
                             
                             {/* Expanded Practice Section */}
                             {aiEvalSkill?.id === skill.id && (
-                                <div className="bg-blue-50 rounded-b-lg border-l border-r border-b border-blue-500 p-4 mt-0">
+                                <div className="bg-blue-50 rounded-b-lg border-l-2 border-r-2 border-b-2 border-blue-500 p-4 mt-0">
                                     {/* Voice Recognition Controls */}
                                     <div className="mb-6 p-4 bg-white rounded-lg ml-7">
                                         <div className="flex items-center justify-between mb-3">
@@ -492,18 +485,18 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
                                         }
                                         
                                         return (
-                                            <div className="p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded border border-green-200 space-y-4">
+                                            <div className="p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-200 space-y-4 ml-7 mt-4">
                                                 <div className="text-center">
                                                     <div className="text-green-800 font-bold text-lg mb-2">{contentData.ai_eval.skill_complete}</div>
                                                     <div className={`text-lg font-medium ${summaryColor}`}>{summary}</div>
                                                 </div>
                                                 
                                                 <div className="grid grid-cols-2 gap-4 text-sm">
-                                                    <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-center p-3 bg-white rounded-lg">
                                                         <div className="text-2xl font-bold text-green-600">{completedSteps}</div>
                                                         <div className="text-gray-600">Steps Completed</div>
                                                     </div>
-                                                    <div className="text-center p-3 bg-white rounded">
+                                                    <div className="text-center p-3 bg-white rounded-lg">
                                                         <div className="text-2xl font-bold text-blue-600">{timeString}</div>
                                                         <div className="text-gray-600">Time Taken</div>
                                                     </div>
