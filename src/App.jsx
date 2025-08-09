@@ -1,6 +1,11 @@
 import React from 'react';
+import AIEvaluator from './components/AIEvaluator';
 import skillsData from './data/skills_data.json';
 import contentData from './content.yml';
+import GlovesIcon from './data/icons/GlovesIcon.jsx';
+import StockingsIcon from './data/icons/StockingsIcon.jsx';
+import MobilityIcon from './data/icons/MobilityIcon.jsx';
+import CareIcon from './data/icons/CareIcon.jsx';
 import './App.css';
 
 // Simple icons using SVG
@@ -629,41 +634,30 @@ const CNASkillsApp = () => {
         
         // Mobility skills
         if (skill.category === "Mobility") {
-            return (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M8 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
-                    <path d="m9 21-3-6 1.5-3.5L9 7l3 3.5L13.5 15l-3 6z"/>
-                </svg>
-            );
+            // Stocking skills
+            if (skill.id === 'applies_antiembolic_stockings' || skill.title?.toLowerCase().includes('stocking')) {
+                return <StockingsIcon />;
+            }
+            
+            // Other mobility skills
+            return <MobilityIcon />;
         }
         
         // Infection Control (PPE)
         if (skill.category === "Infection Control") {
-            return (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                    <path d="M21 12a9 9 0 1 1-18 0"/>
-                    <path d="M8 21l8-11"/>
-                </svg>
-            );
+            if (skill.title?.toLowerCase().includes('gloves')) {
+                return <GlovesIcon />;
+            }
+            return <CareIcon />;
         }
         
         // Personal Care
         if (skill.category === "Personal Care") {
-            return (
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            );
+            return <CareIcon />;
         }
         
         // Default icon
-        return (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-        );
+        return <CareIcon />;
     };
 
     const getSkillTypeLabel = (skill) => {
@@ -2031,6 +2025,15 @@ Practice at: ${window.location.href}`;
 
                 {/* AI Eval View */}
                 {currentView === 'ai-eval' && (
+                    <AIEvaluator 
+                        skillsData={skillsData}
+                        contentData={contentData}
+                        getSkillCategoryIcon={getSkillCategoryIcon}
+                    />
+                )}
+
+                {/* Legacy AI Eval View (disabled) */}
+                {false && (
                     <div className="max-w-5xl mx-auto space-y-6">
                         {/* Header and Skill Selection */}
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
