@@ -37,7 +37,7 @@
         },
         {
           "id": "step_4",
-          "description": "Applies soap to hands (2 pumps of liquid soap)",
+          "description": "Applies soap to hands",
           "critical": false
         },
         {
@@ -57,12 +57,12 @@
         },
         {
           "id": "step_8",
-          "description": "Uses clean, dry paper towels to dry all surfaces of fingers, hands, and wrists starting at the fingertips then disposes of paper towels into waste container",
+          "description": "Uses clean, dry paper towel/towels to dry all surfaces of fingers, hands and wrists starting at fingertips then disposes of paper towel/towels into waste container",
           "critical": false
         },
         {
           "id": "step_9",
-          "description": "Uses clean, dry paper towel to turn off the faucet then disposes of paper towel in the waste container or uses knee/foot control to turn off faucet",
+          "description": "Uses clean, dry paper towel/towels to turn off faucet then disposes of paper towel/towels into waste container or uses knee/foot control to turn off faucet",
           "critical": false
         },
         {
@@ -73,11 +73,11 @@
       ],
       "corrections": [
         {
-          "text": "If at any point I touched the sink or counter, I wouldn't have",
+          "text": "If at any point I touched the sink or counter, I would not have",
           "relatedStep": "step_10"
         },
         {
-          "text": "If at any point my hands were above my elbows, they wouldn't have been",
+          "text": "If at any point my hands were above my elbows, they would not have been",
           "relatedStep": "step_5"
         },
         {
@@ -146,7 +146,7 @@
         },
         {
           "id": "step_10",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "description": "After completing skill, wash hands",
           "critical": false
         }
       ]
@@ -233,7 +233,7 @@
         },
         {
           "id": "step_14",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
+          "description": "After completing skill, wash hands",
           "critical": false
         }
       ]
@@ -338,11 +338,6 @@
           "id": "step_17",
           "description": "Signaling device is within reach and bed is in low position",
           "critical": false
-        },
-        {
-          "id": "step_18",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
-          "critical": false
         }
       ]
     },
@@ -424,11 +419,6 @@
           "id": "step_12",
           "description": "Removes and disposes of gloves (without contaminating self) into waste container and washes hands",
           "critical": false
-        },
-        {
-          "id": "step_13",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
-          "critical": false
         }
       ]
     },
@@ -445,7 +435,7 @@
       "description": "Counting and recording radial pulse rate",
       "suppliesNeeded": [
         "Recording form and pen",
-        "Second hand watch"
+        "Watch with Second Hand"
       ],
       "steps": [
         {
@@ -492,7 +482,8 @@
       "estimatedTime": 170,
       "description": "Counting and recording respiration rate",
       "suppliesNeeded": [
-        "Recording form and pen",
+        "Recording form",
+        "Pen",
         "Second hand watch"
       ],
       "steps": [
@@ -615,11 +606,6 @@
           "id": "step_14",
           "description": "After completing skill, washes hands",
           "critical": false
-        },
-        {
-          "id": "step_15",
-          "description": "Makes corrections as needed",
-          "critical": false
         }
       ],
       "corrections": [
@@ -708,11 +694,6 @@
           "id": "step_11",
           "description": "After completing skill, washes hands",
           "critical": false
-        },
-        {
-          "id": "step_12",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
-          "critical": false
         }
       ]
     },
@@ -728,10 +709,11 @@
       "estimatedTime": 210,
       "description": "Feeding a client who cannot feed themselves",
       "suppliesNeeded": [
-        "Tray w/ diet card",
-        "Plate w/ 2 food options",
+        "Tray with diet card",
+        "Plate with 2 food options",
         "Spoon",
-        "Water/ straw",
+        "Water with straw",
+        "Napkin",
         "Clothing protector (optional)",
         "Handwipes"
       ],
@@ -811,11 +793,6 @@
           "id": "step_15",
           "description": "After completing skill, washes hands",
           "critical": false
-        },
-        {
-          "id": "step_16",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
-          "critical": false
         }
       ]
     },
@@ -831,7 +808,8 @@
       "estimatedTime": 460,
       "description": "Providing partial bed bath including face and one arm",
       "suppliesNeeded": [
-        "Water basin/ soap",
+        "Water basin",
+        "Soap",
         "Gloves",
         "4 washcloths",
         "1 towel",
@@ -934,11 +912,6 @@
           "id": "step_19",
           "description": "Signaling device is within reach and bed is in low position",
           "critical": false
-        },
-        {
-          "id": "step_20",
-          "description": "Stand back (review the skill and make any corrections. Then make the hand signal for washing hands, and say, \"Washes hands, skill complete.\"",
-          "critical": false
         }
       ]
     },
@@ -954,9 +927,11 @@
       "estimatedTime": 120,
       "description": "Measuring and recording urinary output",
       "suppliesNeeded": [
-        "Recording form and pen",
+        "Recording form",
+        "Pen",
         "Gloves",
-        "Bed side Commode & graduate",
+        "Bedside Commode",
+        "Graduate",
         "Bedpan w/ urine"
       ],
       "steps": [
@@ -1014,7 +989,8 @@
       "estimatedTime": 130,
       "description": "Measuring and recording client weight",
       "suppliesNeeded": [
-        "Recording form and pen",
+        "Recording form",
+        "Pen",
         "Non-skid shoes"
       ],
       "steps": [
@@ -1355,7 +1331,8 @@
       "description": "Foot care for one foot",
       "suppliesNeeded": [
         "Basin",
-        "Soap and lotion",
+        "Soap",
+        "Lotion",
         "Floor protector",
         "2 washcloths",
         "1 Towel",
@@ -1463,11 +1440,12 @@
       "estimatedTime": 300,
       "description": "Mouth care for client",
       "suppliesNeeded": [
-        "Toothbrush/ toothpaste",
+        "Toothbrush",
+        "Toothpaste",
         "Cup of water",
-        "Emesis basin/ clothing protector",
-        "Gloves",
-        "Cup of water"
+        "Emesis basin",
+        "Clothing protector (towel)",
+        "Gloves"
       ],
       "steps": [
         {
@@ -1559,7 +1537,8 @@
       "estimatedTime": 440,
       "description": "Perineal care for female client",
       "suppliesNeeded": [
-        "Basin/ Soap",
+        "Basin",
+        "Soap",
         "Bed protector",
         "6 washcloths",
         "Gloves",
@@ -1797,7 +1776,8 @@
       "suppliesNeeded": [
         "BP cuff",
         "Stethoscope",
-        "Recording form and pen",
+        "Recording form",
+        "Pen",
         "Alcohol prep pad",
         "Pillow"
       ],
