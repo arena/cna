@@ -1,7 +1,7 @@
 import React from 'react';
 import AIEvaluator from './components/AIEvaluator';
-import PracticeView from './components/PracticeView';
-import SkillsBrowserView from './components/SkillsBrowserView';
+// import PracticeView from './components/PracticeView.simple';
+import SkillsBrowserView from './components/SkillsBrowserView.simple';
 import AboutView from './components/AboutView';
 import skillsData from './data/skills_data.json';
 import contentData from './content.yml';
@@ -825,39 +825,16 @@ Practice at: ${window.location.href}`;
 
                 {/* Practice Test View */}
                 {currentView === 'practice' && (
-                    <PracticeView
-                        currentSkills={currentSkills}
-                        setCurrentSkills={setCurrentSkills}
-                        expandedSkill={expandedSkill}
-                        setExpandedSkill={setExpandedSkill}
-                        timeRemaining={timeRemaining}
-                        setTimeRemaining={setTimeRemaining}
-                        isTimerRunning={isTimerRunning}
-                        setIsTimerRunning={setIsTimerRunning}
-                        stepEvaluations={stepEvaluations}
-                        setStepEvaluations={setStepEvaluations}
-                        skillCompletionTimes={skillCompletionTimes}
-                        setSkillCompletionTimes={setSkillCompletionTimes}
-                        skillStartTimes={skillStartTimes}
-                        setSkillStartTimes={setSkillStartTimes}
-                        visitedSkills={visitedSkills}
-                        setVisitedSkills={setVisitedSkills}
-                        allSkillsCompleted={allSkillsCompleted}
-                        handleNewSkillSet={handleNewSkillSet}
-                        toggleTimer={toggleTimer}
-                        resetTimer={resetTimer}
-                        formatTime={formatTime}
-                        formatDuration={formatDuration}
-                        toggleSkillExpansion={toggleSkillExpansion}
-                        handleStepEvaluation={handleStepEvaluation}
-                        getStepEvaluation={getStepEvaluation}
-                        completeSkill={completeSkill}
-                        getSkillTypeIcon={getSkillTypeIcon}
-                        getSkillTypeLabel={getSkillTypeLabel}
-                        shareResults={shareResults}
-                        contentData={contentData}
-                        skillsData={skillsData}
-                    />
+                    <div className="text-center p-8">
+                        <h2 className="text-xl font-bold mb-4">Practice Mode</h2>
+                        <p className="text-gray-600 mb-4">Practice view is temporarily simplified while we debug the extracted component.</p>
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <p className="text-sm text-yellow-800">
+                                The practice functionality is being refactored. You can still use the Skills Browser to practice individual skills, 
+                                or the AI Evaluator for voice-guided practice.
+                            </p>
+                        </div>
+                    </div>
                 )}
 
                 {/* Skills Browser View */}
@@ -867,23 +844,10 @@ Practice at: ${window.location.href}`;
                         setSkillsOrganization={setSkillsOrganization}
                         expandedSkill={expandedSkill}
                         setExpandedSkill={setExpandedSkill}
-                        practiceMode={practiceMode}
-                        practiceTime={practiceTime}
-                        practiceCompleted={practiceCompleted}
-                        practiceStepEvaluations={practiceStepEvaluations}
                         getSkillTypeIcon={getSkillTypeIcon}
                         getSkillTypeLabel={getSkillTypeLabel}
                         getSkillCategoryIcon={getSkillCategoryIcon}
-                        formatDuration={formatDuration}
                         organizeSkillsByType={organizeSkillsByType}
-                        startPractice={startPractice}
-                        resetPractice={resetPractice}
-                        stopPractice={stopPractice}
-                        completePractice={completePractice}
-                        handlePracticeStepEvaluation={handlePracticeStepEvaluation}
-                        getPracticeStepEvaluation={getPracticeStepEvaluation}
-                        getPracticeMissedSteps={getPracticeMissedSteps}
-                        hasPracticeCriticalFailures={hasPracticeCriticalFailures}
                         contentData={contentData}
                         skillsData={skillsData}
                     />
