@@ -1,6 +1,6 @@
 import React from 'react';
 import AIEvaluator from './components/AIEvaluator';
-// import PracticeView from './components/PracticeView.simple';
+import PracticeView from './components/PracticeView.functional';
 import SkillsBrowserView from './components/SkillsBrowserView.simple';
 import AboutView from './components/AboutView';
 import skillsData from './data/skills_data.json';
@@ -825,16 +825,25 @@ Practice at: ${window.location.href}`;
 
                 {/* Practice Test View */}
                 {currentView === 'practice' && (
-                    <div className="text-center p-8">
-                        <h2 className="text-xl font-bold mb-4">Practice Mode</h2>
-                        <p className="text-gray-600 mb-4">Practice view is temporarily simplified while we debug the extracted component.</p>
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                            <p className="text-sm text-yellow-800">
-                                The practice functionality is being refactored. You can still use the Skills Browser to practice individual skills, 
-                                or the AI Evaluator for voice-guided practice.
-                            </p>
-                        </div>
-                    </div>
+                    <PracticeView 
+                        currentSkills={currentSkills}
+                        expandedSkill={expandedSkill}
+                        toggleSkillExpansion={toggleSkillExpansion}
+                        getSkillTypeIcon={getSkillTypeIcon}
+                        getSkillTypeLabel={getSkillTypeLabel}
+                        getStepEvaluation={getStepEvaluation}
+                        handleStepEvaluation={handleStepEvaluation}
+                        skillCompletionTimes={skillCompletionTimes}
+                        formatDuration={formatDuration}
+                        visitedSkills={visitedSkills}
+                        completeSkill={completeSkill}
+                        allSkillsCompleted={allSkillsCompleted}
+                        timeRemaining={timeRemaining}
+                        formatTime={formatTime}
+                        handleNewSkillSet={handleNewSkillSet}
+                        shareResults={shareResults}
+                        resetTimer={resetTimer}
+                    />
                 )}
 
                 {/* Skills Browser View */}
