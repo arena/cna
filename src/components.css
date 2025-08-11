@@ -2,256 +2,292 @@
 
 /* ===== EVALUATION BUTTONS ===== */
 .eval-button {
-  @apply p-2 sm:p-1 rounded transition-colors;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
 }
 
-.eval-button-good {
-  @apply eval-button;
+@media (min-width: 640px) {
+  .eval-button {
+    padding: 0.25rem;
+  }
 }
+
 .eval-button-good.active {
-  @apply bg-green-100 text-green-700;
+  background-color: #dcfce7;
+  color: #15803d;
 }
+
 .eval-button-good.inactive {
-  @apply hover:bg-green-50 text-gray-400 hover:text-green-600;
+  color: #9ca3af;
 }
 
-.eval-button-skipped {
-  @apply eval-button;
+.eval-button-good.inactive:hover {
+  background-color: #f0fdf4;
+  color: #16a34a;
 }
+
 .eval-button-skipped.active {
-  @apply bg-yellow-100 text-yellow-700;
-}
-.eval-button-skipped.inactive {
-  @apply hover:bg-yellow-50 text-gray-400 hover:text-yellow-600;
+  background-color: #fef3c7;
+  color: #b45309;
 }
 
-.eval-button-wrong {
-  @apply eval-button;
+.eval-button-skipped.inactive {
+  color: #9ca3af;
 }
+
+.eval-button-skipped.inactive:hover {
+  background-color: #fffbeb;
+  color: #d97706;
+}
+
 .eval-button-wrong.active {
-  @apply bg-red-100 text-red-700;
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
+
 .eval-button-wrong.inactive {
-  @apply hover:bg-red-50 text-gray-400 hover:text-red-600;
+  color: #9ca3af;
+}
+
+.eval-button-wrong.inactive:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
 }
 
 /* ===== SKILL CARDS ===== */
 .skill-card {
-  @apply border border-gray-200 rounded-lg overflow-hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .skill-card-header {
-  @apply w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background-color: white;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .skill-card-header {
+    padding: 1rem 1rem;
+  }
+}
+
+.skill-card-header:hover {
+  background-color: #f9fafb;
 }
 
 .skill-card-content {
-  @apply border-t border-gray-200 bg-gray-50 p-3 sm:p-4;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .skill-card-content {
+    padding: 1rem 1rem;
+  }
 }
 
 /* ===== SKILL NUMBERS/ICONS ===== */
 .skill-number {
-  @apply flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .skill-number {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .skill-number-default {
-  @apply skill-number bg-gray-100 text-gray-800;
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
 .skill-number-completed {
-  @apply skill-number bg-green-100 text-green-800;
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
 .skill-number-failed {
-  @apply skill-number bg-red-100 text-red-800;
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
 .skill-number-practice {
-  @apply skill-number bg-blue-100 text-blue-800;
-}
-
-/* ===== STEP CONTAINERS ===== */
-.step-container {
-  @apply flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 p-3 rounded-lg border;
-}
-
-.step-container-default {
-  @apply step-container bg-white border-gray-200;
-}
-
-.step-container-good {
-  @apply step-container bg-green-50 border-green-200;
-}
-
-.step-container-skipped {
-  @apply step-container bg-yellow-50 border-yellow-200;
-}
-
-.step-container-wrong {
-  @apply step-container bg-red-50 border-red-200;
-}
-
-.step-container-critical-default {
-  @apply step-container critical-step-default;
-}
-
-/* ===== STEP NUMBERS ===== */
-.step-number {
-  @apply flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0;
-}
-
-.step-number-default {
-  @apply step-number bg-gray-100 text-gray-700;
-}
-
-.step-number-good {
-  @apply step-number bg-green-100 text-green-800;
-}
-
-.step-number-skipped {
-  @apply step-number bg-yellow-100 text-yellow-800;
-}
-
-.step-number-wrong {
-  @apply step-number bg-red-100 text-red-800;
-}
-
-.step-number-critical-default {
-  @apply step-number critical-step-number-default;
+  background-color: #dbeafe;
+  color: #1d4ed8;
 }
 
 /* ===== NAVIGATION BUTTONS ===== */
 .nav-button {
-  @apply px-3 py-1 text-sm rounded transition-colors;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
 }
 
 .nav-button-active {
-  @apply nav-button bg-blue-600 text-white;
+  background-color: #2563eb;
+  color: white;
 }
 
 .nav-button-inactive {
-  @apply nav-button bg-white text-gray-600 hover:bg-gray-100;
+  background-color: white;
+  color: #4b5563;
+}
+
+.nav-button-inactive:hover {
+  background-color: #f3f4f6;
 }
 
 /* ===== ACTION BUTTONS ===== */
 .btn-primary {
-  @apply px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium;
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
 }
 
 .btn-secondary {
-  @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium;
+  padding: 0.5rem 1rem;
+  background-color: #4b5563;
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #374151;
 }
 
 .btn-success {
-  @apply px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium;
+  padding: 0.5rem 1rem;
+  background-color: #16a34a;
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #15803d;
 }
 
 .btn-practice {
-  @apply px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm;
+  padding: 0.5rem 0.75rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-practice:hover {
+  background-color: #1d4ed8;
 }
 
 /* ===== COMPLETION BADGES ===== */
 .completion-badge {
-  @apply px-2 py-1 rounded text-xs font-medium;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .completion-badge-success {
-  @apply completion-badge bg-green-100 text-green-700;
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
 .completion-badge-failure {
-  @apply completion-badge bg-red-100 text-red-700;
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
 .completion-badge-time {
-  @apply completion-badge bg-blue-100 text-blue-700;
+  background-color: #dbeafe;
+  color: #1d4ed8;
 }
 
 /* ===== CATEGORY TAGS ===== */
 .category-tag {
-  @apply bg-gray-100 px-2 py-1 rounded text-xs;
-}
-
-.critical-step-tag {
-  @apply text-xs font-bold px-2 py-1 rounded;
-}
-
-.critical-step-tag-good {
-  @apply critical-step-tag bg-green-200 text-green-800;
-}
-
-.critical-step-tag-skipped {
-  @apply critical-step-tag bg-yellow-200 text-yellow-800;
-}
-
-.critical-step-tag-wrong {
-  @apply critical-step-tag bg-red-200 text-red-800;
-}
-
-.critical-step-tag-default {
-  @apply critical-step-tag bg-yellow-200 text-gray-700;
-}
-
-/* ===== SUPPLIES SECTION ===== */
-.supplies-container {
-  @apply mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg;
-}
-
-.supplies-heading {
-  @apply font-semibold text-blue-800 mb-2 text-sm sm:text-base;
-}
-
-.supplies-list {
-  @apply text-sm text-blue-700 space-y-1;
-}
-
-/* ===== PRACTICE MODE SECTIONS ===== */
-.practice-mode-container {
-  @apply mb-4 p-3 bg-green-50 border border-green-200 rounded-lg;
-}
-
-.practice-mode-header {
-  @apply font-semibold text-green-800 text-sm sm:text-base;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
 }
 
 /* ===== ORGANIZATION CONTROLS ===== */
 .organization-controls {
-  @apply flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-lg;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
 }
 
 .organization-label {
-  @apply text-sm font-medium text-gray-700;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
 }
 
 /* ===== CATEGORY HEADERS ===== */
 .category-header {
-  @apply bg-gray-50 p-4 border-b border-gray-200;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .category-title {
-  @apply text-lg font-semibold text-gray-800;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .category-count {
-  @apply text-sm text-gray-600;
-}
-
-/* ===== SUMMARY BOXES ===== */
-.summary-box {
-  @apply border rounded-lg p-4;
-}
-
-.summary-box-success {
-  @apply summary-box bg-green-50 border-green-200;
-}
-
-.summary-box-warning {
-  @apply summary-box bg-yellow-50 border-yellow-200;
-}
-
-.summary-title {
-  @apply text-green-800 font-bold mb-2;
-}
-
-.summary-text {
-  @apply text-sm text-green-700 mb-3;
+  font-size: 0.875rem;
+  color: #4b5563;
 }
