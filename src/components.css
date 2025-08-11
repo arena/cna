@@ -1,27 +1,36 @@
 /* CNA Skills App - Centralized Component Styles */
 
 /* ===== EVALUATION BUTTONS ===== */
-.eval-button {
+.eval-button-good.active {
   padding: 0.5rem;
   border-radius: 0.375rem;
   transition: all 0.2s;
   cursor: pointer;
   border: none;
-}
-
-@media (min-width: 640px) {
-  .eval-button {
-    padding: 0.25rem;
-  }
-}
-
-.eval-button-good.active {
   background-color: #dcfce7;
   color: #15803d;
 }
 
+@media (min-width: 640px) {
+  .eval-button-good.active {
+    padding: 0.25rem;
+  }
+}
+
 .eval-button-good.inactive {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
   color: #9ca3af;
+}
+
+@media (min-width: 640px) {
+  .eval-button-good.inactive {
+    padding: 0.25rem;
+  }
 }
 
 .eval-button-good.inactive:hover {
@@ -30,12 +39,35 @@
 }
 
 .eval-button-skipped.active {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
   background-color: #fef3c7;
   color: #b45309;
 }
 
+@media (min-width: 640px) {
+  .eval-button-skipped.active {
+    padding: 0.25rem;
+  }
+}
+
 .eval-button-skipped.inactive {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
   color: #9ca3af;
+}
+
+@media (min-width: 640px) {
+  .eval-button-skipped.inactive {
+    padding: 0.25rem;
+  }
 }
 
 .eval-button-skipped.inactive:hover {
@@ -44,12 +76,35 @@
 }
 
 .eval-button-wrong.active {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
   background-color: #fee2e2;
   color: #b91c1c;
 }
 
+@media (min-width: 640px) {
+  .eval-button-wrong.active {
+    padding: 0.25rem;
+  }
+}
+
 .eval-button-wrong.inactive {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
   color: #9ca3af;
+}
+
+@media (min-width: 640px) {
+  .eval-button-wrong.inactive {
+    padding: 0.25rem;
+  }
 }
 
 .eval-button-wrong.inactive:hover {
