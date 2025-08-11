@@ -54,7 +54,7 @@ const PracticeView = ({
                                 onClick={() => toggleSkillExpansion(skill.id)}
                                 className="skill-card-header"
                             >
-                                <div className="flex items-center gap-3 min-w-0 flex-1">
+                                <div className="flex-center-gap-3 min-w-0 flex-1">
                                     <div className={
                                         isCompleted 
                                             ? hasCriticalFailures 
@@ -73,7 +73,7 @@ const PracticeView = ({
                                         <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{skill.title}</h3>
                                         <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600 mt-1">
                                             <span className="category-tag">{skill.category}</span>
-                                            <div className="flex items-center gap-1 text-blue-500">
+                                            <div className="flex-center gap-1 text-blue-500">
                                                 {getSkillTypeIcon(skill)}
                                                 {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
                                             </div>
@@ -85,7 +85,7 @@ const PracticeView = ({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                                <div className="flex-center-gap-2 flex-shrink-0 ml-2">
                                     {expandedSkill === skill.id ? <ChevronUpIcon /> : <ChevronDownIcon />}
                                 </div>
                             </button>
@@ -133,7 +133,7 @@ const PracticeView = ({
                                                     }`}
                                                 >
                                                     <div className="flex items-start gap-3 flex-1 min-w-0">
-                                                        <div className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
+                                                        <div className={`flex-center-justify w-6 h-6 rounded-full text-xs font-bold flex-shrink-0 ${
                                                             step.critical 
                                                                 ? evaluation === 'good'
                                                                     ? 'bg-green-100 text-green-800'
@@ -157,7 +157,7 @@ const PracticeView = ({
                                                                 {step.description}
                                                             </p>
                                                             {step.critical && (
-                                                                <div className="flex items-center gap-1 mt-2">
+                                                                <div className="flex-center gap-1 mt-2">
                                                                     <span className={`text-xs font-bold px-2 py-1 rounded ${
                                                                         evaluation === 'good'
                                                                             ? 'bg-green-200 text-green-800'
@@ -209,7 +209,7 @@ const PracticeView = ({
                                     <div className="mt-4 pt-3 border-t border-gray-200">
                                         <button
                                             onClick={() => completeSkill(skill.id)}
-                                            className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                                            className="w-full sm:w-auto btn-success flex-center-justify-gap-2 font-medium"
                                         >
                                             <CheckCircleIcon />
                                             Complete Skill
@@ -225,7 +225,7 @@ const PracticeView = ({
             {/* Results Summary - Show when all skills completed */}
             {allSkillsCompleted && (
                 <div className="mt-6 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-green-800 mb-4">
+                    <div className="flex-center-gap-2 text-green-800 mb-4">
                         <AwardIcon />
                         <span className="font-bold text-lg sm:text-xl">Test Completed!</span>
                     </div>
@@ -244,21 +244,21 @@ const PracticeView = ({
                                 const completionTime = skillCompletionTimes[skill.id];
                                 const hasFailed = hasSkillCriticalFailures && hasSkillCriticalFailures(skill);
                                 return (
-                                    <div key={skill.id} className="flex items-center justify-between text-sm py-2 border-b border-gray-100 last:border-b-0">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-2 h-2 rounded-full ${
-                                                hasFailed ? 'bg-yellow-500' : 'bg-green-500'
+                                    <div key={skill.id} className="result-item">
+                                        <div className="result-item-left">
+                                            <div className={`result-dot ${
+                                                hasFailed ? 'failed' : 'passed'
                                             }`}></div>
-                                            <span className="text-gray-700 font-medium">
+                                            <span className="result-item-title">
                                                 {index + 1}. {skill.title}
                                             </span>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="font-medium text-blue-600">
+                                        <div className="result-item-right">
+                                            <div className="result-time">
                                                 {formatDuration(completionTime)}
                                             </div>
-                                            <div className={`text-xs ${
-                                                hasFailed ? 'text-yellow-600' : 'text-green-600'
+                                            <div className={`result-status ${
+                                                hasFailed ? 'failed' : 'passed'
                                             }`}>
                                                 {hasFailed ? 'NEEDS REVIEW' : 'PASSED'}
                                             </div>
@@ -308,9 +308,9 @@ const PracticeView = ({
 
             {/* Info Box */}
             {!allSkillsCompleted && (
-                <div className="mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="mt-6 info-box info-box-blue">
                     <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">{contentData.practice.rules.title}</h4>
-                    <ul className="text-sm text-blue-700 space-y-1 list-disc ml-5 pl-0">
+                    <ul className="text-sm space-y-1 list-disc ml-5 pl-0">
                         {contentData.practice.rules.items.map((rule, index) => (
                             <li key={index} className="pl-1">{rule}</li>
                         ))}

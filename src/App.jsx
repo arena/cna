@@ -169,43 +169,35 @@ const CNASkillsApp = () => {
                 </div>
 
                 {/* Navigation Tabs */}
-                <div className="flex border-b border-gray-200 mb-6">
+                <div className="tab-container">
                     <button
                         onClick={() => setCurrentView('practice')}
-                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
-                            currentView === 'practice'
-                                ? 'border-blue-500 text-blue-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        className={`tab-button ${
+                            currentView === 'practice' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.practice}
                     </button>
                     <button
                         onClick={() => setCurrentView('browser')}
-                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
-                            currentView === 'browser'
-                                ? 'border-blue-500 text-blue-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        className={`tab-button ${
+                            currentView === 'browser' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.skills}
                     </button>
                     <button
                         onClick={() => setCurrentView('ai-eval')}
-                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
-                            currentView === 'ai-eval'
-                                ? 'border-blue-500 text-blue-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        className={`tab-button ${
+                            currentView === 'ai-eval' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.ai_eval}
                     </button>
                     <button
                         onClick={() => setCurrentView('about')}
-                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
-                            currentView === 'about'
-                                ? 'border-blue-500 text-blue-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                        className={`tab-button ${
+                            currentView === 'about' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.about}
@@ -229,24 +221,24 @@ const CNASkillsApp = () => {
                     {currentView === 'practice' && (
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                             {/* Timer */}
-                            <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
-                                <div className="flex items-center gap-2">
+                            <div className="timer-display flex-between sm:flex-center-gap-2 order-2 sm:order-1">
+                                <div className="flex-center-gap-2">
                                     <ClockIcon />
-                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 || timeRemaining < 0 ? 'text-red-600' : 'text-gray-800'}`}>
+                                    <span className={`timer-value ${timeRemaining <= 300 || timeRemaining < 0 ? 'warning' : ''}`}>
                                         {formatTime(timeRemaining)}
                                     </span>
                                 </div>
-                                <div className="flex gap-1">
+                                <div className="timer-controls">
                                     <button
                                         onClick={toggleTimer}
-                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        className="timer-button"
                                         title={isTimerRunning ? "Pause Timer" : "Start Timer"}
                                     >
                                         {isTimerRunning ? <PauseIcon /> : <PlayIcon />}
                                     </button>
                                     <button
                                         onClick={resetTimer}
-                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        className="timer-button"
                                         title="Reset Timer"
                                     >
                                         <RotateIcon />
@@ -256,7 +248,7 @@ const CNASkillsApp = () => {
                             {/* New Skill Set Button */}
                             <button
                                 onClick={handleNewSkillSet}
-                                className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors order-1 sm:order-2"
+                                className="btn-primary flex-center-justify-gap-2 order-1 sm:order-2"
                             >
                                 <ShuffleIcon />
                                 <span className="text-sm sm:text-base">New Skill Set</span>
