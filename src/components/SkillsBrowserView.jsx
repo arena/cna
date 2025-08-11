@@ -362,19 +362,19 @@ const SkillsBrowserView = ({
         <>
             {/* Organization Controls */}
             <div className="organization-controls">
-                <span className="organization-label">Organize by:</span>
+                <span className="organization-label">{contentData.browser.organize_by}:</span>
                 <div className="nav-button-container">
                     <button
                         onClick={() => setSkillsOrganization('number')}
                         className={skillsOrganization === 'number' ? 'nav-button-active' : 'nav-button-inactive'}
                     >
-                        Skill Number
+                        {contentData.browser.by_number}
                     </button>
                     <button
                         onClick={() => setSkillsOrganization('type')}
                         className={skillsOrganization === 'type' ? 'nav-button-active' : 'nav-button-inactive'}
                     >
-                        Skill Type
+                        {contentData.browser.by_type}
                     </button>
                 </div>
             </div>
