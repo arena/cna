@@ -1,0 +1,257 @@
+/* CNA Skills App - Centralized Component Styles */
+
+/* ===== EVALUATION BUTTONS ===== */
+.eval-button {
+  @apply p-2 sm:p-1 rounded transition-colors;
+}
+
+.eval-button-good {
+  @apply eval-button;
+}
+.eval-button-good.active {
+  @apply bg-green-100 text-green-700;
+}
+.eval-button-good.inactive {
+  @apply hover:bg-green-50 text-gray-400 hover:text-green-600;
+}
+
+.eval-button-skipped {
+  @apply eval-button;
+}
+.eval-button-skipped.active {
+  @apply bg-yellow-100 text-yellow-700;
+}
+.eval-button-skipped.inactive {
+  @apply hover:bg-yellow-50 text-gray-400 hover:text-yellow-600;
+}
+
+.eval-button-wrong {
+  @apply eval-button;
+}
+.eval-button-wrong.active {
+  @apply bg-red-100 text-red-700;
+}
+.eval-button-wrong.inactive {
+  @apply hover:bg-red-50 text-gray-400 hover:text-red-600;
+}
+
+/* ===== SKILL CARDS ===== */
+.skill-card {
+  @apply border border-gray-200 rounded-lg overflow-hidden;
+}
+
+.skill-card-header {
+  @apply w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between;
+}
+
+.skill-card-content {
+  @apply border-t border-gray-200 bg-gray-50 p-3 sm:p-4;
+}
+
+/* ===== SKILL NUMBERS/ICONS ===== */
+.skill-number {
+  @apply flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0;
+}
+
+.skill-number-default {
+  @apply skill-number bg-gray-100 text-gray-800;
+}
+
+.skill-number-completed {
+  @apply skill-number bg-green-100 text-green-800;
+}
+
+.skill-number-failed {
+  @apply skill-number bg-red-100 text-red-800;
+}
+
+.skill-number-practice {
+  @apply skill-number bg-blue-100 text-blue-800;
+}
+
+/* ===== STEP CONTAINERS ===== */
+.step-container {
+  @apply flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 p-3 rounded-lg border;
+}
+
+.step-container-default {
+  @apply step-container bg-white border-gray-200;
+}
+
+.step-container-good {
+  @apply step-container bg-green-50 border-green-200;
+}
+
+.step-container-skipped {
+  @apply step-container bg-yellow-50 border-yellow-200;
+}
+
+.step-container-wrong {
+  @apply step-container bg-red-50 border-red-200;
+}
+
+.step-container-critical-default {
+  @apply step-container critical-step-default;
+}
+
+/* ===== STEP NUMBERS ===== */
+.step-number {
+  @apply flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0;
+}
+
+.step-number-default {
+  @apply step-number bg-gray-100 text-gray-700;
+}
+
+.step-number-good {
+  @apply step-number bg-green-100 text-green-800;
+}
+
+.step-number-skipped {
+  @apply step-number bg-yellow-100 text-yellow-800;
+}
+
+.step-number-wrong {
+  @apply step-number bg-red-100 text-red-800;
+}
+
+.step-number-critical-default {
+  @apply step-number critical-step-number-default;
+}
+
+/* ===== NAVIGATION BUTTONS ===== */
+.nav-button {
+  @apply px-3 py-1 text-sm rounded transition-colors;
+}
+
+.nav-button-active {
+  @apply nav-button bg-blue-600 text-white;
+}
+
+.nav-button-inactive {
+  @apply nav-button bg-white text-gray-600 hover:bg-gray-100;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium;
+}
+
+.btn-success {
+  @apply px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium;
+}
+
+.btn-practice {
+  @apply px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm;
+}
+
+/* ===== COMPLETION BADGES ===== */
+.completion-badge {
+  @apply px-2 py-1 rounded text-xs font-medium;
+}
+
+.completion-badge-success {
+  @apply completion-badge bg-green-100 text-green-700;
+}
+
+.completion-badge-failure {
+  @apply completion-badge bg-red-100 text-red-700;
+}
+
+.completion-badge-time {
+  @apply completion-badge bg-blue-100 text-blue-700;
+}
+
+/* ===== CATEGORY TAGS ===== */
+.category-tag {
+  @apply bg-gray-100 px-2 py-1 rounded text-xs;
+}
+
+.critical-step-tag {
+  @apply text-xs font-bold px-2 py-1 rounded;
+}
+
+.critical-step-tag-good {
+  @apply critical-step-tag bg-green-200 text-green-800;
+}
+
+.critical-step-tag-skipped {
+  @apply critical-step-tag bg-yellow-200 text-yellow-800;
+}
+
+.critical-step-tag-wrong {
+  @apply critical-step-tag bg-red-200 text-red-800;
+}
+
+.critical-step-tag-default {
+  @apply critical-step-tag bg-yellow-200 text-gray-700;
+}
+
+/* ===== SUPPLIES SECTION ===== */
+.supplies-container {
+  @apply mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg;
+}
+
+.supplies-heading {
+  @apply font-semibold text-blue-800 mb-2 text-sm sm:text-base;
+}
+
+.supplies-list {
+  @apply text-sm text-blue-700 space-y-1;
+}
+
+/* ===== PRACTICE MODE SECTIONS ===== */
+.practice-mode-container {
+  @apply mb-4 p-3 bg-green-50 border border-green-200 rounded-lg;
+}
+
+.practice-mode-header {
+  @apply font-semibold text-green-800 text-sm sm:text-base;
+}
+
+/* ===== ORGANIZATION CONTROLS ===== */
+.organization-controls {
+  @apply flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-lg;
+}
+
+.organization-label {
+  @apply text-sm font-medium text-gray-700;
+}
+
+/* ===== CATEGORY HEADERS ===== */
+.category-header {
+  @apply bg-gray-50 p-4 border-b border-gray-200;
+}
+
+.category-title {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.category-count {
+  @apply text-sm text-gray-600;
+}
+
+/* ===== SUMMARY BOXES ===== */
+.summary-box {
+  @apply border rounded-lg p-4;
+}
+
+.summary-box-success {
+  @apply summary-box bg-green-50 border-green-200;
+}
+
+.summary-box-warning {
+  @apply summary-box bg-yellow-50 border-yellow-200;
+}
+
+.summary-title {
+  @apply text-green-800 font-bold mb-2;
+}
+
+.summary-text {
+  @apply text-sm text-green-700 mb-3;
+}

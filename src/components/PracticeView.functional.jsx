@@ -41,7 +41,7 @@ const PracticeView = ({
                     const hasCriticalFailures = isCompleted && hasSkillCriticalFailures && hasSkillCriticalFailures(skill);
                     
                     return (
-                        <div key={skill.id} data-skill-id={skill.id} className={`border border-gray-200 rounded-lg overflow-hidden ${
+                        <div key={skill.id} data-skill-id={skill.id} className={`skill-card ${
                             expandedSkill === skill.id 
                                 ? 'current-skill' 
                                 : visitedSkills.has && visitedSkills.has(skill.id) 
@@ -51,7 +51,7 @@ const PracticeView = ({
                             {/* Skill Header */}
                             <button
                                 onClick={() => toggleSkillExpansion(skill.id)}
-                                className="w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between"
+                                className="skill-card-header"
                             >
                                 <div className="flex items-center gap-3 min-w-0 flex-1">
                                     <div className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0 ${
@@ -71,17 +71,13 @@ const PracticeView = ({
                                     <div className="min-w-0 flex-1">
                                         <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">{skill.title}</h3>
                                         <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600 mt-1">
-                                            <span className="bg-gray-100 px-2 py-1 rounded text-xs">{skill.category}</span>
+                                            <span className="category-tag">{skill.category}</span>
                                             <div className="flex items-center gap-1 text-blue-500">
                                                 {getSkillTypeIcon(skill)}
                                                 {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
                                             </div>
                                             {isCompleted && (
-                                                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                                    hasCriticalFailures 
-                                                        ? 'bg-red-100 text-red-700' 
-                                                        : 'bg-green-100 text-green-700'
-                                                }`}>
+                                                <span className={hasCriticalFailures ? 'completion-badge-failure' : 'completion-badge-success'}>
                                                     Completed in {formatDuration(completionTime)}
                                                 </span>
                                             )}
@@ -95,7 +91,7 @@ const PracticeView = ({
 
                             {/* Expanded Steps */}
                             {expandedSkill === skill.id && (
-                                <div className="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
+                                <div className="skill-card-content">
                                     {/* Supplies Needed Section */}
                                     {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
                                         <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -178,8 +174,8 @@ const PracticeView = ({
                                                     <div className="flex gap-1 justify-center sm:justify-start sm:ml-2 flex-shrink-0">
                                                         <button
                                                             onClick={() => handleStepEvaluation(skill.id, stepIndex, 'good')}
-                                                            className={`p-2 sm:p-1 rounded transition-colors ${
-                                                                evaluation === 'good' ? 'bg-green-100 text-green-700' : 'hover:bg-green-50 text-gray-400 hover:text-green-600'
+                                                            className={`eval-button-good ${
+                                                                evaluation === 'good' ? 'active' : 'inactive'
                                                             }`}
                                                             title="Good"
                                                         >
@@ -187,8 +183,8 @@ const PracticeView = ({
                                                         </button>
                                                         <button
                                                             onClick={() => handleStepEvaluation(skill.id, stepIndex, 'skipped')}
-                                                            className={`p-2 sm:p-1 rounded transition-colors ${
-                                                                evaluation === 'skipped' ? 'bg-yellow-100 text-yellow-700' : 'hover:bg-yellow-50 text-gray-400 hover:text-yellow-600'
+                                                            className={`eval-button-skipped ${
+                                                                evaluation === 'skipped' ? 'active' : 'inactive'
                                                             }`}
                                                             title="Skipped"
                                                         >
@@ -196,8 +192,8 @@ const PracticeView = ({
                                                         </button>
                                                         <button
                                                             onClick={() => handleStepEvaluation(skill.id, stepIndex, 'wrong')}
-                                                            className={`p-2 sm:p-1 rounded transition-colors ${
-                                                                evaluation === 'wrong' ? 'bg-red-100 text-red-700' : 'hover:bg-red-50 text-gray-400 hover:text-red-600'
+                                                            className={`eval-button-wrong ${
+                                                                evaluation === 'wrong' ? 'active' : 'inactive'
                                                             }`}
                                                             title="Wrong"
                                                         >

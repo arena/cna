@@ -20,6 +20,7 @@ import { useStepEvaluation, usePracticeStepEvaluation } from './hooks/useStepEva
 import { useSpeechRecognition } from './hooks/useSpeechRecognition.js';
 import { useAIEvaluator } from './hooks/useAIEvaluator.js';
 import './App.css';
+import './components.css';
 
 
 // Main App Component

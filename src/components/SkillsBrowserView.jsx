@@ -41,15 +41,15 @@ const SkillsBrowserView = ({
         const isExpanded = expandedSkill === skill.id;
         
         return (
-            <div key={skill.id} data-skill-id={skill.id} className="border border-gray-200 rounded-lg overflow-hidden">
+            <div key={skill.id} data-skill-id={skill.id} className="skill-card">
                 {/* Skill Header */}
                 <button
                     onClick={() => setExpandedSkill(isExpanded ? null : skill.id)}
-                    className="w-full p-3 sm:p-4 text-left bg-white hover:bg-gray-50 transition-colors flex items-center justify-between"
+                    className="skill-card-header"
                 >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                         {/* Skill Number or Icon */}
-                        <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0 bg-gray-100 text-gray-800">
+                        <div className="skill-number-default">
                             {inCategory ? getSkillCategoryIcon(skill) : index + 1}
                         </div>
                         
@@ -66,7 +66,7 @@ const SkillsBrowserView = ({
                             <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600 mt-1">
                                 {!inCategory && (
                                     <>
-                                        <span className="bg-gray-100 px-2 py-1 rounded text-xs">{skill.category}</span>
+                                        <span className="category-tag">{skill.category}</span>
                                         <div className="flex items-center gap-1 text-blue-500">
                                             {getSkillTypeIcon(skill)}
                                             {getSkillTypeLabel(skill) && <span className="text-gray-500 hidden sm:inline">{getSkillTypeLabel(skill)}</span>}
@@ -89,7 +89,7 @@ const SkillsBrowserView = ({
 
                 {/* Expanded Skill Content */}
                 {isExpanded && (
-                    <div className="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
+                    <div className="skill-card-content">
                         {/* Supplies Needed Section */}
                         {skill.suppliesNeeded && skill.suppliesNeeded.length > 0 && (
                             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -136,7 +136,7 @@ const SkillsBrowserView = ({
                             {!isInPractice && (
                                 <button
                                     onClick={() => startPractice(skill.id)}
-                                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+                                    className="btn-practice"
                                 >
                                     Practice Skill
                                 </button>
@@ -230,8 +230,8 @@ const SkillsBrowserView = ({
                                             <div className="flex gap-1 justify-center sm:justify-start sm:ml-2 flex-shrink-0">
                                                 <button
                                                     onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'good')}
-                                                    className={`p-2 sm:p-1 rounded transition-colors ${
-                                                        evaluation === 'good' ? 'bg-green-100 text-green-700' : 'hover:bg-green-50 text-gray-400 hover:text-green-600'
+                                                    className={`eval-button-good ${
+                                                        evaluation === 'good' ? 'active' : 'inactive'
                                                     }`}
                                                     title="Good"
                                                 >
@@ -239,8 +239,8 @@ const SkillsBrowserView = ({
                                                 </button>
                                                 <button
                                                     onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'skipped')}
-                                                    className={`p-2 sm:p-1 rounded transition-colors ${
-                                                        evaluation === 'skipped' ? 'bg-yellow-100 text-yellow-700' : 'hover:bg-yellow-50 text-gray-400 hover:text-yellow-600'
+                                                    className={`eval-button-skipped ${
+                                                        evaluation === 'skipped' ? 'active' : 'inactive'
                                                     }`}
                                                     title="Skipped"
                                                 >
@@ -248,8 +248,8 @@ const SkillsBrowserView = ({
                                                 </button>
                                                 <button
                                                     onClick={() => handlePracticeStepEvaluation(skill.id, stepIndex, 'wrong')}
-                                                    className={`p-2 sm:p-1 rounded transition-colors ${
-                                                        evaluation === 'wrong' ? 'bg-red-100 text-red-700' : 'hover:bg-red-50 text-gray-400 hover:text-red-600'
+                                                    className={`eval-button-wrong ${
+                                                        evaluation === 'wrong' ? 'active' : 'inactive'
                                                     }`}
                                                     title="Wrong"
                                                 >
@@ -361,26 +361,18 @@ const SkillsBrowserView = ({
     return (
         <>
             {/* Organization Controls */}
-            <div className="flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm font-medium text-gray-700">Organize by:</span>
+            <div className="organization-controls">
+                <span className="organization-label">Organize by:</span>
                 <div className="flex gap-2">
                     <button
                         onClick={() => setSkillsOrganization('number')}
-                        className={`px-3 py-1 text-sm rounded transition-colors ${
-                            skillsOrganization === 'number'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-white text-gray-600 hover:bg-gray-100'
-                        }`}
+                        className={skillsOrganization === 'number' ? 'nav-button-active' : 'nav-button-inactive'}
                     >
                         Skill Number
                     </button>
                     <button
                         onClick={() => setSkillsOrganization('type')}
-                        className={`px-3 py-1 text-sm rounded transition-colors ${
-                            skillsOrganization === 'type'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-white text-gray-600 hover:bg-gray-100'
-                        }`}
+                        className={skillsOrganization === 'type' ? 'nav-button-active' : 'nav-button-inactive'}
                     >
                         Skill Type
                     </button>
