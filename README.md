@@ -23,7 +23,8 @@ The CNA Skills Practice App provides:
 
 ## Available Skills
 
-The app includes all 22 skills from the Nevada CNA test bank. Derived from the Credentia Nevada published skills list as directly as possible. Issues with verb tense or awkward wording are left in for accuracy. 
+The app includes all 22 skills from the Nevada CNA test bank. Derived from the Credentia Nevada published skills list as directly as possible. Issues with verb tense or awkward wording are left in for accuracy. Supplies and tips were added for your convenience but are not part of the official skills.
+For reference, the skills are listed at https://credentia.com/test-takers/nv/, and specifically, at https://kb-nv.credentia.com/en/article/skills.
 
 ## Disclaimer
 
@@ -47,7 +48,7 @@ This is a project aimed at helping CNA students succeed. Contributions, suggesti
 GNU AFFERO GENERAL PUBLIC LICENSE
 
 CNA Friend - CNA Skills Practice App
-Copyright (C) 2024 Arena
+Copyright (C) 2025 Arena
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
