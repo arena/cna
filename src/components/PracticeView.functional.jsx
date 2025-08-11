@@ -230,29 +230,10 @@ const PracticeView = ({
                         <span className="font-bold text-lg sm:text-xl">Test Completed!</span>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="text-center">
-                            <div className="text-lg font-semibold text-gray-800">Total Time Used</div>
-                            <div className="text-2xl font-bold text-blue-600">
-                                {formatTime(30 * 60 - timeRemaining)} / 30:00
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-lg font-semibold text-gray-800">Skills Status</div>
-                            <div className="flex justify-center gap-4 items-center mt-2">
-                                <div className="flex items-center gap-1">
-                                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                    <span className="text-sm font-medium">
-                                        {currentSkills.filter(skill => !hasSkillCriticalFailures || !hasSkillCriticalFailures(skill)).length} Passed
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                    <span className="text-sm font-medium">
-                                        {currentSkills.filter(skill => hasSkillCriticalFailures && hasSkillCriticalFailures(skill)).length} To Review
-                                    </span>
-                                </div>
-                            </div>
+                    <div className="text-center mb-4">
+                        <div className="text-lg font-semibold text-gray-800">Total Time Used</div>
+                        <div className="text-2xl font-bold text-blue-600">
+                            {formatTime(30 * 60 - timeRemaining)}
                         </div>
                     </div>
                     
@@ -289,15 +270,23 @@ const PracticeView = ({
                     </div>
                     
                     <div className="text-center">
-                        <div className={`inline-flex items-center px-4 py-2 rounded-full text-lg font-bold mb-4 ${
+                        <div className={`flex flex-col items-center px-3 py-2 rounded-lg text-lg font-bold mt-4 mb-4 ${
                             currentSkills.filter(skill => hasSkillCriticalFailures && hasSkillCriticalFailures(skill)).length > 0
                                 ? 'bg-yellow-100 text-yellow-800'
                                 : 'bg-green-100 text-green-800'
                         }`}>
-                            {currentSkills.filter(skill => hasSkillCriticalFailures && hasSkillCriticalFailures(skill)).length > 0
-                                ? 'PRACTICE TEST NOT PASSED - Review Critical Steps'
-                                : 'PRACTICE TEST PASSED - Great Job!'
-                            }
+                            <div>
+                                {currentSkills.filter(skill => hasSkillCriticalFailures && hasSkillCriticalFailures(skill)).length > 0
+                                    ? 'PRACTICE TEST NOT PASSED'
+                                    : 'PRACTICE TEST PASSED'
+                                }
+                            </div>
+                            <div className="text-base mt-1">
+                                {currentSkills.filter(skill => hasSkillCriticalFailures && hasSkillCriticalFailures(skill)).length > 0
+                                    ? 'Review Critical Steps'
+                                    : 'Great Job!'
+                                }
+                            </div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                             <button
