@@ -2,7 +2,7 @@ Notes:
 keeping track of some ideas and thoughts
 
 To Do:
-- [] Make project open source
+- [x] Make project open source
 
 Clean up:
 - [] Make sure disclaimer is on about page
