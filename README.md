@@ -47,7 +47,7 @@ This is a project aimed at helping CNA students succeed. Contributions, suggesti
 GNU AFFERO GENERAL PUBLIC LICENSE
 
 CNA Friend - CNA Skills Practice App
-Copyright (C) 2024 Arena
+Copyright (C) 2025 Arena
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
