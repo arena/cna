@@ -11,6 +11,8 @@ import MinusIcon from '../data/icons/MinusIcon.jsx';
 const SkillsBrowserView = ({
     skillsOrganization,
     setSkillsOrganization,
+    lengthSortAscending,
+    setLengthSortAscending,
     expandedSkill,
     setExpandedSkill,
     getSkillTypeIcon,
@@ -376,6 +378,23 @@ const SkillsBrowserView = ({
                     >
                         {contentData.browser.by_type}
                     </button>
+                    <button
+                        onClick={() => {
+                            if (skillsOrganization === 'length') {
+                                setLengthSortAscending(!lengthSortAscending);
+                            } else {
+                                setSkillsOrganization('length');
+                            }
+                        }}
+                        className={skillsOrganization === 'length' ? 'nav-button-active' : 'nav-button-inactive'}
+                    >
+                        {contentData.browser.by_length}
+                        {skillsOrganization === 'length' && (
+                            <span className="ml-1">
+                                {lengthSortAscending ? '↑' : '↓'}
+                            </span>
+                        )}
+                    </button>
                 </div>
             </div>
 
@@ -383,6 +402,20 @@ const SkillsBrowserView = ({
             {skillsOrganization === 'number' ? (
                 <div className="space-y-3 sm:space-y-4">
                     {skillsData.skills.map((skill, index) => renderSkillCard(skill, false, index))}
+                </div>
+            ) : skillsOrganization === 'length' ? (
+                <div className="space-y-3 sm:space-y-4">
+                    {[...skillsData.skills]
+                        .sort((a, b) => {
+                            const timeA = a.estimatedTime || 0;
+                            const timeB = b.estimatedTime || 0;
+                            return lengthSortAscending ? timeA - timeB : timeB - timeA;
+                        })
+                        .map((skill, index) => {
+                            const originalIndex = skillsData.skills.findIndex(s => s.id === skill.id);
+                            return renderSkillCard(skill, false, originalIndex);
+                        })
+                    }
                 </div>
             ) : (
                 /* Organize by Type */

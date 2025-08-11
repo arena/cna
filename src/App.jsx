@@ -26,7 +26,8 @@ import './components.css';
 // Main App Component
 const CNASkillsApp = () => {
     const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', 'ai-eval', or 'about'
-    const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number' or 'type'
+    const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number', 'type', or 'length'
+    const [lengthSortAscending, setLengthSortAscending] = React.useState(true);
     const [expandedSkill, setExpandedSkill] = React.useState(null); // for skills browser view
     
     // Custom hooks for state management
@@ -293,6 +294,8 @@ const CNASkillsApp = () => {
                     <SkillsBrowserView
                         skillsOrganization={skillsOrganization}
                         setSkillsOrganization={setSkillsOrganization}
+                        lengthSortAscending={lengthSortAscending}
+                        setLengthSortAscending={setLengthSortAscending}
                         expandedSkill={expandedSkill}
                         setExpandedSkill={setExpandedSkill}
                         getSkillTypeIcon={getSkillTypeIcon}

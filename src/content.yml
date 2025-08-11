@@ -13,9 +13,10 @@ navigation:
   about: "About"
 
 browser:
-  organize_by: "Organize by"
+  organize_by: "Sort by"
   by_number: "Number"
   by_type: "Type"
+  by_length: "Length"
   steps_text: "steps"
   steps_heading: "Steps"
   critical_text: "Critical"
