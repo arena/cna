@@ -25,7 +25,8 @@ const PracticeView = ({
     handleNewSkillSet,
     shareResults,
     resetTimer,
-    hasSkillCriticalFailures
+    hasSkillCriticalFailures,
+    contentData
 }) => {
     if (!currentSkills || currentSkills.length === 0) {
         return <div>No skills loaded for practice</div>;
@@ -319,12 +320,11 @@ const PracticeView = ({
             {/* Info Box */}
             {!allSkillsCompleted && (
                 <div className="mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">Practice Test Rules</h4>
-                    <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
-                        <li>Complete all 5 skills within 30 minutes</li>
-                        <li>Critical steps must be performed correctly</li>
-                        <li>Click evaluation buttons as you perform each step</li>
-                        <li>Complete each skill before moving to the next</li>
+                    <h4 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">{contentData.practice.rules.title}</h4>
+                    <ul className="text-sm text-blue-700 space-y-1 list-disc ml-5 pl-0">
+                        {contentData.practice.rules.items.map((rule, index) => (
+                            <li key={index} className="pl-1">{rule}</li>
+                        ))}
                     </ul>
                 </div>
             )}

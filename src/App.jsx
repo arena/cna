@@ -286,6 +286,7 @@ const CNASkillsApp = () => {
                         shareResults={shareResultsWrapper}
                         resetTimer={resetTimerWithState}
                         hasSkillCriticalFailures={hasSkillCriticalFailuresWrapper}
+                        contentData={contentData}
                     />
                 )}
 

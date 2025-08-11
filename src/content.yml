@@ -12,6 +12,16 @@ navigation:
   ai_eval: "AI Eval"
   about: "About"
 
+practice:
+  rules:
+    title: "Practice Test Guide"
+    items:
+      - "Practice as a \"candidate\" and verbalize steps as you perform them"
+      - "Perform each critical step correctly"
+      - "Work toward completion of all 5 skills within 30 minutes"
+      - "Add corrections as needed"
+      - "Have an \"evaluator\" mark steps as you perform the skills"
+
 browser:
   organize_by: "Sort by"
   by_number: "Number"
@@ -79,14 +89,23 @@ about:
           description: "Run through 5-skill practice tests with the 30-minute timer"
         - title: "Study individual skills"
           description: "Browse all 22 skills with helpful tips and use the practice timer to track your progress"
+
+    reference:
+      title: "Skills Reference"
+      text: "The app includes all 22 skills from the Nevada CNA test bank. Derived from the Credentia Nevada published skills list as directly as humanly possible. NOTE: Supplies and tips were added for your convenience but are not part of the official skills."
+      links:
+        - text: "credentia.com/test-takers/nv/"
+          url: "https://credentia.com/test-takers/nv/"
+        - text: "kb-nv.credentia.com/en/article/skills"
+          url: "https://kb-nv.credentia.com/en/article/skills"
     
     pricing:
       title: "Free to Use"
-      text: "This app is free to use. Share it with any CNA student who could benefit from it! This is a free alternative to low quality, expensive apps that only have mutliple choice questions. This app helps you with the hard part (the skills)."
+      text: "This app is free to use. Share it with any CNA student who could benefit from it!"
     
     feedback:
       title: "Contribute"
-      text: "See something that could be better? Want to update the skills to match the current Credentia or Nursing Board's published set? Make this tool even more helpful for CNA students. Your feedback and contributions are welcome."
+      text: "See something that could be better? Do the skills need to be updated to match the current Credentia or Nursing Board's published set? Your feedback and contributions are welcome. The app is offered freely under the GNU AFFERO GENERAL PUBLIC LICENSE"
     
     disclaimer:
       title: "Important Disclaimer"
