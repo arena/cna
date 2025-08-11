@@ -54,13 +54,13 @@ const PracticeView = ({
                                 className="skill-card-header"
                             >
                                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                                    <div className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full font-bold text-sm flex-shrink-0 ${
+                                    <div className={
                                         isCompleted 
                                             ? hasCriticalFailures 
-                                                ? 'bg-red-100 text-red-800' 
-                                                : 'bg-green-100 text-green-800'
-                                            : 'bg-blue-100 text-blue-800'
-                                    }`}>
+                                                ? 'skill-number-failed' 
+                                                : 'skill-number-completed'
+                                            : 'skill-number-practice'
+                                    }>
                                         {isCompleted 
                                             ? hasCriticalFailures 
                                                 ? <XIcon /> 

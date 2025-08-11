@@ -101,7 +101,7 @@
 }
 
 /* ===== SKILL NUMBERS/ICONS ===== */
-.skill-number {
+.skill-number-default {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,33 +111,78 @@
   font-weight: bold;
   font-size: 0.875rem;
   flex-shrink: 0;
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
 @media (min-width: 640px) {
-  .skill-number {
+  .skill-number-default {
     width: 2rem;
     height: 2rem;
   }
 }
 
-.skill-number-default {
-  background-color: #f3f4f6;
-  color: #1f2937;
-}
-
 .skill-number-completed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.875rem;
+  flex-shrink: 0;
   background-color: #dcfce7;
   color: #15803d;
 }
 
+@media (min-width: 640px) {
+  .skill-number-completed {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
 .skill-number-failed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.875rem;
+  flex-shrink: 0;
   background-color: #fee2e2;
   color: #b91c1c;
 }
 
+@media (min-width: 640px) {
+  .skill-number-failed {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
 .skill-number-practice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.875rem;
+  flex-shrink: 0;
   background-color: #dbeafe;
   color: #1d4ed8;
+}
+
+@media (min-width: 640px) {
+  .skill-number-practice {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 /* ===== NAVIGATION BUTTONS ===== */
@@ -274,6 +319,11 @@
   color: #374151;
 }
 
+.nav-button-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* ===== CATEGORY HEADERS ===== */
 .category-header {
   background-color: #f9fafb;
@@ -290,4 +340,21 @@
 .category-count {
   font-size: 0.875rem;
   color: #4b5563;
+}
+
+/* ===== CATEGORY SECTIONS ===== */
+.category-section {
+  margin-bottom: 1.5rem;
+}
+
+.category-skills-container {
+  padding: 1rem;
+}
+
+.category-skills-container .skill-card {
+  margin-bottom: 0.75rem;
+}
+
+.category-skills-container .skill-card:last-child {
+  margin-bottom: 0;
 }

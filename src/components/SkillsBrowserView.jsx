@@ -363,7 +363,7 @@ const SkillsBrowserView = ({
             {/* Organization Controls */}
             <div className="organization-controls">
                 <span className="organization-label">Organize by:</span>
-                <div className="flex gap-2">
+                <div className="nav-button-container">
                     <button
                         onClick={() => setSkillsOrganization('number')}
                         className={skillsOrganization === 'number' ? 'nav-button-active' : 'nav-button-inactive'}
@@ -388,24 +388,24 @@ const SkillsBrowserView = ({
                 /* Organize by Type */
                 <div className="space-y-6">
                     {organizeSkillsByType(skillsData.skills).map((category) => (
-                        <div key={category.type} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <div key={category.type} className="skill-card category-section">
                             {/* Category Header */}
-                            <div className="bg-gray-50 p-4 border-b border-gray-200">
+                            <div className="category-header">
                                 <div className="flex items-center gap-3">
                                     <div className="text-blue-600" style={{transform: 'scale(1.5)'}}>
                                         {category.icon}
                                     </div>
-                                    <h3 className="text-lg font-semibold text-gray-800">
+                                    <h3 className="category-title">
                                         {category.category}
                                     </h3>
-                                    <span className="text-sm text-gray-600">
+                                    <span className="category-count">
                                         ({category.skills.length} skills)
                                     </span>
                                 </div>
                             </div>
                             
                             {/* Category Skills */}
-                            <div className="p-4 space-y-3">
+                            <div className="category-skills-container">
                                 {category.skills.map((skill, skillIndex) => {
                                     // Find the original index of this skill in the full skills array
                                     const originalIndex = skillsData.skills.findIndex(s => s.id === skill.id);
