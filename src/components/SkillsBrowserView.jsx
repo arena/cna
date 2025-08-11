@@ -263,17 +263,18 @@ const SkillsBrowserView = ({
                         </div>
 
                         {/* Practice Controls */}
-                        <div className="mt-4 pt-3 border-t border-gray-200">
-                            {isInPractice && !practiceCompleted && (
-                                <button
-                                    onClick={completePractice}
-                                    className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
-                                >
-                                    Skill Complete
-                                </button>
-                            )}
+                        {isInPractice && (
+                            <div className="mt-4 pt-3 border-t border-gray-200">
+                                {!practiceCompleted && (
+                                    <button
+                                        onClick={completePractice}
+                                        className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-medium"
+                                    >
+                                        Skill Complete
+                                    </button>
+                                )}
                             
-                            {isInPractice && practiceCompleted && (
+                                {practiceCompleted && (
                                 <div className={`border rounded-lg p-4 ${(() => {
                                     const criticalSteps = skill.steps.filter(step => step.critical);
                                     const criticalStepsMarked = criticalSteps.filter((step, stepIndex) => {
@@ -348,8 +349,9 @@ const SkillsBrowserView = ({
                                         </button>
                                     </div>
                                 </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -402,7 +404,7 @@ const SkillsBrowserView = ({
                                         {category.icon}
                                     </div>
                                     <h3 className="text-lg font-semibold text-gray-800">
-                                        {category.title}
+                                        {category.category}
                                     </h3>
                                     <span className="text-sm text-gray-600">
                                         ({category.skills.length} skills)
