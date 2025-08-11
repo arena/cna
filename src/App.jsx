@@ -1,7 +1,7 @@
 import React from 'react';
 import AIEvaluator from './components/AIEvaluator';
 import PracticeView from './components/PracticeView.functional';
-import SkillsBrowserView from './components/SkillsBrowserView.simple';
+import SkillsBrowserView from './components/SkillsBrowserView';
 import AboutView from './components/AboutView';
 import skillsData from './data/skills_data.json';
 import contentData from './content.yml';
@@ -26,10 +26,11 @@ import './App.css';
 const CNASkillsApp = () => {
     const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', 'ai-eval', or 'about'
     const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number' or 'type'
+    const [expandedSkill, setExpandedSkill] = React.useState(null); // for skills browser view
     
     // Custom hooks for state management
     const { timeRemaining, isTimerRunning, toggleTimer, resetTimer, setIsTimerRunning } = useTimer();
-    const { currentSkills, expandedSkill, skillCompletionTimes, skillStartTimes, visitedSkills, allSkillsCompleted, 
+    const { currentSkills, expandedSkill: practiceExpandedSkill, skillCompletionTimes, skillStartTimes, visitedSkills, allSkillsCompleted, 
             handleNewSkillSet, toggleSkillExpansion, completeSkill, resetSkillsState } = useSkillManagement(skillsData);
     const { stepEvaluations, handleStepEvaluation, getStepEvaluation, resetEvaluations } = useStepEvaluation();
     
@@ -260,7 +261,7 @@ const CNASkillsApp = () => {
                 {currentView === 'practice' && (
                     <PracticeView 
                         currentSkills={currentSkills}
-                        expandedSkill={expandedSkill}
+                        expandedSkill={practiceExpandedSkill}
                         toggleSkillExpansion={toggleSkillExpansionWrapper}
                         getSkillTypeIcon={getSkillTypeIcon}
                         getSkillTypeLabel={getSkillTypeLabel}
@@ -308,6 +309,7 @@ const CNASkillsApp = () => {
                         getPracticeMissedSteps={getPracticeMissedSteps}
                         hasPracticeCriticalFailures={hasPracticeCriticalFailures}
                         formatDuration={formatDuration}
+                        setIsPracticeRunning={setIsPracticeRunning}
                     />
                 )}
 

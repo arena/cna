@@ -12,6 +12,27 @@ navigation:
   ai_eval: "AI Eval"
   about: "About"
 
+browser:
+  organize_by: "Organize by"
+  by_number: "Number"
+  by_type: "Type"
+  steps_text: "steps"
+  steps_heading: "Steps"
+  critical_text: "Critical"
+  done_text: "Done"
+  skip_text: "Skip"
+  miss_text: "Miss"
+  practice_button: "Start Practice"
+  finish_practice: "Finish Practice"
+  stop_practice: "Stop Practice"
+  close_practice: "Close"
+  try_again: "Try Again"
+  practice_complete: "Practice Complete!"
+  practice_complete_time: "Time taken"
+  critical_failures: "Critical failures detected"
+  missed_steps: "Steps to review"
+  skills_count: "skills"
+
 ai_eval:
   title: "AI Evaluator"
   description: "Practice skills with voice recognition that automatically checks steps as you speak"

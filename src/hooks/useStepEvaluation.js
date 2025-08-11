@@ -53,7 +53,7 @@ export const usePracticeStepEvaluation = () => {
 
     const getPracticeStepEvaluation = (skillId, stepIndex) => {
         const stepKey = `${skillId}-${stepIndex}`;
-        return practiceStepEvaluations[stepIndex] || null;
+        return practiceStepEvaluations[stepKey] || null;
     };
 
     const getPracticeMissedSteps = (skill) => {
