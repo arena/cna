@@ -162,56 +162,9 @@ const CNASkillsApp = () => {
     return (
         <div className="max-w-4xl mx-auto p-3 sm:p-6 bg-gray-50 min-h-screen">
             <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-                    <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{contentData.app.name}</h1>
-                        <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">
-                            {currentView === 'practice' 
-                                ? contentData.app.taglines.practice
-                                : currentView === 'browser'
-                                    ? contentData.app.taglines.browser
-                                    : contentData.app.taglines.about
-                            }
-                        </p>
-                    </div>
-                    {currentView === 'practice' && (
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                            {/* Timer */}
-                            <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
-                                <div className="flex items-center gap-2">
-                                    <ClockIcon />
-                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 || timeRemaining < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                                        {formatTime(timeRemaining)}
-                                    </span>
-                                </div>
-                                <div className="flex gap-1">
-                                    <button
-                                        onClick={toggleTimer}
-                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
-                                        title={isTimerRunning ? "Pause Timer" : "Start Timer"}
-                                    >
-                                        {isTimerRunning ? <PauseIcon /> : <PlayIcon />}
-                                    </button>
-                                    <button
-                                        onClick={resetTimer}
-                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
-                                        title="Reset Timer"
-                                    >
-                                        <RotateIcon />
-                                    </button>
-                                </div>
-                            </div>
-                            {/* New Skill Set Button */}
-                            <button
-                                onClick={handleNewSkillSet}
-                                className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors order-1 sm:order-2"
-                            >
-                                <ShuffleIcon />
-                                <span className="text-sm sm:text-base">New Skill Set</span>
-                            </button>
-                        </div>
-                    )}
+                {/* App Title */}
+                <div className="mb-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{contentData.app.name}</h1>
                 </div>
 
                 {/* Navigation Tabs */}
@@ -256,6 +209,59 @@ const CNASkillsApp = () => {
                     >
                         {contentData.navigation.about}
                     </button>
+                </div>
+
+                {/* View-specific Header Content */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+                    <div>
+                        <p className="text-gray-600 text-sm sm:text-base">
+                            {currentView === 'practice' 
+                                ? contentData.app.taglines.practice
+                                : currentView === 'browser'
+                                    ? contentData.app.taglines.browser
+                                    : currentView === 'ai-eval'
+                                        ? contentData.app.taglines.ai_eval
+                                        : contentData.app.taglines.about
+                            }
+                        </p>
+                    </div>
+                    {currentView === 'practice' && (
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                            {/* Timer */}
+                            <div className="flex items-center justify-between sm:justify-start gap-2 bg-gray-100 rounded-lg p-3 order-2 sm:order-1">
+                                <div className="flex items-center gap-2">
+                                    <ClockIcon />
+                                    <span className={`text-lg sm:text-xl font-mono font-bold ${timeRemaining <= 300 || timeRemaining < 0 ? 'text-red-600' : 'text-gray-800'}`}>
+                                        {formatTime(timeRemaining)}
+                                    </span>
+                                </div>
+                                <div className="flex gap-1">
+                                    <button
+                                        onClick={toggleTimer}
+                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        title={isTimerRunning ? "Pause Timer" : "Start Timer"}
+                                    >
+                                        {isTimerRunning ? <PauseIcon /> : <PlayIcon />}
+                                    </button>
+                                    <button
+                                        onClick={resetTimer}
+                                        className="p-2 rounded hover:bg-gray-200 transition-colors"
+                                        title="Reset Timer"
+                                    >
+                                        <RotateIcon />
+                                    </button>
+                                </div>
+                            </div>
+                            {/* New Skill Set Button */}
+                            <button
+                                onClick={handleNewSkillSet}
+                                className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors order-1 sm:order-2"
+                            >
+                                <ShuffleIcon />
+                                <span className="text-sm sm:text-base">New Skill Set</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Practice Test View */}

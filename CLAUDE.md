@@ -11,4 +11,9 @@
 
 ## Icon Creation
 - Do not create, draw, or design SVG icons unless there's a major update to Claude that includes proper drawing/illustration skills. 
-- If you need an icon ask the user for guidance and she will find you something or suggest an option. 
+- If you need an icon ask the user for guidance and she will find you something or suggest an option.
+
+## CSS Architecture
+- Common styles are centralized in `/src/components.css` with semantic class names
+- Use centralized classes instead of duplicating Tailwind utilities across components
+- Examples: `eval-button-good`, `skill-card`, `nav-button-active` 
