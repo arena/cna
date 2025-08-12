@@ -27,6 +27,14 @@ export const useSkillManagement = (skillsData) => {
         setVisitedSkills(new Set());
     };
 
+    const setCustomSkillSet = (skills) => {
+        setCurrentSkills(skills);
+        setExpandedSkill(null);
+        setSkillCompletionTimes({});
+        setSkillStartTimes({});
+        setVisitedSkills(new Set());
+    };
+
     const toggleSkillExpansion = (skillId, timeRemaining) => {
         if (expandedSkill !== skillId) {
             const currentTime = 30 * 60 - timeRemaining;
@@ -109,6 +117,7 @@ export const useSkillManagement = (skillsData) => {
         setCurrentSkills,
         setExpandedSkill,
         handleNewSkillSet,
+        setCustomSkillSet,
         toggleSkillExpansion,
         completeSkill,
         resetSkillsState

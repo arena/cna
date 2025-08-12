@@ -3,6 +3,7 @@ import AIEvaluator from './components/AIEvaluator';
 import PracticeView from './components/PracticeView.functional';
 import SkillsBrowserView from './components/SkillsBrowserView';
 import AboutView from './components/AboutView';
+import CustomSkillModal from './components/CustomSkillModal';
 import skillsData from './data/skills_data.json';
 import contentData from './content.yml';
 import ClockIcon from './data/icons/ClockIcon.jsx';
@@ -29,11 +30,12 @@ const CNASkillsApp = () => {
     const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number', 'type', or 'length'
     const [lengthSortAscending, setLengthSortAscending] = React.useState(false);
     const [expandedSkill, setExpandedSkill] = React.useState(null); // for skills browser view
+    const [showCustomModal, setShowCustomModal] = React.useState(false);
     
     // Custom hooks for state management
     const { timeRemaining, isTimerRunning, toggleTimer, resetTimer, setIsTimerRunning } = useTimer();
     const { currentSkills, expandedSkill: practiceExpandedSkill, skillCompletionTimes, skillStartTimes, visitedSkills, allSkillsCompleted, 
-            handleNewSkillSet, toggleSkillExpansion, completeSkill, resetSkillsState } = useSkillManagement(skillsData);
+            handleNewSkillSet, setCustomSkillSet, toggleSkillExpansion, completeSkill, resetSkillsState } = useSkillManagement(skillsData);
     const { stepEvaluations, handleStepEvaluation, getStepEvaluation, resetEvaluations } = useStepEvaluation();
     
     // Individual skill practice mode hooks
@@ -64,6 +66,15 @@ const CNASkillsApp = () => {
         resetTimer();
         resetEvaluations();
         resetSkillsState();
+    };
+
+    const handleCustomSkillSet = (selectedSkills) => {
+        console.log('Custom skills selected:', selectedSkills); // Debug
+        setCustomSkillSet(selectedSkills);
+        resetTimer();
+        resetEvaluations();
+        setShowCustomModal(false);
+        // Don't auto-expand any skill - let user choose
     };
 
     const resetTimerWithState = () => {
@@ -245,14 +256,23 @@ const CNASkillsApp = () => {
                                     </button>
                                 </div>
                             </div>
-                            {/* New Skill Set Button */}
-                            <button
-                                onClick={handleNewSkillSet}
-                                className="btn-primary flex-center-justify-gap-2 order-1 sm:order-2"
-                            >
-                                <ShuffleIcon />
-                                <span className="text-sm sm:text-base">New Skill Set</span>
-                            </button>
+                            {/* Practice Set Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-2 order-1 sm:order-2">
+                                <button
+                                    onClick={handleNewSkillSet}
+                                    className="btn-primary flex-center-justify-gap-2"
+                                >
+                                    <ShuffleIcon />
+                                    <span className="text-sm sm:text-base">Random Set</span>
+                                </button>
+                                <button
+                                    onClick={() => setShowCustomModal(true)}
+                                    className="btn-secondary flex-center-justify-gap-2"
+                                >
+                                    <span>✋</span>
+                                    <span className="text-sm sm:text-base">Custom Set</span>
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -347,6 +367,14 @@ const CNASkillsApp = () => {
                     <AboutView contentData={contentData} />
                 )}
             </div>
+
+            {/* Custom Skill Selection Modal */}
+            <CustomSkillModal
+                isOpen={showCustomModal}
+                onClose={() => setShowCustomModal(false)}
+                skillsData={skillsData}
+                onStartPractice={handleCustomSkillSet}
+            />
         </div>
     );
 };
