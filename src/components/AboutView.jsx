@@ -32,7 +32,7 @@ const AboutView = ({ contentData }) => {
                                     });
                                 }
                             }}
-                            className="btn-primary flex-center-gap-2 text-sm font-medium"
+                            className="btn-primary"
                         >
                             <ShareIcon />
                             Share App
@@ -46,17 +46,13 @@ const AboutView = ({ contentData }) => {
                         </p>
                     </div>
 
-                    <div>
-                        <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.usage.title}</h3>
-                        <ul className="text-sm space-y-1 ml-4">
-                            {contentData.about.sections.usage.items.map((item, index) => (
-                                <li key={index} className="flex items-start gap-2">
-                                    <span className="text-blue-500 font-bold">•</span>
-                                    <span><strong>{item.title}:</strong> {item.description}</span>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <h3 className="font-semibold text-yellow-800 mb-2">{contentData.about.sections.disclaimer.title}</h3>
+                        <p className="text-sm leading-relaxed text-yellow-800">
+                            {contentData.about.sections.disclaimer.text}
+                        </p>
                     </div>
+
 
                     <div>
                         <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.reference.title}</h3>
@@ -95,22 +91,15 @@ const AboutView = ({ contentData }) => {
                             href={contentData.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-secondary flex-center-gap-2 text-sm font-medium"
+                            className="btn-secondary"
                         >
                             📝 GitHub Repo
                         </a>
                     </div>
 
-                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <h3 className="font-semibold text-yellow-800 mb-2">{contentData.about.sections.disclaimer.title}</h3>
-                        <p className="text-sm leading-relaxed text-yellow-800">
-                            {contentData.about.sections.disclaimer.text}
-                        </p>
-                    </div>
-
                     <div className="pt-4 border-t border-gray-200">
                         <p className="text-sm text-gray-600">
-                            <span className="italic">{contentData.about.sections.footer.text}</span> 💙
+                            💙 <span className="italic">{contentData.about.sections.footer.text}</span>
                         </p>
                     </div>
                 </div>

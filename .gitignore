@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch folder for temporary files
+scratch/
+
+# Claude Code project instructions
+CLAUDE.md
+DESIGN.md

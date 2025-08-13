@@ -1,15 +1,15 @@
 app:
   name: "CNA Friend"
   taglines:
-    practice: "Practice set of 5 skills • 30 minute time limit"
-    browser: "All twenty-two CNA skills"
+    practice: "Use a random set of skills or hand pick them. Then start the 30 minute timer to simulate the skills exam."
+    browser: "All twenty-two (22) of the Certified Nursing Assistant skills tested in the state of Nevada."
     about: "Your best friend on your path to getting your CNA license in the state of Nevada"
     ai_eval: "Practice skills with voice recognition that automatically checks steps as you speak"
 
 navigation:
   practice: "Practice"
   skills: "Skills" 
-  ai_eval: "AI Eval"
+  ai_eval: "Voice"
   about: "About"
 
 practice:
@@ -47,8 +47,8 @@ browser:
 ai_eval:
   title: "AI Evaluator"
   description: "Practice skills with voice recognition that automatically checks steps as you speak"
-  how_it_works_intro: "🎤 How it works:"
-  how_it_works_body: "Select a skill, press \"start listening\", and verbalize the steps as you perform them. Clearly say, \"SKILL COMPLETE\" when you're finished to see which steps you completed or skipped."
+  how_it_works_intro: "🎤 Practice skills with voice recognition "
+  how_it_works_body: "that automatically checks steps as you speak: Select a skill, press \"start listening\", and verbalize the steps as you perform them. Clearly say, \"SKILL COMPLETE\" when you're finished to see which steps you completed or skipped."
   choose_skill: "Choose a Skill"
   voice_recognition: "Voice Recognition"
   ready: "Ready"
@@ -112,7 +112,7 @@ about:
       text: "This app is for study purposes only. Students should always defer to the official skills checklist and requirements published by their state nursing board and testing organization (such as Credentia). The content here is meant to supplement your studies, not replace official materials."
       
     footer:
-      text: "Created by students for students"
+      text: "Your CNA Friend"
 
 share:
   app:

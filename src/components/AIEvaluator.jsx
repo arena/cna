@@ -185,15 +185,12 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto space-y-6">
+        <div className="max-w-5xl mx-auto">
             {/* Header and Skill Selection */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-2">{contentData.ai_eval.title}</h2>
-                <p className="text-gray-600 mb-4">{contentData.ai_eval.description}</p>
-                
+            <div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
                     <p className="text-gray-700 text-sm">
-                        <strong>{contentData.ai_eval.how_it_works_intro}</strong> {contentData.ai_eval.how_it_works_body}
+                        <strong>{contentData.ai_eval.how_it_works_intro}</strong>{contentData.ai_eval.how_it_works_body}
                     </p>
                 </div>
 
@@ -228,12 +225,15 @@ const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
                                     {aiEvalSkill?.id === skill.id ? (
                                         <div className="flex justify-between items-center text-xs text-gray-500 mt-1">
                                             <span>{skill.steps.length} {contentData.ai_eval.steps_text}</span>
-                                            <button
-                                                onClick={clearAiEvaluation}
-                                                className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    clearAiEvaluation();
+                                                }}
+                                                className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors cursor-pointer"
                                             >
                                                 {contentData.ai_eval.reset}
-                                            </button>
+                                            </span>
                                         </div>
                                     ) : (
                                         <div className="text-xs text-gray-500 mt-1">{skill.steps.length} {contentData.ai_eval.steps_text}</div>

@@ -216,18 +216,18 @@ const CNASkillsApp = () => {
                 </div>
 
                 {/* View-specific Header Content */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+                <div className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 ${currentView !== 'ai-eval' ? 'mb-6' : ''}`}>
                     <div>
-                        <p className="text-gray-600 text-sm sm:text-base">
-                            {currentView === 'practice' 
-                                ? contentData.app.taglines.practice
-                                : currentView === 'browser'
-                                    ? contentData.app.taglines.browser
-                                    : currentView === 'ai-eval'
-                                        ? contentData.app.taglines.ai_eval
+                        {currentView !== 'ai-eval' && (
+                            <p className="text-gray-600 text-sm sm:text-base">
+                                {currentView === 'practice' 
+                                    ? contentData.app.taglines.practice
+                                    : currentView === 'browser'
+                                        ? contentData.app.taglines.browser
                                         : contentData.app.taglines.about
-                            }
-                        </p>
+                                }
+                            </p>
+                        )}
                     </div>
                     {currentView === 'practice' && (
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">

@@ -269,16 +269,21 @@
 
 /* ===== ACTION BUTTONS ===== */
 .btn-primary {
-  padding: 0.5rem 1rem;
-  background-color: #2563eb;
-  color: white;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  cursor: pointer;
-  border: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  min-width: 140px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .btn-primary:hover {
@@ -286,16 +291,21 @@
 }
 
 .btn-secondary {
-  padding: 0.5rem 1rem;
-  background-color: #4b5563;
-  color: white;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  cursor: pointer;
-  border: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  min-width: 140px;
+  background-color: #4b5563;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .btn-secondary:hover {
@@ -522,7 +532,7 @@
   padding: 0.5rem 1rem;
   font-weight: 500;
   font-size: 0.875rem;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   transition: all 0.2s;
   background: none;
   border: none;
@@ -530,8 +540,20 @@
 }
 
 .tab-button.active {
-  border-bottom-color: #3b82f6;
+  border-bottom-color: #1f2937;
   color: #2563eb;
+  position: relative;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0.75rem;
+  right: 0.75rem;
+  height: 2px;
+  background-color: #4b5563;
+  z-index: 1;
 }
 
 .tab-button.inactive {
