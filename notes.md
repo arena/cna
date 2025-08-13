@@ -1,7 +1,7 @@
 Notes:
 
-- [] Make about pg in app more about the project and less about the features of the app
-- [] Set of icons that are visually consistent
+- [ ] Make about pg in app more about the project and less about the features of the app
+- [ ] Set of icons that are visually consistent
 
 Features:
 - [x] hand pick a set of 5 skills to practice
