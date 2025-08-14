@@ -1,4 +1,5 @@
 // Skill-related utility functions
+import contentData from '../content.yml';
 
 export const generateSkillSet = (allSkills) => {
     const newSkills = [];
@@ -63,8 +64,8 @@ export const organizeSkillsByType = (skills) => {
     const handHygiene = skills.filter(skill => skill.isAlwaysFirst);
     if (handHygiene.length > 0) {
         organized.push({
-            category: "Hand Hygiene",
-            description: "Always performed first in any test",
+            category: contentData.categories.hand_hygiene.title,
+            description: contentData.categories.hand_hygiene.description,
             skills: handHygiene
         });
     }
@@ -73,8 +74,8 @@ export const organizeSkillsByType = (skills) => {
     const measurementSkills = skills.filter(skill => skill.isMeasurementSkill && !skill.isAlwaysFirst);
     if (measurementSkills.length > 0) {
         organized.push({
-            category: "Measurement Skills",
-            description: "One of these will be the second skill in practice tests",
+            category: contentData.categories.measurement_skills.title,
+            description: contentData.categories.measurement_skills.description,
             skills: measurementSkills
         });
     }
@@ -83,33 +84,13 @@ export const organizeSkillsByType = (skills) => {
     const waterSkills = skills.filter(skill => skill.isWaterSkill && !skill.isMeasurementSkill && !skill.isAlwaysFirst);
     if (waterSkills.length > 0) {
         organized.push({
-            category: "Water Skills",
-            description: "Personal care skills involving water",
+            category: contentData.categories.water_skills.title,
+            description: contentData.categories.water_skills.description,
             skills: waterSkills
         });
     }
     
-    // 4. Mobility Skills
-    const mobilitySkills = skills.filter(skill => skill.category === "Mobility");
-    if (mobilitySkills.length > 0) {
-        organized.push({
-            category: "Mobility Skills",
-            description: "Movement, positioning, and transfer skills",
-            skills: mobilitySkills
-        });
-    }
-    
-    // 5. Infection Control
-    const infectionControlSkills = skills.filter(skill => skill.category === "Infection Control");
-    if (infectionControlSkills.length > 0) {
-        organized.push({
-            category: "Infection Control",
-            description: "PPE and safety procedures",
-            skills: infectionControlSkills
-        });
-    }
-    
-    // 6. Other Personal Care (non-water)
+    // 4. Other Personal Care (non-water)
     const otherPersonalCare = skills.filter(skill => 
         skill.category === "Personal Care" && 
         !skill.isWaterSkill && 
@@ -118,9 +99,29 @@ export const organizeSkillsByType = (skills) => {
     );
     if (otherPersonalCare.length > 0) {
         organized.push({
-            category: "Personal Care",
-            description: "Non-water personal care skills",
+            category: contentData.categories.personal_care.title,
+            description: contentData.categories.personal_care.description,
             skills: otherPersonalCare
+        });
+    }
+    
+    // 5. Mobility Skills
+    const mobilitySkills = skills.filter(skill => skill.category === "Mobility");
+    if (mobilitySkills.length > 0) {
+        organized.push({
+            category: contentData.categories.mobility_skills.title,
+            description: contentData.categories.mobility_skills.description,
+            skills: mobilitySkills
+        });
+    }
+    
+    // 6. Infection Control
+    const infectionControlSkills = skills.filter(skill => skill.category === "Infection Control");
+    if (infectionControlSkills.length > 0) {
+        organized.push({
+            category: contentData.categories.infection_control.title,
+            description: contentData.categories.infection_control.description,
+            skills: infectionControlSkills
         });
     }
     

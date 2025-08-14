@@ -44,6 +44,27 @@ browser:
   missed_steps: "Steps to review"
   skills_count: "skills"
 
+categories:
+  hand_hygiene:
+    title: "Hand Hygiene"
+    description: "Always performed first in any test"
+    special_text: "always the first skill"
+  measurement_skills:
+    title: "Measurement Skills"
+    description: "One of these will be the second skill in practice tests"
+  water_skills:
+    title: "Water Skills"
+    description: "Personal care skills involving water"
+  mobility_skills:
+    title: "Mobility & Movement"
+    description: "Movement, positioning, and transfer skills"
+  infection_control:
+    title: "Infection Control"
+    description: "PPE and safety procedures"
+  personal_care:
+    title: "Personal Care"
+    description: "Non-water personal care skills"
+
 ai_eval:
   title: "AI Evaluator"
   description: "Practice skills with voice recognition that automatically checks steps as you speak"

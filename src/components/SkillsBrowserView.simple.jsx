@@ -143,7 +143,7 @@ const SkillsBrowserView = ({
                                         {category.title}
                                     </h3>
                                     <span className="text-sm text-gray-600">
-                                        ({category.skills.length} skills)
+                                        ({category.title === contentData.categories.hand_hygiene.title ? contentData.categories.hand_hygiene.special_text : `${category.skills.length} ${category.skills.length === 1 ? 'skill' : 'skills'}`})
                                     </span>
                                 </div>
                             </div>

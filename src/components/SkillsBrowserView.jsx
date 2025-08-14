@@ -58,7 +58,7 @@ const SkillsBrowserView = ({
                         {/* Skill Info */}
                         <div className="min-w-0 flex-1">
                             <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight">
-                                {skill.title}
+                                {inCategory && skill.title === "Hand Hygiene (Hand Washing)" ? "Hand Washing" : skill.title}
                                 {isInPractice && (
                                     <span className="ml-2 inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">
                                         In Practice
@@ -413,7 +413,7 @@ const SkillsBrowserView = ({
                         })
                         .map((skill, index) => {
                             const originalIndex = skillsData.skills.findIndex(s => s.id === skill.id);
-                            return renderSkillCard(skill, false, originalIndex);
+                            return renderSkillCard(skill, true, originalIndex);
                         })
                     }
                 </div>
@@ -432,7 +432,7 @@ const SkillsBrowserView = ({
                                         {category.category}
                                     </h3>
                                     <span className="category-count">
-                                        ({category.skills.length} skills)
+                                        ({category.category === contentData.categories.hand_hygiene.title ? contentData.categories.hand_hygiene.special_text : `${category.skills.length} ${category.skills.length === 1 ? 'skill' : 'skills'}`})
                                     </span>
                                 </div>
                             </div>
