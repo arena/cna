@@ -172,7 +172,7 @@ const CNASkillsApp = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-3 sm:p-6 bg-gray-50 min-h-screen">
+        <div className="max-w-4xl mx-auto p-3 sm:p-6">
             <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
                 {/* App Title */}
                 <div className="mb-4">

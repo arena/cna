@@ -117,8 +117,7 @@ SKILL 9 — DRESSES CLIENT WITH AFFECTED (WEAK) RIGHT ARM
 11 After completing skill, washes hands
 
 SKILL 10 — FEEDS CLIENT WHO CANNOT FEED SELF
-1 Explains procedure to client, speaking clearly, slowly and directly, maintaining
-face-to-face contact whenever possible
+1 Explains procedure to client, speaking clearly, slowly and directly, maintaining face-to-face contact whenever possible
 2 Before feeding, looks at name card on tray and asks client to state name
 3 Before feeding client, client is in an upright sitting position (75-90 degrees)
 4 Places tray where the food can be easily seen by client
@@ -170,6 +169,8 @@ SKILL 12* — MEASURES AND RECORDS ELECTRONIC BLOOD PRESSURE *STATE SPECIFIC (EV
 12 Before recording, washes hands
 13 After obtaining reading using BP cuff, records both systolic and diastolic pressures exactly as displayed on the digital screen
 
+***NOTE: Skills Continue from here skipping the previous skill.***
+
 SKILL 13 — MEASURES AND RECORDS URINARY OUTPUT
 1 Puts on clean gloves before handling bedpan
 2 Pours the contents of the bedpan into measuring container without spilling or splashing urine outside of container
@@ -193,8 +194,7 @@ SKILL 15 — PERFORMS MODIFIED PASSIVE RANGE OF MOTION (PROM) FOR ONE KNEE AND O
 1 Explains procedure, speaking clearly, slowly and directly, maintaining face-to-face contact whenever possible
 2 Privacy is provided with a curtain, screen or door
 3 Ensures that client is supine in bed and instructs client to inform candidate if pain is experienced during exercise
-4 While supporting the leg at knee and ankle, bends the knee and then returns leg to client’s normal position (flexion/extension) (AT LEAST
-3 TIMES unless pain is verbalized). Moves joints gently, slowly and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.
+4 While supporting the leg at knee and ankle, bends the knee and then returns leg to client’s normal position (flexion/extension) (AT LEAST 3 TIMES unless pain is verbalized). Moves joints gently, slowly and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.
 5 While supporting the foot and ankle close to the bed, pushes/pulls foot toward head (dorsiflexion), and pushes/pulls foot down, toes point down (plantar flexion) (AT LEAST 3 TIMES unless pain is verbalized). Moves joints gently, slowly and smoothly through the range of motion, discontinuing exercise if client verbalizes pain.
 6 Signaling device is within reach and bed is in low position
 7 After completing skill, washes hands
@@ -209,8 +209,7 @@ SKILL 16 — PERFORMS MODIFIED PASSIVE RANGE OF MOTION (PROM) FOR ONE SHOULDER
 7 After completing skill, washes hands
 
 SKILL 17 — POSITIONS ON SIDE
-1 Explains procedure, speaking clearly, slowly and directly, maintaining
-face-to-face contact whenever possible
+1 Explains procedure, speaking clearly, slowly and directly, maintaining face-to-face contact whenever possible
 2 Privacy is provided with a curtain, screen or door
 3 Before turning, lowers head of bed
 4 Raises side rail on side to which body will be turned
@@ -244,8 +243,7 @@ SKILL 18 — PROVIDES CATHETER CARE FOR FEMALE
 SKILL 19 — PROVIDES FOOT CARE ON ONE FOOT
 1 Explains procedure, speaking clearly, slowly and directly, maintaining face-to- face contact whenever possible
 2 Privacy is provided with a curtain, screen or door
-3 Before washing, checks water temperature for safety and comfort and asks
-client to verify comfort of water
+3 Before washing, checks water temperature for safety and comfort and asks client to verify comfort of water
 4 Basin is in a comfortable position for client and on protective barrier
 5 Puts on clean gloves before washing foot
 6 Client’s bare foot is placed into the water
@@ -253,8 +251,7 @@ client to verify comfort of water
 8 Lifts foot from water and washes foot (including between the toes)
 9 Foot is rinsed (including between the toes)
 10 Dries foot (including between the toes) with dry cloth towel/washcloth
-11 Applies lotion to top and bottom of foot (excluding between the toes) removing
-excess with a towel/washcloth
+11 Applies lotion to top and bottom of foot (excluding between the toes) removing excess with a towel/washcloth
 12 Supports foot and ankle during procedure
 13 Empties, rinses and dries basin
 14 Places basin in designated dirty supply area
@@ -290,8 +287,7 @@ SKILL 21 — PROVIDES PERINEAL CARE (Peri-Care) for Female
 8 Washes genital area, moving from front to back, while using a clean area of the washcloth for each stroke
 9 Using clean washcloth, rinses soap from genital area, moving from front to back, while using a clean area of the washcloth for each stroke
 10 Dries genital area moving from front to back with dry cloth towel/washcloth
-11 After washing genital area, turns to side, then washes rectal area moving from
-front to back using a clean area of washcloth for each stroke.
+11 After washing genital area, turns to side, then washes rectal area moving from front to back using a clean area of washcloth for each stroke.
 12 Using clean washcloth, rinses soap from rectal area, moving from front to back, while using a clean area of the washcloth for each stroke
 13 Dries rectal area moving from front to back with dry cloth towel/washcloth
 14 Repositions client

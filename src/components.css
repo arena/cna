@@ -1,5 +1,32 @@
 /* CNA Skills App - Centralized Component Styles */
 
+/* ===== CSS CUSTOM PROPERTIES (COLOR VARIABLES) ===== */
+:root {
+  --primary-blue: #3562E3;
+  --primary-blue-hover: #2952D1;
+  --primary-blue-light: #4673E8;
+  --text-blue: #3562E3;
+  --bg-blue-light: #EEF2FF;
+  --border-blue: #C7D2FE;
+}
+
+/* ===== MAIN BACKGROUND ===== */
+body {
+  background: linear-gradient(to bottom, #6B78DB, #704FA0);
+  min-height: 100vh;
+}
+
+/* ===== UTILITY CLASSES FOR CONSISTENT COLORS ===== */
+.bg-primary { background-color: var(--primary-blue); }
+.bg-primary-hover { background-color: var(--primary-blue-hover); }
+.bg-primary-light { background-color: var(--bg-blue-light); }
+.text-primary { color: var(--primary-blue); }
+.border-primary { border-color: var(--border-blue); }
+
+.hover\:bg-primary:hover { background-color: var(--primary-blue); }
+.hover\:bg-primary-hover:hover { background-color: var(--primary-blue-hover); }
+.hover\:text-primary:hover { color: var(--primary-blue); }
+
 /* ===== EVALUATION BUTTONS ===== */
 .eval-button-good.active {
   padding: 0.5rem;
@@ -248,7 +275,7 @@
   transition: all 0.2s;
   cursor: pointer;
   border: none;
-  background-color: #2563eb;
+  background-color: var(--primary-blue);
   color: white;
 }
 
@@ -275,7 +302,7 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   min-width: 140px;
-  background-color: #2563eb;
+  background-color: var(--primary-blue);
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -287,7 +314,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-blue-hover);
 }
 
 .btn-secondary {
@@ -334,7 +361,7 @@
 
 .btn-practice {
   padding: 0.5rem 0.75rem;
-  background-color: #2563eb;
+  background-color: var(--primary-blue);
   color: white;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -345,7 +372,7 @@
 }
 
 .btn-practice:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-blue-hover);
 }
 
 /* ===== COMPLETION BADGES ===== */
@@ -541,7 +568,7 @@
 
 .tab-button.active {
   border-bottom-color: #1f2937;
-  color: #2563eb;
+  color: var(--primary-blue);
   position: relative;
 }
 
@@ -694,7 +721,7 @@
 .total-time-value {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #2563eb;
+  color: var(--primary-blue);
 }
 
 .results-container {
@@ -760,7 +787,7 @@
 
 .result-time {
   font-weight: 500;
-  color: #2563eb;
+  color: var(--primary-blue);
 }
 
 .result-status {
