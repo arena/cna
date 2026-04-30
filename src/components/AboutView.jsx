@@ -83,6 +83,21 @@ const AboutView = ({ contentData }) => {
                     </div>
 
                     <div>
+                        <h3 className="font-semibold text-gray-800 mb-2">Give Feedback</h3>
+                        <p className="text-sm leading-relaxed mb-3">
+                            Help improve CNA Friend! Share your thoughts, report bugs, or suggest new features.
+                        </p>
+                        <a
+                            href="https://forms.gle/vqaJCzT4qNNdgtDn9"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-secondary"
+                        >
+                            💬 Give Feedback
+                        </a>
+                    </div>
+
+                    <div>
                         <h3 className="font-semibold text-gray-800 mb-2">{contentData.about.sections.feedback.title}</h3>
                         <p className="text-sm leading-relaxed mb-3">
                             {contentData.about.sections.feedback.text}
