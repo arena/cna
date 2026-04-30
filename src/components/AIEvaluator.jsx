@@ -1,81 +1,25 @@
 import React from 'react';
 
-const AIEvaluator = ({ skillsData, contentData, getSkillCategoryIcon }) => {
-    // AI Evaluator state
-    const [isListening, setIsListening] = React.useState(false);
-    const [speechRecognition, setSpeechRecognition] = React.useState(null);
-    const [transcript, setTranscript] = React.useState('');
-    const [aiEvalSkill, setAiEvalSkill] = React.useState(null);
-    const [aiStepEvaluations, setAiStepEvaluations] = React.useState({});
-    const [detectedMatches, setDetectedMatches] = React.useState([]);
-    const [aiEvalStartTime, setAiEvalStartTime] = React.useState(null);
-    const [aiEvalEndTime, setAiEvalEndTime] = React.useState(null);
-    const [showTestButtons, setShowTestButtons] = React.useState(false);
-
-    // Initialize Speech Recognition API
-    React.useEffect(() => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            recognition.lang = 'en-US';
-            
-            recognition.onstart = () => {
-                setIsListening(true);
-                setTranscript('');
-            };
-            
-            recognition.onresult = (event) => {
-                let finalTranscript = '';
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript;
-                    }
-                }
-                if (finalTranscript) {
-                    setTranscript(prev => prev + ' ' + finalTranscript);
-                }
-            };
-            
-            recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                setIsListening(false);
-            };
-            
-            recognition.onend = () => {
-                setIsListening(false);
-            };
-            
-            setSpeechRecognition(recognition);
-        }
-    }, []);
-
-    // AI Evaluator functions
-    const startListening = () => {
-        if (speechRecognition && !isListening) {
-            speechRecognition.start();
-            // Start timing the AI eval session
-            if (!aiEvalStartTime) {
-                setAiEvalStartTime(Date.now());
-            }
-        }
-    };
-
-    const stopListening = () => {
-        if (speechRecognition && isListening) {
-            speechRecognition.stop();
-        }
-    };
-
-    const clearAiEvaluation = () => {
-        setAiStepEvaluations({});
-        setDetectedMatches([]);
-        setTranscript('');
-        setAiEvalStartTime(null);
-        setAiEvalEndTime(null);
-    };
+const AIEvaluator = ({
+    skillsData,
+    contentData,
+    getSkillCategoryIcon,
+    aiEvalSkill,
+    setAiEvalSkill,
+    isListening,
+    speechRecognition,
+    transcript,
+    startListening,
+    stopListening,
+    clearAiEvaluation,
+    aiStepEvaluations,
+    detectedMatches,
+    aiEvalStartTime,
+    aiEvalEndTime,
+    showTestButtons,
+    setShowTestButtons,
+    setAiStepEvaluations
+}) => {
 
     // Simple word matching function
     const matchesStep = (spokenText, stepText) => {

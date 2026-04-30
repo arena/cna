@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route, Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import AIEvaluator from './components/AIEvaluator';
 import PracticeView from './components/PracticeView.functional';
 import SkillsBrowserView from './components/SkillsBrowserView';
@@ -26,7 +27,13 @@ import './components.css';
 
 // Main App Component
 const CNASkillsApp = () => {
-    const [currentView, setCurrentView] = React.useState('practice'); // 'practice', 'browser', 'ai-eval', or 'about'
+    const location = useLocation();
+    const navigate = useNavigate();
+    const currentView = location.pathname === '/' ? 'practice' :
+                       location.pathname === '/practice' ? 'practice' :
+                       location.pathname === '/skills' ? 'browser' :
+                       location.pathname === '/voice' ? 'ai-eval' :
+                       location.pathname === '/about' ? 'about' : 'practice';
     const [skillsOrganization, setSkillsOrganization] = React.useState('number'); // 'number', 'type', or 'length'
     const [lengthSortAscending, setLengthSortAscending] = React.useState(false);
     const [expandedSkill, setExpandedSkill] = React.useState(null); // for skills browser view
@@ -34,9 +41,10 @@ const CNASkillsApp = () => {
     
     // Custom hooks for state management
     const { timeRemaining, isTimerRunning, toggleTimer, resetTimer, setIsTimerRunning } = useTimer();
-    const { currentSkills, expandedSkill: practiceExpandedSkill, skillCompletionTimes, skillStartTimes, visitedSkills, allSkillsCompleted, 
+    const { currentSkills, expandedSkill: practiceExpandedSkill, skillCompletionTimes, skillStartTimes, visitedSkills, allSkillsCompleted,
             handleNewSkillSet, setCustomSkillSet, toggleSkillExpansion, completeSkill, resetSkillsState } = useSkillManagement(skillsData);
     const { stepEvaluations, handleStepEvaluation, getStepEvaluation, resetEvaluations } = useStepEvaluation();
+
     
     // Individual skill practice mode hooks
     const [practiceMode, setPracticeMode] = React.useState(null); // skillId when in practice mode
@@ -68,6 +76,106 @@ const CNASkillsApp = () => {
         resetSkillsState();
     };
 
+    // Load skills from URL parameters on initial load (practice view)
+    React.useEffect(() => {
+        if (currentView === 'practice') {
+            const params = new URLSearchParams(location.search);
+            const skillsParam = params.get('skills');
+            if (skillsParam && currentSkills.length === 0) {
+                // Parse skill IDs from URL - they're strings like "hand_hygiene"
+                const skillIds = skillsParam.split(',').map(id => id.trim());
+                if (skillIds.length > 0) {
+                    // Find skills that match the IDs
+                    const selectedSkills = skillIds.map(id =>
+                        skillsData.skills.find(skill => skill.id === id)
+                    ).filter(skill => skill !== undefined);
+
+                    if (selectedSkills.length > 0) {
+                        setCustomSkillSet(selectedSkills);
+                        resetTimer();
+                        resetEvaluations();
+                    }
+                }
+            }
+        }
+    }, [currentView, location.search, currentSkills.length, setCustomSkillSet, resetTimer, resetEvaluations]);
+
+    // Load expanded skill from URL parameters (skills view)
+    React.useEffect(() => {
+        if (currentView === 'browser') {
+            const params = new URLSearchParams(location.search);
+            const skillParam = params.get('skill');
+            if (skillParam) {
+                setExpandedSkill(skillParam);
+                // Scroll to the expanded skill after a short delay
+                setTimeout(() => {
+                    const skillElement = document.querySelector(`[data-skill-id="${skillParam}"]`);
+                    if (skillElement) {
+                        skillElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }
+                }, 100);
+            }
+        }
+    }, [currentView, location.search]);
+
+    // Load selected skill from URL parameters (voice view)
+    React.useEffect(() => {
+        if (currentView === 'ai-eval') {
+            const params = new URLSearchParams(location.search);
+            const skillParam = params.get('skill');
+            if (skillParam && skillParam !== aiEvalSkill?.id) {
+                const selectedSkill = skillsData.skills.find(skill => skill.id === skillParam);
+                if (selectedSkill) {
+                    setAiEvalSkill(selectedSkill);
+                    // Scroll to the selected skill after a short delay
+                    setTimeout(() => {
+                        const skillElement = document.querySelector(`[data-skill-id="${skillParam}"]`);
+                        if (skillElement) {
+                            skillElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start',
+                                inline: 'nearest'
+                            });
+                        }
+                    }, 100);
+                }
+            }
+        }
+    }, [currentView, location.search]);
+
+    // Update URL when expanded skill changes (skills view)
+    React.useEffect(() => {
+        if (currentView === 'browser' && expandedSkill) {
+            navigate(`/skills?skill=${expandedSkill}`, { replace: true });
+            // Scroll to the expanded skill
+            setTimeout(() => {
+                const skillElement = document.querySelector(`[data-skill-id="${expandedSkill}"]`);
+                if (skillElement) {
+                    skillElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }
+            }, 100);
+        } else if (currentView === 'browser' && !expandedSkill) {
+            navigate('/skills', { replace: true });
+        }
+    }, [expandedSkill, currentView, navigate]);
+
+
+    // Update URL when skills change
+    React.useEffect(() => {
+        if (currentView === 'practice' && currentSkills.length > 0) {
+            const skillIds = currentSkills.map(skill => skill.id).join(',');
+            navigate(`/practice?skills=${skillIds}`, { replace: true });
+        }
+    }, [currentSkills, currentView, navigate]);
+
     const handleCustomSkillSet = (selectedSkills) => {
         console.log('Custom skills selected:', selectedSkills); // Debug
         setCustomSkillSet(selectedSkills);
@@ -91,6 +199,23 @@ const CNASkillsApp = () => {
     const clearAiEvaluation = () => {
         clearAiEvaluationHook();
         clearTranscript();
+    };
+
+    // Wrapper for manual skill selection
+    const handleManualAiEvalSkillSelection = (skill) => {
+        setAiEvalSkill(skill);
+        navigate(`/voice?skill=${skill.id}`, { replace: true });
+        // Scroll to the selected skill
+        setTimeout(() => {
+            const skillElement = document.querySelector(`[data-skill-id="${skill.id}"]`);
+            if (skillElement) {
+                skillElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+        }, 100);
     };
 
 
@@ -181,38 +306,38 @@ const CNASkillsApp = () => {
 
                 {/* Navigation Tabs */}
                 <div className="tab-container">
-                    <button
-                        onClick={() => setCurrentView('practice')}
+                    <Link
+                        to="/practice"
                         className={`tab-button ${
                             currentView === 'practice' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.practice}
-                    </button>
-                    <button
-                        onClick={() => setCurrentView('browser')}
+                    </Link>
+                    <Link
+                        to="/skills"
                         className={`tab-button ${
                             currentView === 'browser' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.skills}
-                    </button>
-                    <button
-                        onClick={() => setCurrentView('ai-eval')}
+                    </Link>
+                    <Link
+                        to="/voice"
                         className={`tab-button ${
                             currentView === 'ai-eval' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.ai_eval}
-                    </button>
-                    <button
-                        onClick={() => setCurrentView('about')}
+                    </Link>
+                    <Link
+                        to="/about"
                         className={`tab-button ${
                             currentView === 'about' ? 'active' : 'inactive'
                         }`}
                     >
                         {contentData.navigation.about}
-                    </button>
+                    </Link>
                 </div>
 
                 {/* View-specific Header Content */}
@@ -277,95 +402,87 @@ const CNASkillsApp = () => {
                     )}
                 </div>
 
-                {/* Practice Test View */}
-                {currentView === 'practice' && (
-                    <PracticeView 
-                        currentSkills={currentSkills}
-                        expandedSkill={practiceExpandedSkill}
-                        toggleSkillExpansion={toggleSkillExpansionWrapper}
-                        getSkillTypeIcon={getSkillTypeIcon}
-                        getSkillTypeLabel={getSkillTypeLabel}
-                        getStepEvaluation={getStepEvaluation}
-                        handleStepEvaluation={handleStepEvaluationWrapper}
-                        skillCompletionTimes={skillCompletionTimes}
-                        formatDuration={formatDuration}
-                        visitedSkills={visitedSkills}
-                        completeSkill={completeSkillWrapper}
-                        allSkillsCompleted={allSkillsCompleted}
-                        timeRemaining={timeRemaining}
-                        formatTime={formatTime}
-                        handleNewSkillSet={handleNewSkillSetWithReset}
-                        shareResults={shareResultsWrapper}
-                        resetTimer={resetTimerWithState}
-                        hasSkillCriticalFailures={hasSkillCriticalFailuresWrapper}
-                        contentData={contentData}
-                    />
-                )}
-
-                {/* Skills Browser View */}
-                {currentView === 'browser' && (
-                    <SkillsBrowserView
-                        skillsOrganization={skillsOrganization}
-                        setSkillsOrganization={setSkillsOrganization}
-                        lengthSortAscending={lengthSortAscending}
-                        setLengthSortAscending={setLengthSortAscending}
-                        expandedSkill={expandedSkill}
-                        setExpandedSkill={setExpandedSkill}
-                        getSkillTypeIcon={getSkillTypeIcon}
-                        getSkillTypeLabel={getSkillTypeLabel}
-                        getSkillCategoryIcon={getSkillCategoryIcon}
-                        organizeSkillsByType={organizeSkillsByType}
-                        contentData={contentData}
-                        skillsData={skillsData}
-                        // Pass practice mode state and functions
-                        practiceMode={practiceMode}
-                        practiceTime={practiceTime}
-                        isPracticeRunning={isPracticeRunning}
-                        practiceCompleted={practiceCompleted}
-                        practiceStepEvaluations={practiceStepEvaluations}
-                        startPractice={startPracticeMode}
-                        resetPractice={resetPracticeMode}
-                        stopPractice={stopPracticeMode}
-                        completePractice={completePractice}
-                        handlePracticeStepEvaluation={handlePracticeStepEvaluationWrapper}
-                        getPracticeStepEvaluation={getPracticeStepEvaluation}
-                        getPracticeMissedSteps={getPracticeMissedSteps}
-                        hasPracticeCriticalFailures={hasPracticeCriticalFailures}
-                        formatDuration={formatDuration}
-                        setIsPracticeRunning={setIsPracticeRunning}
-                    />
-                )}
-
-                {/* AI Eval View */}
-                {currentView === 'ai-eval' && (
-                    <AIEvaluator 
-                        skillsData={skillsData}
-                        contentData={contentData}
-                        getSkillCategoryIcon={getSkillCategoryIcon}
-                        // Pass AI evaluator state and functions
-                        aiEvalSkill={aiEvalSkill}
-                        setAiEvalSkill={setAiEvalSkill}
-                        isListening={isListening}
-                        speechRecognition={speechRecognition}
-                        transcript={transcript}
-                        startListening={startListeningWithTiming}
-                        stopListening={stopListening}
-                        clearAiEvaluation={clearAiEvaluation}
-                        aiStepEvaluations={aiStepEvaluations}
-                        detectedMatches={detectedMatches}
-                        aiEvalStartTime={aiEvalStartTime}
-                        aiEvalEndTime={aiEvalEndTime}
-                        showTestButtons={showTestButtons}
-                        setShowTestButtons={setShowTestButtons}
-                        setAiStepEvaluations={setAiStepEvaluations}
-                    />
-                )}
-
-
-                {/* About View */}
-                {currentView === 'about' && (
-                    <AboutView contentData={contentData} />
-                )}
+                {/* Routes */}
+                <Routes>
+                    <Route path="/" element={<Navigate to="/practice" replace />} />
+                    <Route path="/practice" element={
+                        <PracticeView
+                            currentSkills={currentSkills}
+                            expandedSkill={practiceExpandedSkill}
+                            toggleSkillExpansion={toggleSkillExpansionWrapper}
+                            getSkillTypeIcon={getSkillTypeIcon}
+                            getSkillTypeLabel={getSkillTypeLabel}
+                            getStepEvaluation={getStepEvaluation}
+                            handleStepEvaluation={handleStepEvaluationWrapper}
+                            skillCompletionTimes={skillCompletionTimes}
+                            formatDuration={formatDuration}
+                            visitedSkills={visitedSkills}
+                            completeSkill={completeSkillWrapper}
+                            allSkillsCompleted={allSkillsCompleted}
+                            timeRemaining={timeRemaining}
+                            formatTime={formatTime}
+                            handleNewSkillSet={handleNewSkillSetWithReset}
+                            shareResults={shareResultsWrapper}
+                            resetTimer={resetTimerWithState}
+                            hasSkillCriticalFailures={hasSkillCriticalFailuresWrapper}
+                            contentData={contentData}
+                        />
+                    } />
+                    <Route path="/skills" element={
+                        <SkillsBrowserView
+                            skillsOrganization={skillsOrganization}
+                            setSkillsOrganization={setSkillsOrganization}
+                            lengthSortAscending={lengthSortAscending}
+                            setLengthSortAscending={setLengthSortAscending}
+                            expandedSkill={expandedSkill}
+                            setExpandedSkill={setExpandedSkill}
+                            getSkillTypeIcon={getSkillTypeIcon}
+                            getSkillTypeLabel={getSkillTypeLabel}
+                            getSkillCategoryIcon={getSkillCategoryIcon}
+                            organizeSkillsByType={organizeSkillsByType}
+                            contentData={contentData}
+                            skillsData={skillsData}
+                            practiceMode={practiceMode}
+                            practiceTime={practiceTime}
+                            isPracticeRunning={isPracticeRunning}
+                            practiceCompleted={practiceCompleted}
+                            practiceStepEvaluations={practiceStepEvaluations}
+                            startPractice={startPracticeMode}
+                            resetPractice={resetPracticeMode}
+                            stopPractice={stopPracticeMode}
+                            completePractice={completePractice}
+                            handlePracticeStepEvaluation={handlePracticeStepEvaluationWrapper}
+                            getPracticeStepEvaluation={getPracticeStepEvaluation}
+                            getPracticeMissedSteps={getPracticeMissedSteps}
+                            hasPracticeCriticalFailures={hasPracticeCriticalFailures}
+                            formatDuration={formatDuration}
+                            setIsPracticeRunning={setIsPracticeRunning}
+                        />
+                    } />
+                    <Route path="/voice" element={
+                        <AIEvaluator
+                            skillsData={skillsData}
+                            contentData={contentData}
+                            getSkillCategoryIcon={getSkillCategoryIcon}
+                            aiEvalSkill={aiEvalSkill}
+                            setAiEvalSkill={handleManualAiEvalSkillSelection}
+                            isListening={isListening}
+                            speechRecognition={speechRecognition}
+                            transcript={transcript}
+                            startListening={startListeningWithTiming}
+                            stopListening={stopListening}
+                            clearAiEvaluation={clearAiEvaluation}
+                            aiStepEvaluations={aiStepEvaluations}
+                            detectedMatches={detectedMatches}
+                            aiEvalStartTime={aiEvalStartTime}
+                            aiEvalEndTime={aiEvalEndTime}
+                            showTestButtons={showTestButtons}
+                            setShowTestButtons={setShowTestButtons}
+                            setAiStepEvaluations={setAiStepEvaluations}
+                        />
+                    } />
+                    <Route path="/about" element={<AboutView contentData={contentData} />} />
+                </Routes>
             </div>
 
             {/* Custom Skill Selection Modal */}
